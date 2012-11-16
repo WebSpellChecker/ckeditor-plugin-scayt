@@ -28,13 +28,21 @@
 	var onEngineLoad = function() {
 			var editor = this;
 
-			var createInstance = function() // Create new instance every time Document is created.
+			var createInstance = function( ev ) // Create new instance every time Document is created.
 				{
+					if ( typeof plugin.instances[ editor.name ] != 'undefined' || plugin.instances[ editor.name ] != null )
+						return;
+
 					var config = editor.config;
 					// Initialise Scayt instance.
 					var oParams = {};
 					// Get the iframe.
-					oParams.srcNodeRef = editor.document.getWindow().$.frameElement;
+
+					if(editor.editable().$.nodeName == 'BODY')
+						oParams.srcNodeRef = editor.document.getWindow().$.frameElement;
+					else
+						oParams.srcNodeRef = editor.editable().$;
+
 					// syntax : AppName.AppVersion@AppRevision
 					oParams.assocApp = 'CKEDITOR.' + CKEDITOR.version + '@' + CKEDITOR.revision;
 					oParams.customerid = config.scayt_customerid || '1:WvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2';
@@ -94,7 +102,31 @@
 					editor.fire( 'showScaytState' );
 				};
 
-			editor.on( 'contentDom', createInstance );
+			function bindInlineModeEvents() {
+				editor.once( 'focus', createInstance );
+				editor.once( 'blur', destroyInstance );
+			}
+
+			function destroyInstance( ev ) {
+				var editor = ev.editor,
+					scayt_instance = plugin.getScayt( editor ),
+					inline_mode = ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE );
+
+				// SCAYT instance might already get destroyed by mode switch (#5744).
+				if ( !scayt_instance )
+					return;
+
+				plugin.setPaused( editor, !scayt_instance.disabled );
+				// store a control id for restore a specific scayt control settings
+				plugin.setControlId( editor, scayt_instance.id );
+				scayt_instance.destroy( true );
+				delete plugin.instances[ editor.name ];
+
+				if ( inline_mode ) bindInlineModeEvents();
+			}
+
+			( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) ? bindInlineModeEvents() : editor.on( 'contentDom', createInstance );
+			
 			editor.on( 'contentDomUnload', function() {
 				// Remove scripts.
 				var scripts = CKEDITOR.document.getElementsByTag( 'script' ),
@@ -113,18 +145,7 @@
 
 			editor.on( 'beforeCommandExec', function( ev ) // Disable SCAYT before Source command execution.
 			{
-				if ( ( ev.data.name == 'source' || ev.data.name == 'newpage' ) && editor.mode == 'wysiwyg' ) {
-					var scayt_instance = plugin.getScayt( editor );
-					if ( scayt_instance ) {
-						plugin.setPaused( editor, !scayt_instance.disabled );
-						// store a control id for restore a specific scayt control settings
-						plugin.setControlId( editor, scayt_instance.id );
-						scayt_instance.destroy( true );
-						delete plugin.instances[ editor.name ];
-					}
-				}
-				// Catch on source mode switch off (#5720)
-				else if ( ev.data.name == 'source' && editor.mode == 'source' )
+				if ( ev.data.name == 'source'  && editor.mode == 'source' )
 					plugin.markControlRestore( editor );
 			});
 
@@ -138,29 +159,10 @@
 				}, 10 );
 			});
 
-			editor.on( 'destroy', function( ev ) {
-				var editor = ev.editor,
-					scayt_instance = plugin.getScayt( editor );
-
-				// SCAYT instance might already get destroyed by mode switch (#5744).
-				if ( !scayt_instance )
-					return;
-
-				delete plugin.instances[ editor.name ];
-				// store a control id for restore a specific scayt control settings
-				plugin.setControlId( editor, scayt_instance.id );
-				scayt_instance.destroy( true );
-			});
+			editor.on( 'destroy', destroyInstance );
 
 			// Listen to data manipulation to reflect scayt markup.
-			editor.on( 'afterSetData', function() {
-				if ( plugin.isScaytEnabled( editor ) ) {
-					window.setTimeout( function() {
-						var instance = plugin.getScayt( editor );
-						instance && instance.refresh();
-					}, 10 );
-				}
-			});
+			editor.on( 'setData', destroyInstance );
 
 			// Reload spell-checking for current word after insertion completed.
 			editor.on( 'insertElement', function() {
@@ -242,8 +244,10 @@
 				};
 			});
 
-			if ( editor.document )
+			if ( editor.document && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 				createInstance();
+			}
+
 		};
 
 	CKEDITOR.plugins.scayt = {
@@ -667,7 +671,7 @@
 
 			var showInitialState = function( evt ) {
 					evt.removeListener();
-					if ( CKEDITOR.env.opera || CKEDITOR.env.air || editor.editable().isInline() )
+					if ( CKEDITOR.env.opera || CKEDITOR.env.air )
 						command.setState( CKEDITOR.TRISTATE_DISABLED );
 					else
 						command.setState( plugin.isScaytEnabled( editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
