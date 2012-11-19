@@ -244,7 +244,7 @@
 				};
 			});
 
-			if ( editor.document && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
+		   if(editor.document && (editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE || editor.focusManager.hasFocus)){
 				createInstance();
 			}
 
