@@ -10,6 +10,7 @@
 
 (function() {
 	var commandName = 'scaytcheck',
+		wscCommandName = 'checkspell',
 		openPage = '';
 
 	// Checks if a value exists in an array
@@ -244,10 +245,9 @@
 				};
 			});
 
-		   if(editor.document && (editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE || editor.focusManager.hasFocus)){
+			if(editor.document && (editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE || editor.focusManager.hasFocus)){
 				createInstance();
 			}
-
 		};
 
 	CKEDITOR.plugins.scayt = {
@@ -314,6 +314,12 @@
 			for ( var i = 0; i < 4; i++ ) {
 				uiTabs[ i ] = ( typeof window.scayt != "undefined" && typeof window.scayt.uiTags != "undefined" ) ? ( parseInt( configUiTabs[ i ], 10 ) && window.scayt.uiTags[ i ] ) : parseInt( configUiTabs[ i ], 10 );
 			}
+			
+			if(typeof editor.plugins.wsc == "object")
+				uiTabs.push(1);
+			else 
+				uiTabs.push(0);
+
 			return uiTabs;
 		},
 		loadEngine: function( editor ) {
@@ -525,6 +531,13 @@
 				}
 			};
 
+			if ( uiTabs[4] == 1 )
+				uiMenuItems.scaytWSC =	{
+						label : editor.lang.wsc.toolbar,
+						group : menuGroup,
+						command : wscCommandName
+				};
+
 			editor.addMenuItems( uiMenuItems );
 
 			editor.ui.add( 'Scayt', CKEDITOR.UI_MENUBUTTON, {
@@ -549,7 +562,8 @@
 						scaytOptions: isEnabled && uiTabs[ 0 ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 						scaytLangs: isEnabled && uiTabs[ 1 ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 						scaytDict: isEnabled && uiTabs[ 2 ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-						scaytAbout: isEnabled && uiTabs[ 3 ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
+						scaytAbout: isEnabled && uiTabs[ 3 ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+						scaytWSC: uiTabs[4] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
 					};
 				}
 			});
