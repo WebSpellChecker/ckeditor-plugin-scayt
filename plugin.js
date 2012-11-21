@@ -420,6 +420,7 @@
 				scayt_control.setDisabled( isEnabled );
 			} else if ( !editor.config.scayt_autoStartup && plugin.engineLoaded >= 0 ) // Load first time
 			{
+				editor.focus();
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 				plugin.loadEngine( editor );
 			}
