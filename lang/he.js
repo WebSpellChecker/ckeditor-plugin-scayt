@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'he', {
 	mixedCase: 'התעלם ממילים עם אותיות גדולות וקטנות ביחד',
 	mixedWithDigits: 'התעלם ממילים עם מספרים',
 	moreSuggestions: 'הצעות נוספות',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'לא זמין בדפדפן אופרה',
 	options: 'אפשרויות',
 	optionsTab: 'אפשרויות',

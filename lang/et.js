@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'et', {
 	mixedCase: 'Tavapäratu tõstuga sõnade eiramine',
 	mixedWithDigits: 'Numbreid sisaldavate sõnade eiramine',
 	moreSuggestions: 'Veel soovitusi',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Operas pole toetatud',
 	options: 'Valikud',
 	optionsTab: 'Valikud',

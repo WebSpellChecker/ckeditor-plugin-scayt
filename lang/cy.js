@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'cy', {
 	mixedCase: 'Anwybyddu Geiriau â Chymysgedd Nodau Uwch ac Is',
 	mixedWithDigits: 'Anwybyddu Geiriau â Rhifau',
 	moreSuggestions: 'Awgrymiadau pellach',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Heb ei gynnal gan Opera',
 	options: 'Opsiynau',
 	optionsTab: 'Opsiynau',

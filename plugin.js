@@ -420,6 +420,7 @@
 				scayt_control.setDisabled( isEnabled );
 			} else if ( !editor.config.scayt_autoStartup && plugin.engineLoaded >= 0 ) // Load first time
 			{
+				editor.focus();
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 				plugin.loadEngine( editor );
 			}
@@ -586,75 +587,64 @@
 						return null;
 
 					var sLang = scayt_control.getLang(),
-						_r = {}, contextCommands = editor.config.scayt_contextCommands || 'all',
+						_r = {},
 						items_suggestion = window.scayt.getSuggestion( word, sLang );
+					if ( !items_suggestion || !items_suggestion.length )
+						return null;
+					// Remove unused commands and menuitems
+					for ( var m in moreSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor.commands[ m ];
+					}
+					for ( m in mainSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor.commands[ m ];
+					}
+					moreSuggestions = {}; // Reset items.
+					mainSuggestions = {};
 
+					var moreSuggestionsUnable = editor.config.scayt_moreSuggestions || 'on';
+					var moreSuggestionsUnableAdded = false;
+
+					var maxSuggestions = editor.config.scayt_maxSuggestions;
+					( typeof maxSuggestions != 'number' ) && ( maxSuggestions = 5 );
+					!maxSuggestions && ( maxSuggestions = items_suggestion.length );
+
+					var contextCommands = editor.config.scayt_contextCommands || 'all';
 					contextCommands = contextCommands.split( '|' );
-					
 
-					if ( !items_suggestion || !items_suggestion.length ){
-							var no_sugg = {
-								exec: function() {}
-							};
-							addButtonCommand( editor, 'no_sugg', lang.noSuggestions, 'scayt_no_sugg', no_sugg, 'scayt_control', 0, true );
-							mainSuggestions[ 'scayt_no_sugg' ] = CKEDITOR.TRISTATE_OFF;
-					}else{
-						// Remove unused commands and menuitems
-						for ( var m in moreSuggestions ) {
-							delete editor._.menuItems[ m ];
-							delete editor.commands[ m ];
-						}
-						for ( m in mainSuggestions ) {
-							delete editor._.menuItems[ m ];
-							delete editor.commands[ m ];
-						}
-						moreSuggestions = {}; // Reset items.
-						mainSuggestions = {};
-
-						var moreSuggestionsUnable = editor.config.scayt_moreSuggestions || 'on';
-						var moreSuggestionsUnableAdded = false;
-
-						var maxSuggestions = editor.config.scayt_maxSuggestions;
-						( typeof maxSuggestions != 'number' ) && ( maxSuggestions = 5 );
-						!maxSuggestions && ( maxSuggestions = items_suggestion.length );
-
-						
-						
-
-						for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
-							var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );
-							var exec = (function( el, s ) {
-								return {
-									exec: function() {
-										scayt_control.replace( el, s );
-									}
-								};
-							})( node, items_suggestion[ i ] );
-
-							if ( i < maxSuggestions ) {
-								addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_suggest', i + 1 );
-								_r[ commandName ] = CKEDITOR.TRISTATE_OFF;
-								mainSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
-							} else if ( moreSuggestionsUnable == 'on' ) {
-								addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_moresuggest', i + 1 );
-								moreSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
-								moreSuggestionsUnableAdded = true;
-							}
-						}
-
-						if ( moreSuggestionsUnableAdded ) {
-							// Register the More suggestions group;
-							editor.addMenuItem( 'scayt_moresuggest', {
-								label: lang.moreSuggestions,
-								group: 'scayt_moresuggest',
-								order: 10,
-								getItems: function() {
-									return moreSuggestions;
+					for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
+						var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );
+						var exec = (function( el, s ) {
+							return {
+								exec: function() {
+									scayt_control.replace( el, s );
 								}
-							});
-							mainSuggestions[ 'scayt_moresuggest' ] = CKEDITOR.TRISTATE_OFF;
-						}
+							};
+						})( node, items_suggestion[ i ] );
 
+						if ( i < maxSuggestions ) {
+							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_suggest', i + 1 );
+							_r[ commandName ] = CKEDITOR.TRISTATE_OFF;
+							mainSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
+						} else if ( moreSuggestionsUnable == 'on' ) {
+							addButtonCommand( editor, 'button_' + commandName, items_suggestion[ i ], commandName, exec, 'scayt_moresuggest', i + 1 );
+							moreSuggestions[ commandName ] = CKEDITOR.TRISTATE_OFF;
+							moreSuggestionsUnableAdded = true;
+						}
+					}
+
+					if ( moreSuggestionsUnableAdded ) {
+						// Register the More suggestions group;
+						editor.addMenuItem( 'scayt_moresuggest', {
+							label: lang.moreSuggestions,
+							group: 'scayt_moresuggest',
+							order: 10,
+							getItems: function() {
+								return moreSuggestions;
+							}
+						});
+						mainSuggestions[ 'scayt_moresuggest' ] = CKEDITOR.TRISTATE_OFF;
 					}
 
 					if ( in_array( 'all', contextCommands ) || in_array( 'ignore', contextCommands ) ) {

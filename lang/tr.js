@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'tr', {
 	mixedCase: 'Karışık büyüklük ile Sözcükler yoksay',
 	mixedWithDigits: 'Sayılarla Kelimeler yoksay',
 	moreSuggestions: 'Daha fazla öneri',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Opera tarafından desteklenmemektedir',
 	options: 'Seçenekler',
 	optionsTab: 'Seçenekler',

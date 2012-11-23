@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ja', {
 	mixedCase: '大文字小文字混在の単語を無視',
 	mixedWithDigits: '数字付き単語を無視',
 	moreSuggestions: '他の候補',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Operaではサポートされません',
 	options: 'オプション',
 	optionsTab: 'オプション',

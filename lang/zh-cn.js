@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'zh-cn', {
 	mixedCase: '忽略大小写混合的单词',
 	mixedWithDigits: '忽略带数字的单词',
 	moreSuggestions: '更多拼写建议',
-	noSuggestions   : 'No suggestions',
 	opera_title: '不支持 Opera 浏览器',
 	options: '选项',
 	optionsTab: '选项',

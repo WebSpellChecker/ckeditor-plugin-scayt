@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'pl', {
 	mixedCase: 'Ignoruj wyrazy pisane dużymi i małymi literami',
 	mixedWithDigits: 'Ignoruj wyrazy zawierające cyfry',
 	moreSuggestions: 'Więcej sugestii',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Funkcja nie jest obsługiwana przez przeglądarkę Opera',
 	options: 'Opcje',
 	optionsTab: 'Opcje',

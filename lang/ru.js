@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ru', {
 	mixedCase: 'Игнорировать слова из букв в разном регистре',
 	mixedWithDigits: 'Игнорировать слова, содержащие цифры',
 	moreSuggestions: 'Ещё варианты',
-	noSuggestions: 'Нет вариантов',
 	opera_title: 'Не поддерживается Opera',
 	options: 'Настройки',
 	optionsTab: 'Параметры',

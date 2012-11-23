@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'zh', {
 	mixedCase: 'Ignore Words with Mixed Case', // MISSING
 	mixedWithDigits: 'Ignore Words with Numbers', // MISSING
 	moreSuggestions: '更多拼寫建議',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Not supported by Opera', // MISSING
 	options: '選項',
 	optionsTab: '選項',

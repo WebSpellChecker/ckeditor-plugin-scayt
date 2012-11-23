@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'gu', {
 	mixedCase: 'મિક્સ કેસ વર્ડ છોડી દો.',
 	mixedWithDigits: 'આંકડા વાળા શબ્દ છોડી દો.',
 	moreSuggestions: 'વધારે વિકલ્પો',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'ઓપેરામાં સપોર્ટ નથી',
 	options: 'વિકલ્પો',
 	optionsTab: 'વિકલ્પો',

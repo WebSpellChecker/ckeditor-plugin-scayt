@@ -25,7 +25,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'fo', {
 	mixedCase: 'Loyp orð við blandaðum smáum og stórum stavum um',
 	mixedWithDigits: 'Loyp orð við tølum um',
 	moreSuggestions: 'Fleiri tilráðingar',
-	noSuggestions   : 'No suggestions',
 	opera_title: 'Ikki stuðlað í Opera',
 	options: 'Uppseting',
 	optionsTab: 'Uppseting',
