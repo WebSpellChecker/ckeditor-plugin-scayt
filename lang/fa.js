@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'fa', {
 	mixedCase: 'عبور از کلماتی مرکب از حروف بزرگ و کوچک',
 	mixedWithDigits: 'عبور از کلمات به همراه عدد',
 	moreSuggestions: 'پیشنهادهای بیشتر',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'توسط اپرا پشتیبانی نمیشود',
 	options: 'گزینهها',
 	optionsTab: 'گزینهها',

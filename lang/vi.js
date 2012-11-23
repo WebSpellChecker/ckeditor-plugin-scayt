@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'vi', {
 	mixedCase: 'Không phân biệt loại chữ',
 	mixedWithDigits: 'Không phân biệt chữ và số',
 	moreSuggestions: 'Đề xuất thêm',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Không hỗ trợ trên trình duyệt Opera',
 	options: 'Tùy chọn',
 	optionsTab: 'Tùy chọn',

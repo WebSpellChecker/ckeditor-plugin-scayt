@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'hu', {
 	mixedCase: 'Kis és nagybetűt is tartalmazó szavak kihagyása',
 	mixedWithDigits: 'Számokat tartalmazó szavak kihagyása',
 	moreSuggestions: 'További javaslatok',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Az Opera nem támogatja',
 	options: 'Beállítások',
 	optionsTab: 'Beállítások',

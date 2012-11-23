@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'cs', {
 	mixedCase: 'Ignorovat slova obsahující různou velikost písma',
 	mixedWithDigits: 'Ignorovat slova obsahující čísla',
 	moreSuggestions: 'Více návrhů',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Toto Opera nepodporuje',
 	options: 'Nastavení',
 	optionsTab: 'Nastavení',

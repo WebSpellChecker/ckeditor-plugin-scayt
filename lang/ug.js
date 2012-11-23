@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'ug', {
 	mixedCase: 'چوڭ كىچىك ھەرپ بىلەن ئارىلاش يېزىلغان سۆزگە پەرۋا قىلما',
 	mixedWithDigits: 'سان بار سۆزگە پەرۋا قىلما',
 	moreSuggestions: 'تېخىمۇ كۆپ ئىملا تەۋسىيەسى',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Opera توركۆرگۈنى قوللىمايدۇ',
 	options: 'تاللانما',
 	optionsTab: 'تاللانما',

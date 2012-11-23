@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'fi', {
 	mixedCase: 'Ohita sanat, joissa on sekoitettu isoja ja pieniä kirjaimia',
 	mixedWithDigits: 'Ohita sanat, joissa on numeroita',
 	moreSuggestions: 'Lisää ehdotuksia',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Opera ei tue tätä ominaisuutta',
 	options: 'Asetukset',
 	optionsTab: 'Asetukset',

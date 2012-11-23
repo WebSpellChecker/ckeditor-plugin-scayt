@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'en-gb', {
 	mixedCase: 'Ignore Words with Mixed Case',
 	mixedWithDigits: 'Ignore Words with Numbers',
 	moreSuggestions: 'More suggestions',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Not supported by Opera',
 	options: 'Options',
 	optionsTab: 'Options',

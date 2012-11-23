@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'ka', {
 	mixedCase: 'შერეული ასოებანი სიტყვების უგულებელყოფა',
 	mixedWithDigits: 'ციფრებიანი სიტყვების უგულებელყოფა',
 	moreSuggestions: 'მეტი შემოთავაზება',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'არაა მხარდაჭერილი Opera-ს მიერ',
 	options: 'პარამეტრები',
 	optionsTab: 'პარამეტრები',

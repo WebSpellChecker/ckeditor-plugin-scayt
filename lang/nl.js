@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'nl', {
 	mixedCase: 'Negeer woorden met hoofd- en kleine letters',
 	mixedWithDigits: 'Negeer woorden met cijfers',
 	moreSuggestions: 'Meer suggesties',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Niet ondersteund door Opera',
 	options: 'Opties',
 	optionsTab: 'Opties',

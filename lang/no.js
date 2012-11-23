@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'no', {
 	mixedCase: 'Ikke kontroller ord med blandet små og store bokstaver',
 	mixedWithDigits: 'Ikke kontroller ord som inneholder tall',
 	moreSuggestions: 'Flere forslag',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Ikke støttet av Opera',
 	options: 'Valg',
 	optionsTab: 'Valg',

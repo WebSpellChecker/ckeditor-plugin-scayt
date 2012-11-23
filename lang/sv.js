@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'sv', {
 	mixedCase: 'Ignorera ord med blandat shiftläge',
 	mixedWithDigits: 'Ignorera ord med nummer',
 	moreSuggestions: 'Fler förslag',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Stöds ej av Opera',
 	options: 'Inställningar',
 	optionsTab: 'Inställningar',

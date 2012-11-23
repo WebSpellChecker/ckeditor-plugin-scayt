@@ -25,6 +25,7 @@ CKEDITOR.plugins.setLang( 'scayt', 'lt', {
 	mixedCase: 'Ignoruoti maišyto dydžio raides',
 	mixedWithDigits: 'Ignoruoti raides su skaičiais',
 	moreSuggestions: 'Daugiau patarimų',
+	noSuggestions   : 'No suggestions',
 	opera_title: 'Nepalaikoma naršyklėje Opera',
 	options: 'Parametrai',
 	optionsTab: 'Parametrai',
