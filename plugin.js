@@ -592,6 +592,15 @@
 
 					contextCommands = contextCommands.split( '|' );
 					
+					// Remove unused commands and menuitems
+					for ( var m in moreSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor.commands[ m ];
+					}
+					for ( m in mainSuggestions ) {
+						delete editor._.menuItems[ m ];
+						delete editor.commands[ m ];
+					}
 
 					if ( !items_suggestion || !items_suggestion.length ){
 							var no_sugg = {
@@ -600,15 +609,6 @@
 							addButtonCommand( editor, 'no_sugg', lang.noSuggestions, 'scayt_no_sugg', no_sugg, 'scayt_control', 0, true );
 							mainSuggestions[ 'scayt_no_sugg' ] = CKEDITOR.TRISTATE_OFF;
 					}else{
-						// Remove unused commands and menuitems
-						for ( var m in moreSuggestions ) {
-							delete editor._.menuItems[ m ];
-							delete editor.commands[ m ];
-						}
-						for ( m in mainSuggestions ) {
-							delete editor._.menuItems[ m ];
-							delete editor.commands[ m ];
-						}
 						moreSuggestions = {}; // Reset items.
 						mainSuggestions = {};
 
@@ -618,9 +618,6 @@
 						var maxSuggestions = editor.config.scayt_maxSuggestions;
 						( typeof maxSuggestions != 'number' ) && ( maxSuggestions = 5 );
 						!maxSuggestions && ( maxSuggestions = items_suggestion.length );
-
-						
-						
 
 						for ( var i = 0, l = items_suggestion.length; i < l; i += 1 ) {
 							var commandName = 'scayt_suggestion_' + items_suggestion[ i ].replace( ' ', '_' );
@@ -655,7 +652,6 @@
 							});
 							mainSuggestions[ 'scayt_moresuggest' ] = CKEDITOR.TRISTATE_OFF;
 						}
-
 					}
 
 					if ( in_array( 'all', contextCommands ) || in_array( 'ignore', contextCommands ) ) {
