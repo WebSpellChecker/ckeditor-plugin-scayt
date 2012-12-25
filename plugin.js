@@ -593,6 +593,7 @@
 					contextCommands = contextCommands.split( '|' );
 					
 					// Remove unused commands and menuitems
+
 					for ( var m in moreSuggestions ) {
 						delete editor._.menuItems[ m ];
 						delete editor.commands[ m ];
@@ -606,12 +607,13 @@
 							var no_sugg = {
 								exec: function() {}
 							};
-							addButtonCommand( editor, 'no_sugg', lang.noSuggestions, 'scayt_no_sugg', no_sugg, 'scayt_control', 0, true );
+							addButtonCommand( editor, 'no_sugg', lang.noSuggestions, 'scayt_no_sugg', no_sugg, 'scayt_control', 1, true );
 							mainSuggestions[ 'scayt_no_sugg' ] = CKEDITOR.TRISTATE_OFF;
 					}else{
-						moreSuggestions = {}; // Reset items.
+						// Reset items.
+						moreSuggestions = {}; 
 						mainSuggestions = {};
-
+						
 						var moreSuggestionsUnable = editor.config.scayt_moreSuggestions || 'on';
 						var moreSuggestionsUnableAdded = false;
 
@@ -660,7 +662,7 @@
 								scayt_control.ignore( node );
 							}
 						};
-						addButtonCommand( editor, 'ignore', lang.ignore, 'scayt_ignore', ignore_command, 'scayt_control', 1 );
+						addButtonCommand( editor, 'ignore', lang.ignore, 'scayt_ignore', ignore_command, 'scayt_control', 2 );
 						mainSuggestions[ 'scayt_ignore' ] = CKEDITOR.TRISTATE_OFF;
 					}
 
@@ -670,7 +672,7 @@
 								scayt_control.ignoreAll( node );
 							}
 						};
-						addButtonCommand( editor, 'ignore_all', lang.ignoreAll, 'scayt_ignore_all', ignore_all_command, 'scayt_control', 2 );
+						addButtonCommand( editor, 'ignore_all', lang.ignoreAll, 'scayt_ignore_all', ignore_all_command, 'scayt_control', 3 );
 						mainSuggestions[ 'scayt_ignore_all' ] = CKEDITOR.TRISTATE_OFF;
 					}
 
@@ -680,7 +682,7 @@
 								window.scayt.addWordToUserDictionary( node );
 							}
 						};
-						addButtonCommand( editor, 'add_word', lang.addWord, 'scayt_add_word', addword_command, 'scayt_control', 3 );
+						addButtonCommand( editor, 'add_word', lang.addWord, 'scayt_add_word', addword_command, 'scayt_control', 4 );
 						mainSuggestions[ 'scayt_add_word' ] = CKEDITOR.TRISTATE_OFF;
 					}
 
