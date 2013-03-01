@@ -62,19 +62,19 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 				'	<div class="messagebox"></div>' +
 				'	<div style="display:none;">' +
 				'		<input type="checkbox" name="options"  id="allCaps_' + editorName + '" />' +
-				'		<label for="allCaps" id="label_allCaps_' + editorName + '"></label>' +
+				'		<label style = "display: inline" for="allCaps" id="label_allCaps_' + editorName + '"></label>' +
 				'	</div>' +
 				'	<div style="display:none;">' +
 				'		<input name="options" type="checkbox"  id="ignoreDomainNames_' + editorName + '" />' +
-				'		<label for="ignoreDomainNames" id="label_ignoreDomainNames_' + editorName + '"></label>' +
+				'		<label style = "display: inline" for="ignoreDomainNames" id="label_ignoreDomainNames_' + editorName + '"></label>' +
 				'	</div>' +
 				'	<div style="display:none;">' +
 				'	<input name="options" type="checkbox"  id="mixedCase_' + editorName + '" />' +
-				'		<label for="mixedCase" id="label_mixedCase_' + editorName + '"></label>' +
+				'		<label style = "display: inline" for="mixedCase" id="label_mixedCase_' + editorName + '"></label>' +
 				'	</div>' +
 				'	<div style="display:none;">' +
 				'		<input name="options" type="checkbox"  id="mixedWithDigits_' + editorName + '" />' +
-				'		<label for="mixedWithDigits" id="label_mixedWithDigits_' + editorName + '"></label>' +
+				'		<label style = "display: inline" for="mixedWithDigits" id="label_mixedWithDigits_' + editorName + '"></label>' +
 				'	</div>' +
 				'</div></form>'
 			}
@@ -104,14 +104,14 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			style: '',
 			id: 'dictionaries',
 			html: '<form name="dictionarybar_' + editorName + '"><div class="inner_dictionary" style="text-align:left; white-space:normal; width:320px; overflow: hidden;">' +
-				'	<div style="margin:5px auto; width:80%;white-space:normal; overflow:hidden;" id="dic_message_' + editorName + '"> </div>' +
-				'	<div style="margin:5px auto; width:80%;white-space:normal;"> ' +
+				'	<div style="margin:5px auto; width:95%;white-space:normal; overflow:hidden;" id="dic_message_' + editorName + '"> </div>' +
+				'	<div style="margin:5px auto; width:95%;white-space:normal;"> ' +
 				'       <span class="cke_dialog_ui_labeled_label" >Dictionary name</span><br>' +
 				'		<span class="cke_dialog_ui_labeled_content" >' +
 				'			<div class="cke_dialog_ui_input_text">' +
-				'				<input id="dic_name_' + editorName + '" type="text" class="cke_dialog_ui_input_text"/>' +
+				'				<input id="dic_name_' + editorName + '" type="text" class="cke_dialog_ui_input_text" style = "height: 25px; background: none; padding: 0;"/>' +
 				'		</div></span></div>' +
-				'		<div style="margin:5px auto; width:80%;white-space:normal;">' +
+				'		<div style="margin:5px auto; width:95%;white-space:normal;">' +
 				'			<a style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_create_' + editorName + '">' +
 				'				</a>' +
 				'			<a  style="display:none;" class="cke_dialog_ui_button" href="javascript:void(0)" id="dic_delete_' + editorName + '">' +
@@ -241,13 +241,14 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			var createOption = function( option, list ) {
 					var label = doc.createElement( 'label' );
 					label.setAttribute( 'for', 'cke_option' + option );
+					label.setStyle('display', 'inline');
 					label.setHtml( list[ option ] );
 
 					if ( dialog.sLang == option ) // Current.
 					dialog.chosed_lang = option;
 
 					var div = doc.createElement( 'div' );
-					var radio = CKEDITOR.dom.element.createFromHtml( '<input id="cke_option' +
+					var radio = CKEDITOR.dom.element.createFromHtml( '<input class = "cke_dialog_ui_radio_input" id="cke_option' +
 						option + '" type="radio" ' +
 						( dialog.sLang == option ? 'checked="checked"' : '' ) +
 						' value="' + option + '" name="scayt_lang" />' );
