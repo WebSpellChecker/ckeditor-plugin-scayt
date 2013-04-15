@@ -449,8 +449,13 @@
 			editor.config.menu_groups = items_order_str + ',' + editor.config.menu_groups;
 		},
 
+		checkEnvironment: function(){
+			return ( CKEDITOR.env.opera || CKEDITOR.env.air ) ? 0 : 1;
+		},
+
 		init: function( editor ) {
 
+			var self = this;
 			// Delete span[data-scaytid] when text pasting in editor (#6921)
 			var dataFilter = editor.dataProcessor && editor.dataProcessor.dataFilter;
 			var dataFilterRules = {
@@ -544,7 +549,7 @@
 			editor.ui.add( 'Scayt', CKEDITOR.UI_MENUBUTTON, {
 				label: lang.title,
 				title: CKEDITOR.env.opera ? lang.opera_title : lang.title,
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: self.checkEnvironment() },
 				toolbar: 'spellchecker,20',
 				onRender: function() {
 					command.on( 'state', function() {
