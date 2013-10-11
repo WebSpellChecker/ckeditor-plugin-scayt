@@ -64,12 +64,18 @@
 
 					};
 
-					oParams.onBeforeChange = function() {
-						if ( plugin.getScayt( editor ) && !editor.checkDirty() )
-							setTimeout( function() {
-							editor.resetDirty();
-						}, 0 );
-					};
+					/*
+					** commented due to #23630 BCG: IE 9: SCAYT plugin for CKEditor 4: checkDirty issue
+					** We redefined checkDirty of CKEDITOR already - so this is waste functionality, that
+					** cause recursive calling of checkDirty in IE
+					*/
+					// oParams.onBeforeChange = function() {
+					// 	if ( plugin.getScayt( editor ) && !editor.checkDirty() ) {
+					// 		setTimeout( function() {
+					// 			editor.resetDirty();
+					// 		}, 0 );
+					// 	}
+					// };
 
 					var scayt_custom_params = window.scayt_custom_params;
 					if ( typeof scayt_custom_params == 'object' ) {
@@ -247,6 +253,26 @@
 					otherImage.contents = otherContents;
 					return retval;
 				};
+			});
+
+			// added due to #23630 (checkDirty wrong behaviour on SCAYT load)
+			var editorPrototype = CKEDITOR.editor.prototype;
+			// Override editor.checkDirty method avoid CK checkDirty functionality to fix SCAYT issues with incorrect checkDirty behavior.
+			editorPrototype.checkDirty = CKEDITOR.tools.override(editorPrototype.checkDirty, function( org ){
+				return function() {
+					var retval = null,
+						scayt_instance = plugin.getScayt( this );
+				
+					if ( scayt_instance && plugin.isScaytReady( this ) ) {
+						var currentData = scayt_instance.reset(this.getSnapshot());
+						var prevData = scayt_instance.reset(this._.previousValue);
+						retval = ( currentData !== prevData );
+					} else {
+						retval = org.apply(this);
+					}
+
+					return retval;
+				}
 			});
 
 		   if(editor.document && (editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE || editor.focusManager.hasFocus)){
