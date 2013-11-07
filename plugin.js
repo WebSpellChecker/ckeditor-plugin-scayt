@@ -160,10 +160,18 @@
 				if ( !plugin.isScaytEnabled( editor ) )
 					return;
 
-				if ( editor.mode == 'wysiwyg' && ( ev.data.name == 'undo' || ev.data.name == 'redo' ) )
-					window.setTimeout( function() {
-					plugin.getScayt( editor ).refresh();
-				}, 10 );
+				if ( editor.mode == 'wysiwyg' && ( ev.data.name == 'undo' || ev.data.name == 'redo' ) ) {
+					plugin.getScayt( editor ).setDisabled(true);
+					if (plugin.refresh_timeout) {
+						window.clearTimeout(plugin.refresh_timeout);
+					}
+					plugin.refresh_timeout = window.setTimeout( function() {
+						plugin.getScayt( editor ).setDisabled(false);
+						
+						plugin.getScayt( editor ).focus();
+						plugin.getScayt( editor ).refresh();
+					}, 10 );
+				}
 			});
 
 			editor.on( 'destroy', destroyInstance );
@@ -233,10 +241,11 @@
 			var undoImagePrototype = CKEDITOR.plugins.undo.Image.prototype;
 
 			// add backword compatibility for CKEDITOR 4.2. method equals was repleced on other method
-			var equalsContent = (typeof undoImagePrototype.equalsContent == "function") ? undoImagePrototype.equalsContent : undoImagePrototype.equals;
+			var equalsContentMethodName = (typeof undoImagePrototype.equalsContent == "function") ? 'equalsContent' : 'equals';
 
-			equalsContent = CKEDITOR.tools.override( equalsContent, function( org ) {
+			undoImagePrototype[equalsContentMethodName] = CKEDITOR.tools.override( undoImagePrototype[equalsContentMethodName], function( org ) {
 				return function( otherImage ) {
+					//
 					var thisContents = this.contents,
 						otherContents = otherImage.contents;
 					var scayt_instance = plugin.getScayt( this.editor );
