@@ -87,11 +87,11 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			{
 			type: 'html',
 			id: 'langs',
-			html: '<form name="languagesbar_' + editorName + '"><div class="inner_langs">' +
+			html: '<div class="inner_langs">' +
 				'	<div class="messagebox"></div>	' +
 				'   <div style="float:left;width:45%;margin-left:5px;" id="scayt_lcol_' + editorName + '" ></div>' +
 				'   <div style="float:left;width:45%;margin-left:15px;" id="scayt_rcol_' + editorName + '"></div>' +
-				'</div></form>'
+				'</div>'
 			}
 		]
 	},
@@ -134,7 +134,7 @@ CKEDITOR.dialog.add( 'scaytcheck', function( editor ) {
 			type: 'html',
 			id: 'about',
 			style: 'margin: 5px 5px;',
-			html: '<div id="scayt_about_' + editorName + '"></div>'
+			html: '<div><div id="scayt_about_' + editorName + '"></div></div>'
 		}
 		]
 	}
