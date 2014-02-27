@@ -3,18 +3,17 @@ Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.dialog.add( 'scaytDialog', function( editor )
-{
-	var scayt_instance =  CKEDITOR.plugins.scayt.getScayt(editor);
+CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
+	var scayt_instance =  editor.scayt;
 
 	var aboutTabDefinition = '<p><img src="' + scayt_instance.getLogo() + '" /></p>' +
 				'<p>' + scayt_instance.getLocal('version') + scayt_instance.getVersion() + '</p>' +
 				'<p>' + scayt_instance.getLocal('about_throw_copy') + '</p>';
 
 	var doc = CKEDITOR.document;
-	
-	var optionGenerator = function(){
-		var scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+
+	var optionGenerator = function() {
+		var scayt_instance_ = editor.scayt,
 			applicationConfig = scayt_instance.getApplicationConfig(),
 			optionArrayUiCheckboxes = [],
 			optionLocalizationList = {
@@ -25,7 +24,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			};
 
 		for(var option in applicationConfig){
-			
+
 			var checkboxConfig = {
 				type: "checkbox"
 			};
@@ -82,14 +81,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 				children: optionGenerator(),
 				onShow: function(){
 					var optionsTab = this.getChild(),
-						scayt_instance =  CKEDITOR.plugins.scayt.getScayt(editor);
+						scayt_instance =  editor.scayt;
 					for(var i = 0; i < this.getChild().length; i++){
 						this.getChild()[i].setValue(scayt_instance.getApplicationConfig()[this.getChild()[i].id]);
 					}
 
 				}
 			}
-			
+
 		]
 	},
 	{
@@ -139,13 +138,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 						label: scayt_instance.getLocal('dname') || 'Dictionary name',
 						onShow: function(data) {
 							var dialog = data.sender,
-								scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name];
+								scayt_instance = editor.scayt;
 
 							// IE7 specific fix
 							setTimeout(function() {
 								// clear dictionaryNote field
 								dialog.getContentElement("dictionaries", "dictionaryNote").getElement().setText('');
-								
+
 								// restore/clear dictionaryName field
 								if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
 									dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
@@ -168,12 +167,12 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 								onClick: function() {
 									var dialog = this.getDialog(),
 										self = dialogDefinition,
-										scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+										scayt_instance = editor.scayt,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
-										
+
 									scayt_instance.createUserDictionary(name, function(response) {
 										if(!response.error) {
-											self.toggleDictionaryButtons.call(dialog, true);	
+											self.toggleDictionaryButtons.call(dialog, true);
 										}
 										response.dialog = dialog;
 										response.command = "create";
@@ -194,14 +193,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 								title: editor.lang.scayt.dic_restore,
 								onClick: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+										scayt_instance = editor.scayt,
 										self = dialogDefinition,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
-									
+
 									scayt_instance.restoreUserDictionary(name, function(response){
 										response.dialog = dialog;
 										if(!response.error){
-											self.toggleDictionaryButtons.call(dialog, true);	
+											self.toggleDictionaryButtons.call(dialog, true);
 										}
 										response.command = "restore";
 										response.name = name;
@@ -230,15 +229,15 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 								title: editor.lang.scayt.dic_delete,
 								onClick: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+										scayt_instance = editor.scayt,
 										self = dialogDefinition,
 										dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
 										name = dictionaryNameField.getValue();
-										
+
 									scayt_instance.removeUserDictionary(name, function(response){
 										dictionaryNameField.setValue("");
 										if(!response.error){
-											self.toggleDictionaryButtons.call(dialog, false);	
+											self.toggleDictionaryButtons.call(dialog, false);
 										}
 										response.dialog = dialog;
 										response.command = "remove";
@@ -259,9 +258,9 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 								title: editor.lang.scayt.dic_rename,
 								onClick: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+										scayt_instance = editor.scayt,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
-										
+
 									scayt_instance.renameUserDictionary(name, function(response){
 										response.dialog = dialog;
 										response.command = "rename";
@@ -307,14 +306,17 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			messageTemplate;
 
 		if(event.data.error === undefined) {
+
 			// success message
 			messageTemplate = scayt_instance.getLocal("dic_" + event.data.command + "_suc");
 			messageTemplate = messageTemplate.replace('%s', event.data.name);
 			dictionaryNote.setText(messageTemplate);
 			SCAYT.$(dictionaryNote.$).css({color: 'blue'});
 		} else {
+
 			// error message
 			if(event.data.name === '') {
+
 				// empty dictionary name
 				dictionaryNote.setText(scayt_instance.getLocal('dic_empty_name'));
 			} else {
@@ -323,7 +325,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 				dictionaryNote.setText(messageTemplate);
 			}
 			SCAYT.$(dictionaryNote.$).css({color: 'red'});
-			
+
 			if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
 				dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
 			} else {
@@ -338,6 +340,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			messageTemplate;
 
 		if(event.data.name === '') {
+
 			// empty dictionary name
 			dictionaryNote.setText(scayt_instance.getLocal('dic_empty_name'));
 		} else {
@@ -346,14 +349,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			dictionaryNote.setText(messageTemplate);
 		}
 		SCAYT.$(dictionaryNote.$).css({color: 'red'});
-		
-		
+
+
 		if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
 			dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
 		} else {
 			dialog.getContentElement("dictionaries", "dictionaryName").setValue("");
 		}
-		
+
 	});
 
 	var plugin = CKEDITOR.plugins.scayt;
@@ -373,11 +376,11 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 				langBoxes = self.getLangBoxes.call(dialog);
 
 			langBoxes.getParent().setStyle("white-space", "normal");
-			
+
 			//dialog.data = editor.fire( 'scaytDialog', {} );
 			self.renderLangList(langBoxes);
 
-			var scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name];
+			var scayt_instance = editor.scayt;
 
 			this.definition.minWidth = this.getSize().width;
 			this.resize(this.definition.minWidth, this.definition.minHeight);
@@ -387,12 +390,12 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 		},
 		onShow: function(){
 			editor.fire("scaytDialogShown", this);
-			
+
 			if(editor.config.scayt_uiTabs[2] == 0) {
 				return;
 			}
 
-			var scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name],
+			var scayt_instance = editor.scayt,
 				self = dialogDefinition,
 				dialog = this,
 				dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
@@ -428,8 +431,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			} else {
 				existance.hide();
 				notExistance.show();
-			} 
-			
+			}
+
 		},
 		getChangedOption: function(){
 			var changedOption = {};
@@ -437,19 +440,19 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 			if(editor.config.scayt_uiTabs[0] == 1){
 				var dialog = this,
 					scaytOptions = dialog.getContentElement("options", "scaytOptions").getChild();
-									
+
 				for(var i = 0; i < scaytOptions.length; i++){
 					if(scaytOptions[i].isChanged()){
 						changedOption[scaytOptions[i].id] = scaytOptions[i].getValue();
 					}
-				}	
+				}
 			}
-			
+
 			if(languageModelState.isChanged()){
 				changedOption[languageModelState.id] = editor.config.scayt_sLang = languageModelState.currentLang = languageModelState.newLang;
 			}
 
-			return changedOption;				
+			return changedOption;
 		},
 		buildRadioInputs: function(key, value){
 			var divContainer = new CKEDITOR.dom.element( 'div' ),
@@ -461,8 +464,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 					' value="' + value + '" name="scayt_lang" />' ),
 
 				radioLabel = new CKEDITOR.dom.element( 'label' ),
-				scayt_instance = CKEDITOR.plugins.scayt.instances[editor.name];
-			
+				scayt_instance = editor.scayt;
+
 
 			//divContainer.addClass("cke_dialog_ui_input_radio");
 			//divContainer.setAttribute("role", "presentation");
@@ -477,25 +480,25 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 				'clear': 'none',
 				*/
 			});
-			
+
 
 			radio.on( 'click', function(data)
 				{
 					languageModelState.newLang = data.sender.getValue();
 				});
-			
+
 			radioLabel.appendText(key);
 			radioLabel.setAttribute("for", id);
 
 			divContainer.append(radio);
 			divContainer.append(radioLabel);
 
-			if(value === scayt_instance.getLang()){
+			if(value === scayt_instance.getLang()) {
 					radio.setAttribute("checked", true);
 				radio.setAttribute('defaultChecked', 'defaultChecked');
 			}
 
-			return divContainer;    	
+			return divContainer;
 		},
 		renderLangList: function(langBoxes) {
 			var dialog = this,
@@ -508,11 +511,11 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor )
 				half, lang;
 
 			for(lang in langList.ltr){
-				mergedLangList[lang] = langList.ltr[lang]; 
+				mergedLangList[lang] = langList.ltr[lang];
 			}
 
 			for(lang in langList.rtl){
-				mergedLangList[lang] = langList.rtl[lang]; 
+				mergedLangList[lang] = langList.rtl[lang];
 			}
 
 			// sort alphabetically lang list
