@@ -474,9 +474,7 @@ CKEDITOR.plugins.add('scayt', {
 				var plugin = CKEDITOR.plugins.scayt,
 					scaytInstance = editor.scayt;
 
-				if(!scaytInstance) {
-					return element.getName();
-				} else if(element.hasAttribute(plugin.options.data_attribute_name)) {
+				if(scaytInstance && element.hasAttribute(plugin.options.data_attribute_name)) {
 					return false;
 				}
 			},
@@ -638,7 +636,7 @@ CKEDITOR.plugins.add('scayt', {
 		var self = this,
 			itemList = {},
 			subItemList = {};
-		
+
 		if(suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') {
 			for(var i = 0; i < suggestions.length; i++) {
 
@@ -1020,8 +1018,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Customizes the display of SCAYT context menu commands ("Add Word", "Ignore", 
- * "Ignore All", "Options", "Languages", "Dictionaries" and "About"). 
+ * Customizes the display of SCAYT context menu commands ("Add Word", "Ignore",
+ * "Ignore All", "Options", "Languages", "Dictionaries" and "About").
  * This must be a string with one or more of the following
  * words separated by a pipe character (`'|'`):
  *
@@ -1035,7 +1033,7 @@ CKEDITOR.on('scaytReady', function() {
  * * `dictionary` &ndash; enables "Dictionaries" menu item.
  * * `about` &ndash; enables "About" menu item.
  *
- * Note, that availability of 'Options', 'Languages' and 'Dictionaries' items 
+ * Note, that availability of 'Options', 'Languages' and 'Dictionaries' items
  * depends on scayt_uiTabs option also.
  * Example:
  *
@@ -1164,8 +1162,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * If set to `true` &ndash; overrides checkDirty functionality of CK 
- * to fix SCAYT issues with incorrect checkDirty behavior. If set to `false`, 
+ * If set to `true` &ndash; overrides checkDirty functionality of CK
+ * to fix SCAYT issues with incorrect checkDirty behavior. If set to `false`,
  * provides better performance on big preloaded text.
  *
  *		config.scayt_handleCheckDirty = 'false';
@@ -1175,8 +1173,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * If set to `true` &ndash; overrides undo\redo functionality of CK 
- * to fix SCAYT issues with incorrect undo\redo behavior. If set to `false`, 
+ * If set to `true` &ndash; overrides undo\redo functionality of CK
+ * to fix SCAYT issues with incorrect undo\redo behavior. If set to `false`,
  * provides better performance on undo\redo text.
  *
  *		config.scayt_handleUndoRedo = 'false';
