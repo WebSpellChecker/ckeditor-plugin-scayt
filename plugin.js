@@ -201,7 +201,18 @@ CKEDITOR.plugins.add('scayt', {
 			uiMenuItems.WSC = {
 				label : editor.lang.wsc.toolbar,
 				group : menuGroup,
-				command : 'checkspell'
+				onClick: function() {
+					var inlineMode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE),
+						text = inlineMode ? editor.container.getText() : editor.document.getBody().getText();
+
+					text = text.replace(/\s/g, '');
+
+					if(text) {
+						editor.execCommand('checkspell');
+					} else {
+						alert('Nothing to check!');
+					}
+				}
 			}
 		}
 
