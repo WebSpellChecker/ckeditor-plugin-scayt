@@ -208,6 +208,7 @@ CKEDITOR.plugins.add('scayt', {
 					text = text.replace(/\s/g, '');
 
 					if(text) {
+						editor.lockSelection();
 						editor.execCommand('checkspell');
 					} else {
 						alert('Nothing to check!');
