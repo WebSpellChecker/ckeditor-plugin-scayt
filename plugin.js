@@ -158,6 +158,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'about';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				}
 			},
@@ -168,8 +169,8 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'options';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
-					//editor.openDialog(commandName);
 				}
 			},
 			scaytLangs: {
@@ -179,6 +180,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'langs';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				}
 			},
@@ -189,6 +191,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'dictionaries';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				}
 			}
@@ -585,6 +588,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'options';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				},
 				verification: function(editor) {
@@ -599,6 +603,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'langs';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				},
 				verification: function(editor) {
@@ -613,6 +618,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'dictionaries';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				},
 				verification: function(editor) {
@@ -627,6 +633,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt;
 
 					scaytInstance.tabToOpen = 'about';
+					editor.lockSelection();
 					editor.openDialog(self.dialogName);
 				}
 			}
