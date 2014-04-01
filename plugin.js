@@ -29,18 +29,28 @@ CKEDITOR.plugins.add('scayt', {
 			title : lang.title,
 			modes : {wysiwyg: 1},
 			toolbar: 'spellchecker,20',
+			refresh: function() {
+				var buttonState = editor.ui.instances.Scayt.getState();
+
+				// check if scayt is created
+				if(editor.scayt) {
+					// check if scayt is enabled
+					if(plugin.state[editor.name]) {
+						buttonState = CKEDITOR.TRISTATE_ON;
+					} else {
+						buttonState = CKEDITOR.TRISTATE_OFF;
+					}
+				}
+
+				editor.fire('scaytButtonState', buttonState);
+			},
 			onRender: function() {
 				var that = this;
-				var isLtIE10 = CKEDITOR.env.ie && CKEDITOR.env.version < 10;
 
 				editor.on('scaytButtonState', function(ev) {
-
-					// bug in IE 8, 9 - state was not applied on scayt autostartup
-					setTimeout(function() {
-						if(typeof ev.data != undefined) {
-							that.setState(ev.data);
-						}
-					}, isLtIE10 ? 500 : 50);
+					if(typeof ev.data !== undefined) {
+						that.setState(ev.data);
+					}
 				});
 			},
 			onMenu : function() {
