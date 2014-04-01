@@ -104,6 +104,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						style: 'overflow: hidden; white-space: normal;',
 						html: '<form><div style="float:left;width:45%;margin-left:5px;" id="left-col-' + editor.name + '"></div><div style="float:left;width:45%;margin-left:15px;" id="right-col-' + editor.name + '"></div></form>',
 						onShow: function() {
+							var scayt_instance =  editor.scayt;
 							var lang = scayt_instance.getLang(),
 								prefix_id = "scaytLang_",
 								radio = doc.getById(prefix_id + lang);
@@ -300,6 +301,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	editor.on("scaytUserDictionaryAction", function(event) {
 		var dialog = event.data.dialog,
 			dictionaryNote = dialog.getContentElement("dictionaries", "dictionaryNote").getElement(),
+			scayt_instance =  event.editor.scayt,
 			messageTemplate;
 
 		if(event.data.error === undefined) {
@@ -334,6 +336,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	editor.on("scaytUserDictionaryActionError", function(event) {
 		var dialog = event.data.dialog,
 			dictionaryNote = dialog.getContentElement("dictionaries", "dictionaryNote").getElement(),
+			scayt_instance =  event.editor.scayt,
 			messageTemplate;
 
 		if(event.data.name === '') {
@@ -416,6 +419,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 		onOk: function() {
 			var dialog = this,
 				self = dialogDefinition,
+				scayt_instance =  editor.scayt,
 				scaytOptions = dialog.getContentElement("options", "scaytOptions"),
 				changedOptions = self.getChangedOption.call(dialog);
 
@@ -466,26 +470,15 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				radioLabel = new CKEDITOR.dom.element( 'label' ),
 				scayt_instance = editor.scayt;
 
-
-			//divContainer.addClass("cke_dialog_ui_input_radio");
-			//divContainer.setAttribute("role", "presentation");
 			divContainer.setStyles({
-				// "min-width": "100%",
-				// "width": "100%",
-				// "list-style-type": "none",
-				// "float": "left",
 				"white-space": "normal",
 				'position': 'relative'
-				/*'padding': "5px",
-				'clear': 'none',
-				*/
 			});
 
 
-			radio.on( 'click', function(data)
-				{
-					languageModelState.newLang = data.sender.getValue();
-				});
+			radio.on( 'click', function(data) {
+				languageModelState.newLang = data.sender.getValue();
+			});
 
 			radioLabel.appendText(key);
 			radioLabel.setAttribute("for", id);
