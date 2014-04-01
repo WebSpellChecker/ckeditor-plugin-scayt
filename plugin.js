@@ -159,6 +159,7 @@ CKEDITOR.plugins.add('scayt', {
 							plugin.destroy(editor);
 						}
 					}
+					editor.focus();
 				}
 			},
 			scaytAbout: {
@@ -213,11 +214,17 @@ CKEDITOR.plugins.add('scayt', {
 				group : menuGroup,
 				onClick: function() {
 					var inlineMode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE),
+						plugin = CKEDITOR.plugins.scayt,
+						scaytInstance = editor.scayt,
 						text = inlineMode ? editor.container.getText() : editor.document.getBody().getText();
 
 					text = text.replace(/\s/g, '');
 
 					if(text) {
+						if(scaytInstance && plugin.state[editor.name]) {
+							scaytInstance.setMarkupPaused(true);
+						}
+
 						editor.lockSelection();
 						editor.execCommand('checkspell');
 					} else {
