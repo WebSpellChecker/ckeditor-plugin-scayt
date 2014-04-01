@@ -261,11 +261,18 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		};
 
-		editor.on('contentDom', function(){
+		editor.on('contentDom', function() {
 
-			if (inline_mode) {
+			if(inline_mode) {
 				editor.on( 'blur', scaytDestroy);
 				editor.on( 'focus', contentDomReady);
+
+				// We need to check if editor has focus(created) right now.
+				// If editor is active - make attempt to create scayt
+				if(editor.focusManager.hasFocus) {
+					contentDomReady();
+				}
+
 			} else {
 				contentDomReady();
 			}
