@@ -268,8 +268,7 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		};
 
-		editor.on('contentDom', function() {
-
+		var contentDomtHandler = function() {
 			if(inline_mode) {
 				editor.on( 'blur', scaytDestroy);
 				editor.on( 'focus', contentDomReady);
@@ -283,8 +282,9 @@ CKEDITOR.plugins.add('scayt', {
 			} else {
 				contentDomReady();
 			}
+		};
 
-		});
+		editor.on('contentDom', contentDomtHandler);
 
 		editor.on('beforeCommandExec', function(ev) {
 			var scaytInstance;
@@ -367,7 +367,7 @@ CKEDITOR.plugins.add('scayt', {
 
 			// in inline mode SetData does not fire contentDom event
 			if(editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE) {
-				editor.fire('contentDom');
+				contentDomtHandler();
 			}
 		}, this, null, 50);
 
