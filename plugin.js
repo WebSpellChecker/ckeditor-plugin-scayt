@@ -362,7 +362,14 @@ CKEDITOR.plugins.add('scayt', {
 
 		//#9439 after SetData method fires contentDom event and SCAYT create additional instanse
 		// This way we should destroy SCAYT on setData event when contenteditable Iframe was re-created
-		editor.on('setData', scaytDestroy, this, null, 50);
+		editor.on('setData', function() {
+			scaytDestroy();
+
+			// in inline mode SetData does not fire contentDom event
+			if(editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE) {
+				editor.fire('contentDom');
+			}
+		}, this, null, 50);
 
 		// Reload spell-checking for current word after insertion completed.
 		editor.on('insertElement', function() {
