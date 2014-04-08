@@ -159,7 +159,6 @@ CKEDITOR.plugins.add('scayt', {
 							plugin.destroy(editor);
 						}
 					}
-					editor.focus();
 				}
 			},
 			scaytAbout: {
