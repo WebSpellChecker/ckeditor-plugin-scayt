@@ -220,7 +220,7 @@ CKEDITOR.plugins.add('scayt', {
 					text = text.replace(/\s/g, '');
 
 					if(text) {
-						if(scaytInstance && plugin.state[editor.name]) {
+						if(scaytInstance && plugin.state[editor.name] && scaytInstance.setMarkupPaused) {
 							scaytInstance.setMarkupPaused(true);
 						}
 
