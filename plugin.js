@@ -619,7 +619,11 @@ CKEDITOR.plugins.add('scayt', {
 				order : 3,
 				exec : function(editor) {
 					var scaytInstance = editor.scayt;
-					scaytInstance.addWordToUserDictionary();
+					// @TODO: We need to add set/restore bookmark logic to 'addWordToUserDictionary' method inside dictionarymanager.
+					// Timeout is used as tmp fix for IE9, when after hitting 'Add word' menu item, document container was blurred.
+					setTimeout(function() {
+						scaytInstance.addWordToUserDictionary();
+					}, 10);
 				}
 			},
 			option:{
