@@ -25,8 +25,8 @@ CKEDITOR.plugins.add('scayt', {
 			lang = editor.lang.scayt;
 
 		editor.ui.add('Scayt', CKEDITOR.UI_MENUBUTTON, {
-			label : lang.title,
-			title : lang.title,
+			label : lang.text_title,
+			title : lang.text_title,
 			modes : {wysiwyg: 1},
 			toolbar: 'spellchecker,20',
 			refresh: function() {
@@ -56,7 +56,7 @@ CKEDITOR.plugins.add('scayt', {
 			onMenu : function() {
 				var scaytInstance = editor.scayt;
 
-				editor.getMenuItem('scaytToggle').label = editor.lang.scayt[(scaytInstance ? plugin.state[editor.name] : false) ? 'disable' : 'enable'];
+				editor.getMenuItem('scaytToggle').label = editor.lang.scayt[(scaytInstance ? plugin.state[editor.name] : false) ? 'btn_disable' : 'btn_enable'];
 
 				// If UI tab is disabled we shouldn't show menu item
 				var menuDefinition = {
@@ -143,7 +143,7 @@ CKEDITOR.plugins.add('scayt', {
 
 		var uiMenuItems = {
 			scaytToggle: {
-				label : editor.lang.scayt.enable,
+				label : editor.lang.scayt.btn_enable,
 				group : menuGroup,
 				onClick : function() {
 					var scaytInstance = editor.scayt;
@@ -162,7 +162,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scaytAbout: {
-				label : editor.lang.scayt.about,
+				label : editor.lang.scayt.btn_about,
 				group : menuGroup,
 				onClick : function() {
 					var scaytInstance = editor.scayt;
@@ -173,7 +173,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scaytOptions: {
-				label : editor.lang.scayt.optionsTab,
+				label : editor.lang.scayt.btn_options,
 				group : menuGroup,
 				onClick : function() {
 					var scaytInstance = editor.scayt;
@@ -184,7 +184,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scaytLangs: {
-				label : editor.lang.scayt.langs,
+				label : editor.lang.scayt.btn_langs,
 				group : menuGroup,
 				onClick : function() {
 					var scaytInstance = editor.scayt;
@@ -195,7 +195,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scaytDict: {
-				label : editor.lang.scayt.dictionariesTab,
+				label : editor.lang.scayt.btn_dictionaries,
 				group : menuGroup,
 				onClick : function() {
 					var scaytInstance = editor.scayt;
@@ -596,7 +596,7 @@ CKEDITOR.plugins.add('scayt', {
 			scayt_instance =  editor.scayt;
 		return {
 			scayt_ignore: {
-				label: 	editor.lang.scayt.ignore,
+				label:  scayt_instance.getLocal('btn_ignore'),
 				group : 'scayt_control',
 				order : 1,
 				exec: function(editor) {
@@ -605,7 +605,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scayt_ignoreall: {
-				label : editor.lang.scayt.ignoreAll,
+				label : scayt_instance.getLocal('btn_ignoreAll'),
 				group : 'scayt_control',
 				order : 2,
 				exec: function(editor) {
@@ -614,7 +614,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			scayt_add: {
-				label : editor.lang.scayt.addWord,
+				label : scayt_instance.getLocal('btn_addWord'),
 				group : 'scayt_control',
 				order : 3,
 				exec : function(editor) {
@@ -627,7 +627,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			option:{
-				label : editor.lang.scayt.options,
+				label : scayt_instance.getLocal('btn_options'),
 				group : 'scayt_control',
 				order : 4,
 				exec: function(editor) {
@@ -642,7 +642,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			language: {
-				label : editor.lang.scayt.languagesTab,
+				label : scayt_instance.getLocal('btn_langs'),
 				group : 'scayt_control',
 				order : 5,
 				exec: function(editor) {
@@ -657,7 +657,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			dictionary: {
-				label : editor.lang.scayt.dictionariesTab,
+				label : scayt_instance.getLocal('btn_dictionaries'),
 				group : 'scayt_control',
 				order : 6,
 				exec: function(editor) {
@@ -672,7 +672,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			},
 			about: {
-				label : editor.lang.scayt.aboutTab,
+				label : scayt_instance.getLocal('btn_about'),
 				group : 'scayt_control',
 				order : 7,
 				exec: function(editor) {
@@ -688,7 +688,9 @@ CKEDITOR.plugins.add('scayt', {
 	buildSuggestionMenuItems: function(editor, suggestions) {
 		var self = this,
 			itemList = {},
-			subItemList = {};
+			subItemList = {},
+			plugin = CKEDITOR.plugins.scayt,
+			scayt_instance = editor.scayt;
 
 		if(suggestions.length > 0 && suggestions[0] !== 'no_any_suggestions') {
 			for(var i = 0; i < suggestions.length; i++) {
@@ -723,7 +725,7 @@ CKEDITOR.plugins.add('scayt', {
 					if(editor.config.scayt_moreSuggestions === 'on') {
 
 						editor.addMenuItem('scayt_moresuggest', {
-							label : editor.lang.scayt.moreSuggestions,
+							label : scayt_instance.getLocal('btn_moreSuggestions'),
 							group : 'scayt_moresuggest',
 							order : 10,
 							getItems : function() {
@@ -746,7 +748,7 @@ CKEDITOR.plugins.add('scayt', {
 			});
 
 			editor.addMenuItem(noSuggestionsCommand, {
-				label : editor.lang.scayt['noSuggestions'] || noSuggestionsCommand,
+				label : scayt_instance.getLocal('btn_noSuggestions') || noSuggestionsCommand,
 				command: noSuggestionsCommand,
 				group : 'scayt_suggest',
 				order : 0
