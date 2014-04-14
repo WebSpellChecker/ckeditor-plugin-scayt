@@ -498,7 +498,7 @@ CKEDITOR.plugins.add('scayt', {
 			var protocol = document.location.protocol;
 			protocol = protocol.search(/https?:/) != -1 ? protocol : 'http:';
 
-			editor.config.scayt_srcUrl = protocol + '//www.webspellchecker.net/files/ckeditor/rc4.5.2/ckscayt/ckscayt.js';
+			editor.config.scayt_srcUrl = protocol + '//svc.webspellchecker.net/spellcheck31/lf/scayt3/ckscayt/ckscayt.js';
 		}
 
 		if(typeof CKEDITOR.config.scayt_handleCheckDirty !== 'boolean') {
@@ -619,6 +619,7 @@ CKEDITOR.plugins.add('scayt', {
 				order : 3,
 				exec : function(editor) {
 					var scaytInstance = editor.scayt;
+
 					// @TODO: We need to add set/restore bookmark logic to 'addWordToUserDictionary' method inside dictionarymanager.
 					// Timeout is used as tmp fix for IE9, when after hitting 'Add word' menu item, document container was blurred.
 					setTimeout(function() {
@@ -854,9 +855,6 @@ CKEDITOR.plugins.scayt = {
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class
 			};
-
-			_editor.config.scayt_serviceHost = 'svc.webspellchecker.net';
-			_editor.config.scayt_servicePath = 'spellcheck31/script/ssrv.cgi';
 
 			if(_editor.config.scayt_serviceProtocol) {
 				_scaytInstanceOptions['service_protocol'] = _editor.config.scayt_serviceProtocol;
