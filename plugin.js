@@ -22,12 +22,14 @@ CKEDITOR.plugins.add('scayt', {
 
 		this.addMenuItems(editor);
 		var config = editor.config,
-			lang = editor.lang.scayt;
+			lang = editor.lang.scayt,
+			env = CKEDITOR.env;
 
 		editor.ui.add('Scayt', CKEDITOR.UI_MENUBUTTON, {
 			label : lang.text_title,
 			title : lang.text_title,
-			modes : {wysiwyg: 1},
+			// SCAYT doesn't work in IE Compatibility Mode and IE (8 & 9) Quirks Mode
+			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks ) ) },
 			toolbar: 'spellchecker,20',
 			refresh: function() {
 				var buttonState = editor.ui.instances.Scayt.getState();
