@@ -399,6 +399,25 @@ CKEDITOR.plugins.add('scayt', {
 			dialog.selectPage(scaytInstance.tabToOpen);
 		});
 
+		// get rid of SCAYT related spans and nbsp; which are inserted when copying and pasting between CKE instances with SCAYT enabled in webkit based browsers
+		editor.on( 'paste', function( evt ) {
+			if(editor.config.scayt_deSCAYTifyWebkitPaste)
+			{
+				if ( CKEDITOR.env.webkit )
+				{
+					var dataObj = evt.data,
+						data = dataObj.dataValue,
+						regex1 = /&nbsp;<span [^>]*data-scayt-word="[^"]*"[^>]*>([^<]*)<\/span>&nbsp;/g,
+						regex2 = /&nbsp;<span [^>]*data-scayt-word="[^"]*"[^>]*>([^<]*)<\/span>/g,
+						regex3 = /<span [^>]*data-scayt-word="[^"]*"[^>]*>([^<]*)<\/span>&nbsp;/g,
+						regex4 = /<span [^>]*data-scayt-word="[^"]*"[^>]*>([^<]*)<\/span>/g;
+
+					data = data.replace(regex1,' $1 ').replace(regex2,' $1').replace(regex3,'$1 ').replace(regex4,'$1');
+					dataObj.dataValue = data;
+				}
+			}
+		}, null, null, 15 );
+			
 		/*
 		After each 'paste' CKEditor call insertHtml and we have subscribed for 'insertHtml' event before
 		editor.on('paste', function(ev)
@@ -509,6 +528,10 @@ CKEDITOR.plugins.add('scayt', {
 
 		if(typeof CKEDITOR.config.scayt_handleUndoRedo !== 'boolean') {
 			CKEDITOR.config.scayt_handleUndoRedo = true;
+		}
+
+		if(typeof editor.config.scayt_deSCAYTifyWebkitPaste !== 'boolean') {
+			editor.config.scayt_deSCAYTifyWebkitPaste = true;
 		}
 	},
 	addRule: function(editor) {
