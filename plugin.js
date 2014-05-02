@@ -51,6 +51,10 @@
 					oParams.userDictionaryName = config.scayt_userDictionaryName || '';
 					oParams.sLang = config.scayt_sLang || 'en_US';
 
+					if(typeof editor.config.scayt_deSCAYTifyWebkitPaste !== 'boolean') {
+						editor.config.scayt_deSCAYTifyWebkitPaste = true;
+					}
+
 					// Introduce SCAYT onLoad callback. (#5632)
 					oParams.onLoad = function() {
 						// Draw down word marker to avoid being covered by background-color style.(#5466)
@@ -748,6 +752,25 @@
 
 			editor.on( 'showScaytState', showInitialState );
 			editor.on( 'instanceReady', showInitialState );
+
+			// get rid of SCAYT related spans and nbsp; which are inserted when copying and pasting between CKE instances with SCAYT enabled in webkit based browsers
+			editor.on( 'paste', function( evt ) {
+				if(editor.config.scayt_deSCAYTifyWebkitPaste)
+				{
+					if ( CKEDITOR.env.webkit )
+					{
+						var dataObj = evt.data,
+							data = dataObj.dataValue,
+							regex1 = /&nbsp;<span data-scaytid="[^"]*" data-scayt_word="[^"]*" style="background-color: rgb\(255, 255, 255\);">([^<]*)<\/span>&nbsp;/g,
+							regex2 = /&nbsp;<span data-scaytid="[^"]*" data-scayt_word="[^"]*" style="background-color: rgb\(255, 255, 255\);">([^<]*)<\/span>/g,
+							regex3 = /<span data-scaytid="[^"]*" data-scayt_word="[^"]*" style="background-color: rgb\(255, 255, 255\);">([^<]*)<\/span>&nbsp;/g,
+							regex4 = /<span data-scaytid="[^"]*" data-scayt_word="[^"]*" style="background-color: rgb\(255, 255, 255\);">([^<]*)<\/span>/g;
+
+						data = data.replace(regex1,' $1 ').replace(regex2,' $1').replace(regex3,'$1 ').replace(regex4,'$1');
+						dataObj.dataValue = data;
+					}
+				}
+			}, null, null, 15 );
 
 			// Start plugin
 			if ( editor.config.scayt_autoStartup ) {
