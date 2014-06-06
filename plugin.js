@@ -510,6 +510,49 @@ CKEDITOR.plugins.add('scayt', {
 		if(typeof CKEDITOR.config.scayt_handleUndoRedo !== 'boolean') {
 			CKEDITOR.config.scayt_handleUndoRedo = true;
 		}
+
+		if( editor.config.scayt_disableOptionsStorage ) {
+			var userOptions = CKEDITOR.tools.isArray( editor.config.scayt_disableOptionsStorage ) ? editor.config.scayt_disableOptionsStorage : ( typeof editor.config.scayt_disableOptionsStorage === 'string' ) ? [ editor.config.scayt_disableOptionsStorage ] : undefined,
+				availableValue = [ 'all', 'options', 'lang', 'ignore-all-caps-words', 'ignore-domain-names', 'ignore-words-with-mixed-cases', 'ignore-words-with-numbers'],
+				valuesOption = ['lang', 'ignore-all-caps-words', 'ignore-domain-names', 'ignore-words-with-mixed-cases', 'ignore-words-with-numbers'],
+				search = CKEDITOR.tools.search,
+				indexOf = CKEDITOR.tools.indexOf;
+
+			var isValidOption = function( option ) {
+				return !!search( availableValue, option );
+			};
+
+			var makeOptionsToStorage = function( options ) {
+				var retval = [];
+
+				for (var i = 0; i < options.length; i++) {
+					var value = options[i],
+						isGroupOptionInUserOptions = !!search( options, 'options' );
+
+					if( !isValidOption( value ) || isGroupOptionInUserOptions && !!search( valuesOption, function( val ) { if( val === 'lang' ) { return false; } } ) ) {
+						return;
+					}
+
+					if( !!search( valuesOption, value ) ) {
+						valuesOption.splice( indexOf( valuesOption, value ), 1 );
+					}
+
+					if(  value === 'all' || isGroupOptionInUserOptions && !!search( options, 'lang' )) {
+						return [];
+					}
+
+					if( value === 'options' ) {
+						valuesOption = [ 'lang' ];
+					}
+				}
+
+				retval = retval.concat( valuesOption );
+
+				return retval;
+			};
+
+			editor.config.scayt_disableOptionsStorage = makeOptionsToStorage( userOptions );
+		}
 	},
 	addRule: function(editor) {
 		var dataProcessor = editor.dataProcessor,
@@ -855,7 +898,8 @@ CKEDITOR.plugins.scayt = {
 				localization    : _editor.langCode,
 				customer_id     : _editor.config.scayt_customerId,
 				data_attribute_name : self.options.data_attribute_name,
-				misspelled_word_class: self.options.misspelled_word_class
+				misspelled_word_class: self.options.misspelled_word_class,
+				'options-to-restore':  _editor.config.scayt_disableOptionsStorage
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
