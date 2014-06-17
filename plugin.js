@@ -1284,3 +1284,27 @@ CKEDITOR.on('scaytReady', function() {
  * @cfg {String} [scayt_handleUndoRedo='true']
  * @member CKEDITOR.config
  */
+
+/**
+ * Disabling of SCAYT Options storing during several sessions. Options storing will be turned off after page refresh.
+ *
+ * * "options" - disable all SCAYT Ignore options
+ * * "ignore-all-caps-words" - disable 'Ignore All-Caps Words' option 
+ * * "ignore-domain-names" - disable 'Ignore Domain Names' option
+ * * "ignore-words-with-mixed-cases" - disable 'Ignore Words with Mixed Case' option
+ * * "ignore-words-with-numbers" - disable 'Ignore Words with Numbers' option
+ * * "lang" - disable SCAYT spell check language storing
+ * * "all" - disable all ('options' and 'lang') SCAYT options storing
+ *
+ * Example:
+ * 
+ *	  // For one options disabling	
+ *    config.scayt_disableOptionsStorage = 'all';
+ *    
+ *	  // For several options disabling
+ *	  config.scayt_disableOptionsStorage = ['lang', 'ignore-domain-names', 'ignore-words-with-numbers'];
+ *
+ * 
+ * @cfg {String|Array} [scayt_disableOptionsStorage ='']
+ * @member CKEDITOR.config
+ */
