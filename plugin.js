@@ -1,5 +1,5 @@
-'use strict';
 CKEDITOR.plugins.add('scayt', {
+	'use strict';
 
 	//requires : ['menubutton', 'dialog'],
 	requires: 'menubutton,dialog',
@@ -899,7 +899,8 @@ CKEDITOR.plugins.scayt = {
 				customer_id     : _editor.config.scayt_customerId,
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
-				'options-to-restore':  _editor.config.scayt_disableOptionsStorage
+				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
+				focused: _editor.editable().hasFocus // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
@@ -1289,7 +1290,7 @@ CKEDITOR.on('scaytReady', function() {
  * Disabling of SCAYT Options storing during several sessions. Options storing will be turned off after page refresh.
  *
  * * "options" - disable all SCAYT Ignore options
- * * "ignore-all-caps-words" - disable 'Ignore All-Caps Words' option 
+ * * "ignore-all-caps-words" - disable 'Ignore All-Caps Words' option
  * * "ignore-domain-names" - disable 'Ignore Domain Names' option
  * * "ignore-words-with-mixed-cases" - disable 'Ignore Words with Mixed Case' option
  * * "ignore-words-with-numbers" - disable 'Ignore Words with Numbers' option
@@ -1297,14 +1298,14 @@ CKEDITOR.on('scaytReady', function() {
  * * "all" - disable all ('options' and 'lang') SCAYT options storing
  *
  * Example:
- * 
- *	  // For one options disabling	
+ *
+ *	  // For one options disabling
  *    config.scayt_disableOptionsStorage = 'all';
- *    
+ *
  *	  // For several options disabling
  *	  config.scayt_disableOptionsStorage = ['lang', 'ignore-domain-names', 'ignore-words-with-numbers'];
  *
- * 
+ *
  * @cfg {String|Array} [scayt_disableOptionsStorage ='']
  * @member CKEDITOR.config
  */
