@@ -269,6 +269,23 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		};
 
+		var addMarkupStateHandlers = function() {
+			var editable = editor.editable();
+			editable.attachListener( editable, 'focus', function( evt ) {
+				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
+				if (pluginStatus) {
+					pluginStatus.setMarkupPaused(false);
+				}
+			}, this, null, -10 );
+
+			editable.attachListener( editable, 'blur', function( evt ) {
+				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
+				if (pluginStatus) {
+					pluginStatus.setMarkupPaused(true);
+				}
+			}, this, null, -10 );
+		};
+
 		var contentDomtHandler = function() {
 			if(inline_mode) {
 				editor.on( 'blur', scaytDestroy);
@@ -283,7 +300,27 @@ CKEDITOR.plugins.add('scayt', {
 			} else {
 				contentDomReady();
 			}
+
+			addMarkupStateHandlers();
 		};
+
+		editor.on( 'focus', function() {
+			var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
+
+			if ( pluginStatus ) {
+				pluginStatus.setMarkupPaused( false );
+			}
+
+		}, 0);
+
+		editor.on( 'blur', function() {
+			var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
+
+			if ( pluginStatus ) {
+				pluginStatus.setMarkupPaused( false );
+			}
+
+		}, 0);
 
 		editor.on('contentDom', contentDomtHandler);
 
