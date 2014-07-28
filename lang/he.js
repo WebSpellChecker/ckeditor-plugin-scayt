@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'he', {
 	btn_enable: 'אפשר SCAYT',
 	btn_langs:'שפות',
 	btn_options: 'אפשרויות',
-	text_title: ''
+	text_title:  'בדיקת איות בזמן כתיבה (SCAYT)'
 });

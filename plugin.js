@@ -27,7 +27,7 @@ CKEDITOR.plugins.add('scayt', {
 
 		editor.ui.add('Scayt', CKEDITOR.UI_MENUBUTTON, {
 			label : lang.text_title,
-			title : lang.text_title,
+			title : ( editor.plugins.wsc ? editor.lang.wsc.title : lang.text_title ),
 			// SCAYT doesn't work in IE Compatibility Mode and IE (8 & 9) Quirks Mode
 			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks ) ) },
 			toolbar: 'spellchecker,20',

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'uk', {
 	btn_enable: 'Ввімкнути SCAYT',
 	btn_langs:'Мови',
 	btn_options: 'Опції',
-	text_title: ''
+	text_title:  'Перефірка орфографії по мірі набору'
 });

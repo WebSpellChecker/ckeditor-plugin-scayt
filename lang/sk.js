@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'sk', {
 	btn_enable: 'Povoliť KPPP (Kontrola pravopisu počas písania)',
 	btn_langs:'Jazyky',
 	btn_options: 'Možnosti',
-	text_title: ''
+	text_title:  'Kontrola pravopisu počas písania'
 });

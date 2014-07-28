@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'et', {
 	btn_enable: 'SCAYT lubatud',
 	btn_langs:'Keeled',
 	btn_options: 'Valikud',
-	text_title: ''
+	text_title:  'Õigekirjakontroll kirjutamise ajal'
 });

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'ku', {
 	btn_enable: 'چالاککردنی SCAYT',
 	btn_langs:'زمانهکان',
 	btn_options: 'ههڵبژارده',
-	text_title: ''
+	text_title:  'پشکنینی نووسه لهکاتی نووسین'
 });

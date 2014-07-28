@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'nl', {
 	btn_enable: 'SCAYT inschakelen',
 	btn_langs:'Talen',
 	btn_options: 'Opties',
-	text_title: ''
+	text_title: 'Controleer de spelling tijdens het typen'
 });

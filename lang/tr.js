@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'tr', {
 	btn_enable: 'SCAYT\'ı etkinleştir',
 	btn_langs:'Diller',
 	btn_options: 'Seçenekler',
-	text_title: ''
+	text_title:  'Girmiş olduğunuz kelime denetimi'
 });

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'fi', {
 	btn_enable: 'Ota käyttöön oikoluku kirjoitettaessa',
 	btn_langs:'Kielet',
 	btn_options: 'Asetukset',
-	text_title: ''
+	text_title: 'Oikolue kirjoitettaessa'
 });

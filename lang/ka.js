@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'ka', {
 	btn_enable: 'SCAYT-ის ჩართვა',
 	btn_langs:'ენები',
 	btn_options: 'პარამეტრები',
-	text_title: ''
+	text_title:  'მართლწერის შემოწმება კრეფისას'
 });

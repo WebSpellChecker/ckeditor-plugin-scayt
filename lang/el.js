@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'el', {
 	btn_enable: 'Enable SCAYT',
 	btn_langs:'Γλώσσες',
 	btn_options: 'Επιλογές',
-	text_title: ''
+	text_title: 'Spell Check As You Type'
 });

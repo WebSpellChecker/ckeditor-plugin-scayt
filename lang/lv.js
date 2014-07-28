@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'lv', {
 	btn_enable: 'Ieslēgt SCAYT',
 	btn_langs:'Valodas',
 	btn_options: 'Uzstādījumi',
-	text_title: ''
+	text_title:  'Pārbaudīt gramatiku rakstot'
 });

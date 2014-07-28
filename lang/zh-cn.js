@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'zh-cn', {
 	btn_enable: '启用即时拼写检查',
 	btn_langs:'语言',
 	btn_options: '选项',
-	text_title: ''
+	text_title:  '即时拼写检查'
 });

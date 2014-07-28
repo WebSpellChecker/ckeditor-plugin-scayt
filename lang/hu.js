@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'hu', {
 	btn_enable: 'SCAYT engedélyezése',
 	btn_langs:'Nyelvek',
 	btn_options: 'Beállítások',
-	text_title: ''
+	text_title:  'Helyesírás ellenőrzés gépelés közben'
 });

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'cy', {
 	btn_enable: 'Galluogi SCAYT',
 	btn_langs:'Ieithoedd',
 	btn_options: 'Opsiynau',
-	text_title: ''
+	text_title:  'Gwirio\'r Sillafu Wrth Deipio'
 });

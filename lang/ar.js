@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'ar', {
 	btn_enable: 'تفعيل SCAYT',
 	btn_langs:'لغات',
 	btn_options: 'خيارات',
-	text_title: ''
+	text_title:  'تدقيق إملائي أثناء الكتابة'
 });

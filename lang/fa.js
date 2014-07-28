@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'fa', {
 	btn_enable: 'فعالسازی SCAYT',
 	btn_langs:'زبانها',
 	btn_options: 'گزینهها',
-	text_title: ''
+	text_title:  'بررسی املای تایپ شما'
 });

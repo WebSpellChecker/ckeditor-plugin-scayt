@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'fo', {
 	btn_enable: 'Loyv SCAYT',
 	btn_langs:'Tungumál',
 	btn_options: 'Uppseting',
-	text_title: ''
+	text_title:  'Kanna stavseting, meðan tú skrivar'
 });

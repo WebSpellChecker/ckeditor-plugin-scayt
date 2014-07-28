@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'af', {
 	btn_enable: 'SCAYT aan',
 	btn_langs:'Tale',
 	btn_options: 'Opsies',
-	text_title: ''
+	text_title:  'Speltoets terwyl u tik'
 });

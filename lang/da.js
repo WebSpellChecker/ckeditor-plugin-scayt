@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'da', {
 	btn_enable: 'Aktivér SCAYT',
 	btn_langs:'Sprog',
 	btn_options: 'Indstillinger',
-	text_title: ''
+	text_title: 'Stavekontrol mens du skriver'
 });

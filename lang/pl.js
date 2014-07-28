@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'pl', {
 	btn_enable: 'Włącz SCAYT',
 	btn_langs:'Języki',
 	btn_options: 'Opcje',
-	text_title: ''
+	text_title:  'Sprawdź pisownię podczas pisania (SCAYT)'
 });

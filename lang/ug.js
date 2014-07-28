@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'ug', {
 	btn_enable: 'شۇئان ئىملا تەكشۈرۈشنى قوزغات',
 	btn_langs:'تىل',
 	btn_options: 'تاللانما',
-	text_title: ''
+	text_title:  'شۇئان ئىملا تەكشۈر'
 });

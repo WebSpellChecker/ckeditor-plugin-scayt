@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'ja', {
 	btn_enable: 'SCAYT有効',
 	btn_langs:'言語',
 	btn_options: 'オプション',
-	text_title: ''
+	text_title:  'スペルチェック設定(SCAYT)'
 });

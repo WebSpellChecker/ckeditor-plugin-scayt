@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'it', {
 	btn_enable: 'Abilita COMS',
 	btn_langs:'Lingue',
 	btn_options: 'Opzioni',
-	text_title: ''
+	text_title: 'Controllo Ortografico Mentre Scrivi'
 });

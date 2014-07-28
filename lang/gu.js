@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'gu', {
 	btn_enable: 'SCAYT એનેબલ કરવું',
 	btn_langs:'ભાષાઓ',
 	btn_options: 'વિકલ્પો',
-	text_title: ''
+	text_title:  'ટાઈપ કરતા સ્પેલ તપાસો'
 });

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'pt-br', {
 	btn_enable: 'Habilitar correção ortográfica durante a digitação',
 	btn_langs:'Idiomas',
 	btn_options: 'Opções',
-	text_title: ''
+	text_title: 'Correção ortográfica durante a digitação'
 });

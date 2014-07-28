@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'vi', {
 	btn_enable: 'Bật SCAYT',
 	btn_langs:'Ngôn ngữ',
 	btn_options: 'Tùy chọn',
-	text_title: ''
+	text_title:  'Kiểm tra chính tả ngay khi gõ chữ (SCAYT)'
 });

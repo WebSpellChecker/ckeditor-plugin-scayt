@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'es', {
 	btn_enable: 'Activar Corrector',
 	btn_langs:'Idiomas',
 	btn_options: 'Opciones',
-	text_title: ''
+	text_title: 'Comprobar Ortografía Mientras Escribe'
 });

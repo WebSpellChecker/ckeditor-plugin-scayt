@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'eu', {
 	btn_enable: 'Gaitu SCAYT',
 	btn_langs:'Hizkuntzak',
 	btn_options: 'Aukerak',
-	text_title: ''
+	text_title:  'Ortografia Zuzenketa Idatzi Ahala (SCAYT)'
 });

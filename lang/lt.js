@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'scayt', 'lt', {
 	btn_enable: 'Įjungti SCAYT',
 	btn_langs:'Kalbos',
 	btn_options: 'Parametrai',
-	text_title: ''
+	text_title:  'Tikrinti klaidas kai rašoma'
 });
