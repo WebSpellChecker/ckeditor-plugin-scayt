@@ -105,7 +105,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						type: 'html',
 						id: 'langBox',
 						style: 'overflow: hidden; white-space: normal;',
-						html: '<form><div style="float:left;width:45%;margin-left:5px;" id="left-col-' + editor.name + '"></div><div style="float:left;width:45%;margin-left:15px;" id="right-col-' + editor.name + '"></div></form>',
+						html: '<div><div style="float:left;width:45%;margin-left:5px;" id="left-col-' + editor.name + '"></div><div style="float:left;width:45%;margin-left:15px;" id="right-col-' + editor.name + '"></div></div>',
 						onShow: function() {
 							var scayt_instance =  editor.scayt;
 							var lang = scayt_instance.getLang(),
@@ -475,7 +475,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 			divContainer.setStyles({
 				"white-space": "normal",
-				'position': 'relative'
+				'position': 'relative',
+				'padding-bottom': '2px'
 			});
 
 
