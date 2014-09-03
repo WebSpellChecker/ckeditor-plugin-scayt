@@ -1227,7 +1227,7 @@ CKEDITOR.on('scaytReady', function() {
  * Allows to specify protocol for WSC service (ssrv.cgi) full path.
  *
  *		// Defines protocol for WSC service (ssrv.cgi) full path.
- *		config.scayt_serviceProtocol='https';
+ *		config.scayt_serviceProtocol = 'https';
  *
  * @cfg {String} [scayt_serviceProtocol='http']
  * @member CKEDITOR.config
@@ -1237,7 +1237,7 @@ CKEDITOR.on('scaytReady', function() {
  * Allows to specify host for WSC service (ssrv.cgi) full path.
  *
  *		// Defines host for WSC service (ssrv.cgi) full path.
- *		config.scayt_serviceHost='my-host';
+ *		config.scayt_serviceHost = 'my-host';
  *
  * @cfg {String} [scayt_serviceHost='svc.webspellchecker.net']
  * @member CKEDITOR.config
@@ -1247,7 +1247,7 @@ CKEDITOR.on('scaytReady', function() {
  * Allows to specify port for WSC service (ssrv.cgi) full path.
  *
  *		// Defines port for WSC service (ssrv.cgi) full path.
- *		config.scayt_servicePort='2330';
+ *		config.scayt_servicePort = '2330';
  *
  * @cfg {String} [scayt_servicePort='80']
  * @member CKEDITOR.config
@@ -1257,7 +1257,7 @@ CKEDITOR.on('scaytReady', function() {
  * Allows to specify path for WSC service (ssrv.cgi) full path.
  *
  *		// Defines host for WSC service (ssrv.cgi) full path.
- *		config.scayt_servicePath='my-path/ssrv.cgi';
+ *		config.scayt_servicePath = 'my-path/ssrv.cgi';
  *
  * @cfg {String} [scayt_servicePath='spellcheck31/script/ssrv.cgi']
  * @member CKEDITOR.config
@@ -1338,21 +1338,21 @@ CKEDITOR.on('scaytReady', function() {
 /**
  * Disabling of SCAYT Options storing during several sessions. Options storing will be turned off after page refresh.
  *
- * * "options" - disable all SCAYT Ignore options
- * * "ignore-all-caps-words" - disable 'Ignore All-Caps Words' option
- * * "ignore-domain-names" - disable 'Ignore Domain Names' option
- * * "ignore-words-with-mixed-cases" - disable 'Ignore Words with Mixed Case' option
- * * "ignore-words-with-numbers" - disable 'Ignore Words with Numbers' option
- * * "lang" - disable SCAYT spell check language storing
- * * "all" - disable all ('options' and 'lang') SCAYT options storing
+ * * `'options'` - disables all SCAYT Ignore options
+ * * `'ignore-all-caps-words'` - disables 'Ignore All-Caps Words' option
+ * * `'ignore-domain-names'` - disables 'Ignore Domain Names' option
+ * * `'ignore-words-with-mixed-cases'` - disables 'Ignore Words with Mixed Case' option
+ * * `'ignore-words-with-numbers'` - disables 'Ignore Words with Numbers' option
+ * * `'lang'` - disables SCAYT spell check language storing
+ * * `'all'` - disables all SCAYT options storing
  *
  * Example:
  *
- *	  // For one options disabling
- *    config.scayt_disableOptionsStorage = 'all';
+ *		// One options disabling.
+ *		config.scayt_disableOptionsStorage = 'all';
  *
- *	  // For several options disabling
- *	  config.scayt_disableOptionsStorage = ['lang', 'ignore-domain-names', 'ignore-words-with-numbers'];
+ *		// Several options disabling.
+ *  	config.scayt_disableOptionsStorage = ['lang', 'ignore-domain-names', 'ignore-words-with-numbers'];
  *
  *
  * @cfg {String|Array} [scayt_disableOptionsStorage ='']
