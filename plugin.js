@@ -271,19 +271,24 @@ CKEDITOR.plugins.add('scayt', {
 
 		var addMarkupStateHandlers = function() {
 			var editable = editor.editable();
-			editable.attachListener( editable, 'focus', function( evt ) {
-				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
-				if (pluginStatus) {
-					pluginStatus.setMarkupPaused(false);
-				}
-			}, this, null, -10 );
 
-			editable.attachListener( editable, 'blur', function( evt ) {
-				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
-				if (pluginStatus) {
-					pluginStatus.setMarkupPaused(true);
+			editable.attachListener( editable, 'focus', function( evt ) {
+				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt,
+					selectedElement, ranges, textLength, range;
+
+				if((inline_mode ? true : pluginStatus) && editor._.savedSelection) {
+					selectedElement = editor._.savedSelection.getSelectedElement();
+					ranges = !selectedElement && editor._.savedSelection.getRanges();
+
+					for(var i = 0; i < ranges.length; i++) {
+						range = ranges[i];
+						textLength = range.startContainer.getText().length;
+						if(textLength < range.startOffset || textLength < range.endOffset) {
+							editor.unlockSelection(false);
+						}
+					}
 				}
-			}, this, null, -10 );
+			}, this, null, -10 );	// priority "-10" is set to call SCAYT CKEDITOR.editor#unlockSelection before CKEDITOR.editor#unlockSelection call
 		};
 
 		var contentDomtHandler = function() {
@@ -303,24 +308,6 @@ CKEDITOR.plugins.add('scayt', {
 
 			addMarkupStateHandlers();
 		};
-
-		editor.on( 'focus', function() {
-			var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
-
-			if ( pluginStatus ) {
-				pluginStatus.setMarkupPaused( false );
-			}
-
-		}, 0);
-
-		editor.on( 'blur', function() {
-			var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt;
-
-			if ( pluginStatus ) {
-				pluginStatus.setMarkupPaused( false );
-			}
-
-		}, 0);
 
 		editor.on('contentDom', contentDomtHandler);
 
