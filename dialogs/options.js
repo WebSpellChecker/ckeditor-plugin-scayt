@@ -302,7 +302,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	}];
 
 	editor.on("scaytUserDictionaryAction", function(event) {
-		var dialog = event.data.dialog,
+		var UILib = SCAYT.prototype.UILib,
+			dialog = event.data.dialog,
 			dictionaryNote = dialog.getContentElement("dictionaries", "dictionaryNote").getElement(),
 			scayt_instance =  event.editor.scayt,
 			messageTemplate;
@@ -313,7 +314,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			messageTemplate = scayt_instance.getLocal("message_success_" + event.data.command + "Dic");
 			messageTemplate = messageTemplate.replace('%s', event.data.name);
 			dictionaryNote.setText(messageTemplate);
-			SCAYT.$(dictionaryNote.$).css({color: 'blue'});
+			UILib.css(dictionaryNote.$, {color: 'blue'});
 		} else {
 
 			// error message
@@ -326,7 +327,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				messageTemplate = messageTemplate.replace('%s', event.data.name);
 				dictionaryNote.setText(messageTemplate);
 			}
-			SCAYT.$(dictionaryNote.$).css({color: 'red'});
+			UILib.css(dictionaryNote.$, {color: 'red'});
 
 			if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
 				dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
@@ -337,7 +338,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	});
 
 	editor.on("scaytUserDictionaryActionError", function(event) {
-		var dialog = event.data.dialog,
+		var UILib = SCAYT.prototype.UILib,
+			dialog = event.data.dialog,
 			dictionaryNote = dialog.getContentElement("dictionaries", "dictionaryNote").getElement(),
 			scayt_instance =  event.editor.scayt,
 			messageTemplate;
@@ -351,7 +353,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			messageTemplate = messageTemplate.replace('%s', event.data.name);
 			dictionaryNote.setText(messageTemplate);
 		}
-		SCAYT.$(dictionaryNote.$).css({color: 'red'});
+		UILib.css(dictionaryNote.$, {color: 'red'});
 
 
 		if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
