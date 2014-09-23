@@ -1109,8 +1109,7 @@ CKEDITOR.on('scaytReady', function() {
 });
 
 /**
- * If enabled (set to `true`), turns on SCAYT automatically
- * after loading the editor.
+ * The parameter turns on/off SCAYT on the autostartup. If 'true', turns on SCAYT automatically after loading the editor.
  *
  *		config.scayt_autoStartup = true;
  *
@@ -1119,7 +1118,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Defines the number of SCAYT suggestions to show in the main context menu.
+ * The parameter defines the number of SCAYT suggestions to show in the main context menu.
  * Possible values are:
  *
  * * `0` (zero) &ndash; No suggestions are shown in the main context menu. All
@@ -1142,7 +1141,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Sets the customer ID for SCAYT. Used for hosted users only. Required for migration from free
+ * The parameter sets the customer ID for SCAYT. Used for hosted users only. Required for migration from free
  * to trial or paid versions.
  *
  *		// Load SCAYT using my customer ID.
@@ -1153,7 +1152,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Enables/disables the "More Suggestions" sub-menu in the context menu.
+ * The parameter enables/disables the "More Suggestions" sub-menu in the context menu.
  * Possible values are `'on'` and `'off'`.
  *
  *		// Disables the "More Suggestions" sub-menu.
@@ -1164,7 +1163,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Customizes the display of SCAYT context menu commands ("Add Word", "Ignore",
+ * The parameter customizes the display of SCAYT context menu commands ("Add Word", "Ignore",
  * "Ignore All", "Options", "Languages", "Dictionaries" and "About").
  * This must be a string with one or more of the following
  * words separated by a pipe character (`'|'`):
@@ -1191,7 +1190,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Sets the default spell checking language for SCAYT. Possible values are:
+ * The parameter sets the default spell checking language for SCAYT. Possible values are:
  * `'en_US'`, `'en_GB'`, `'pt_BR'`, `'da_DK'`,
  * `'nl_NL'`, `'en_CA'`, `'fi_FI'`, `'fr_FR'`,
  * `'fr_CA'`, `'de_DE'`, `'el_GR'`, `'it_IT'`,
@@ -1205,8 +1204,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Sets the visibility of particular tabs in the SCAYT dialog window and toolbar
- * button. This setting must contain a `1` (enabled) or `0`
+ * The parameter customizes the SCAYT dialog and SCAYT toolbar menu to show particular tabs/items.
+ * This setting must contain a `1` (enabled) or `0`
  * (disabled) value for each of the following entries, in this precise order,
  * separated by a comma (`','`): `'Options'`, `'Languages'`, and `'Dictionary'`.
  *
@@ -1218,7 +1217,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Allows to specify protocol for WSC service (ssrv.cgi) full path.
+ * The parameter allows to specify protocol for WSC service (ssrv.cgi) full path.
  *
  *		// Defines protocol for WSC service (ssrv.cgi) full path.
  *		config.scayt_serviceProtocol = 'https';
@@ -1228,7 +1227,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Allows to specify host for WSC service (ssrv.cgi) full path.
+ * The parameter allows to specify host for WSC service (ssrv.cgi) full path.
  *
  *		// Defines host for WSC service (ssrv.cgi) full path.
  *		config.scayt_serviceHost = 'my-host';
@@ -1238,7 +1237,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Allows to specify port for WSC service (ssrv.cgi) full path.
+ * The parameter allows to specify port for WSC service (ssrv.cgi) full path.
  *
  *		// Defines port for WSC service (ssrv.cgi) full path.
  *		config.scayt_servicePort = '2330';
@@ -1248,7 +1247,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Allows to specify path for WSC service (ssrv.cgi) full path.
+ * The parameter allows to specify path for WSC service (ssrv.cgi) full path.
  *
  *		// Defines host for WSC service (ssrv.cgi) full path.
  *		config.scayt_servicePath = 'my-path/ssrv.cgi';
@@ -1258,7 +1257,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Sets the URL to SCAYT core. Required to switch to the licensed version of SCAYT application.
+ * The parameter sets the URL to SCAYT core. Required to switch to the licensed version of SCAYT application.
  *
  * Further details available at [http://wiki.webspellchecker.net/doku.php?id=migration:hosredfreetolicensedck](http://wiki.webspellchecker.net/doku.php?id=migration:hosredfreetolicensedck)
  *
@@ -1269,8 +1268,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Links SCAYT to custom dictionaries. This is a string containing dictionary IDs
- * separared by commas (`','`). Available only for the licensed version.
+ * The parameter links SCAYT to custom dictionaries. This is a string containing dictionary IDs
+ * separated by commas (`','`). Available only for the licensed version.
  *
  * Further details at [http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed)
  *
@@ -1281,7 +1280,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Makes it possible to activate a custom dictionary in SCAYT. The user
+ * The parameter activates a User Dictionary in SCAYT. The user
  * dictionary name must be used. Available only for the licensed version.
  *
  *		config.scayt_userDictionaryName = 'MyDictionary';
@@ -1291,7 +1290,7 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * Defines the order SCAYT context menu items by groups.
+ * The parameter defines the order SCAYT context menu items by groups.
  * This must be a string with one or more of the following
  * words separated by a pipe character (`'|'`):
  *
