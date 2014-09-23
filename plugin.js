@@ -325,7 +325,9 @@ CKEDITOR.plugins.add('scayt', {
 				scaytInstance = editor.scayt;
 				if(scaytInstance) {
 					scaytInstance.removeMarkupInSelectionNode();
-					scaytInstance.fire('startSpellCheck');
+					setTimeout(function() {
+						scaytInstance.fire('startSpellCheck');
+					}, 0);
 				}
 			}
 		});
