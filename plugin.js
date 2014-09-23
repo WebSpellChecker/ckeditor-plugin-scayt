@@ -344,9 +344,11 @@ CKEDITOR.plugins.add('scayt', {
 					plugin.destroy(editor);
 					editor.fire('scaytButtonState', CKEDITOR.TRISTATE_DISABLED);
 				}
-			} /*else if (ev.data == 'wysiwyg') {
 
-			}*/
+				// remove custom data from body, to prevent waste properties showing in IE8
+				editor.document.getBody().removeAttribute('_jquid');
+				editor.document.getBody().removeAttribute('dir');
+			}
 		});
 
 		editor.on('afterCommandExec', function(ev) {
