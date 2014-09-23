@@ -421,6 +421,7 @@ CKEDITOR.plugins.add('scayt', {
 				reloadMarkupScayt();
 			}
 
+
 		}, this, null, 50);
 
 		editor.on('insertHtml', function() {
@@ -848,8 +849,6 @@ CKEDITOR.plugins.add('scayt', {
 			scaytInstance = editor.scayt,
 			menuItem = this.scaytMenuDefinition(editor),
 			itemList = {},
-			mainSuggestions = {},
-			moreSuggestions = {},
 			allowedOption = editor.config.scayt_contextCommands.split('|');
 
 		scaytInstance.fire('getSuggestionsList', {lang: scaytInstance.getLang(), word: word});
@@ -940,7 +939,8 @@ CKEDITOR.plugins.scayt = {
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
 				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
-				focused: _editor.editable().hasFocus // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
+				focused: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
+				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
@@ -1347,5 +1347,15 @@ CKEDITOR.on('scaytReady', function() {
  *
  *
  * @cfg {String|Array} [scayt_disableOptionsStorage ='']
+ * @member CKEDITOR.config
+ */
+
+ /**
+ * Specifies the names of tags that will be skipped while spell checking. This is a string containing tag names
+ * separated by commas (`','`). Please note that `'style'` tag would be added to specified tags list.
+ *
+ *		config.scayt_elementsToIgnore = 'del,pre';
+ *
+ * @cfg {String} [scayt_elementsToIgnore='style']
  * @member CKEDITOR.config
  */
