@@ -936,6 +936,7 @@ CKEDITOR.plugins.scayt = {
 				userDictionaryName  : _editor.config.scayt_userDictionaryName,
 				localization    : _editor.langCode,
 				customer_id     : _editor.config.scayt_customerId,
+				debug     : _editor.config.scayt_debug,
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
 				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
