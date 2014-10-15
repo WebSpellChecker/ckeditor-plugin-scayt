@@ -321,7 +321,7 @@ CKEDITOR.plugins.add('scayt', {
 					plugin.destroy(editor);
 					editor.fire('scaytButtonState', CKEDITOR.TRISTATE_DISABLED);
 				}
-			} else if(ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' || ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript') {
+			} else if(ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' || ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' || ev.data.name === 'enter') {
 				scaytInstance = editor.scayt;
 				if(scaytInstance) {
 					scaytInstance.removeMarkupInSelectionNode();
