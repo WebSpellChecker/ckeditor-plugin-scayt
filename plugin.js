@@ -346,8 +346,10 @@ CKEDITOR.plugins.add('scayt', {
 				}
 
 				// remove custom data from body, to prevent waste properties showing in IE8
-				editor.document.getBody().removeAttribute('_jquid');
-				editor.document.getBody().removeAttribute('dir');
+				if(editor.document) { //GitHub #84 : make sure that document exists(e.g. when startup mode set to 'source')
+					editor.document.getBody().removeAttribute('_jquid');
+					editor.document.getBody().removeAttribute('dir');
+				}
 			}
 		});
 
