@@ -242,18 +242,6 @@ CKEDITOR.plugins.add('scayt', {
 			plugin = CKEDITOR.plugins.scayt,
 			inline_mode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE);
 
-		CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
-
-			if (dialogDefinitionEvent.data.name === 'scaytDialog') {
-
-				var dialogDefinition = dialogDefinitionEvent.data.definition;
-
-				dialogDefinition.dialog.on('cancel', function(cancelEvent) {
-					return false;
-				}, this, null, -1);
-			}
-		});
-
 		var scaytDestroy = function() {
 
 			if (editor.scayt) {
@@ -1043,6 +1031,18 @@ CKEDITOR.plugins.scayt = {
 		}
 	}
 };
+
+CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
+
+	if (dialogDefinitionEvent.data.name === 'scaytDialog') {
+
+		var dialogDefinition = dialogDefinitionEvent.data.definition;
+
+		dialogDefinition.dialog.on('cancel', function(cancelEvent) {
+			return false;
+		}, this, null, -1);
+	}
+});
 
 CKEDITOR.on('scaytReady', function() {
 
