@@ -986,6 +986,15 @@ CKEDITOR.plugins.scayt = {
 				CKEDITOR.plugins.scayt.suggestions = _suggestionList;
 			});
 
+			// if selection has changed programmatically by SCAYT we need to react appropriately
+			_scaytInstance.subscribe('selectionIsChanged', function(data) {
+				var selection = _editor.getSelection();
+
+				if(selection.isLocked) {
+					_editor.lockSelection();
+				}
+			});
+
 			_editor.scayt = _scaytInstance;
 
 			_editor.fire('scaytButtonState', _editor.readOnly ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_ON);
