@@ -472,6 +472,10 @@ CKEDITOR.plugins.add('scayt', {
 			editor.config.scayt_maxSuggestions = 5;
 		}
 
+		if(editor.config.scayt_minWordLength === undefined || typeof editor.config.scayt_minWordLength != 'number' || editor.config.scayt_minWordLength < 1) {
+			editor.config.scayt_minWordLength = 4;
+		}
+
 		if(editor.config.scayt_customDictionaryIds === undefined || typeof editor.config.scayt_customDictionaryIds !== 'string') {
 			editor.config.scayt_customDictionaryIds = '';
 		}
@@ -920,18 +924,19 @@ CKEDITOR.plugins.scayt = {
 
 		this.loadScaytLibrary(editor, function(_editor) {
 			var _scaytInstanceOptions = {
-				lang        : _editor.config.scayt_sLang,
-				container       : _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
-				customDictionary  : _editor.config.scayt_customDictionaryIds,
-				userDictionaryName  : _editor.config.scayt_userDictionaryName,
-				localization    : _editor.langCode,
-				customer_id     : _editor.config.scayt_customerId,
-				debug     : _editor.config.scayt_debug,
+				lang 				: _editor.config.scayt_sLang,
+				container 			: _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
+				customDictionary 	: _editor.config.scayt_customDictionaryIds,
+				userDictionaryName 	: _editor.config.scayt_userDictionaryName,
+				localization 		: _editor.langCode,
+				customer_id 		: _editor.config.scayt_customerId,
+				debug 				: _editor.config.scayt_debug,
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
 				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
-				focused: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
-				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore
+				focused 			: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
+				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
+				minWordLength 		: _editor.config.scayt_minWordLength
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
@@ -1148,6 +1153,19 @@ CKEDITOR.on('scaytReady', function() {
  *		config.scayt_maxSuggestions = 0;
  *
  * @cfg {Number} [scayt_maxSuggestions=5]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter defines minimum length of the words that will be collected from editor's text for spell checking.
+ * Possible value is any positive number.
+ *
+ * Examples:
+ *
+ *		// Set minimum length of the words that will be collected from text.
+ *		config.scayt_minWordLength = 5;
+ *
+ * @cfg {Number} [scayt_minWordLength=4]
  * @member CKEDITOR.config
  */
 
