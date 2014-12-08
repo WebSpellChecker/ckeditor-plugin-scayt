@@ -336,7 +336,7 @@ CKEDITOR.plugins.add('scayt', {
 				// remove custom data from body, to prevent waste properties showing in IE8
 				if(editor.document) { //GitHub #84 : make sure that document exists(e.g. when startup mode set to 'source')
 					editor.document.getBody().removeAttribute('_jquid');
-					editor.document.getBody().removeAttribute('dir');
+					// editor.document.getBody().removeAttribute('dir'); // <-- This caused bugs in fullPage edit mode, where the user can't save a custom dir attribute! This bug has been around since 2012
 				}
 			}
 		});
