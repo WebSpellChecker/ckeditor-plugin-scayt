@@ -242,18 +242,6 @@ CKEDITOR.plugins.add('scayt', {
 			plugin = CKEDITOR.plugins.scayt,
 			inline_mode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE);
 
-		CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
-
-			if (dialogDefinitionEvent.data.name === 'scaytDialog') {
-
-				var dialogDefinition = dialogDefinitionEvent.data.definition;
-
-				dialogDefinition.dialog.on('cancel', function(cancelEvent) {
-					return false;
-				}, this, null, -1);
-			}
-		});
-
 		var scaytDestroy = function() {
 
 			if (editor.scayt) {
@@ -321,7 +309,7 @@ CKEDITOR.plugins.add('scayt', {
 					plugin.destroy(editor);
 					editor.fire('scaytButtonState', CKEDITOR.TRISTATE_DISABLED);
 				}
-			} else if(ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' || ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript') {
+			} else if(ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' || ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' || ev.data.name === 'enter') {
 				scaytInstance = editor.scayt;
 				if(scaytInstance) {
 					scaytInstance.removeMarkupInSelectionNode();
@@ -482,6 +470,10 @@ CKEDITOR.plugins.add('scayt', {
 
 		if(editor.config.scayt_maxSuggestions === undefined || typeof editor.config.scayt_maxSuggestions != 'number' || editor.config.scayt_maxSuggestions < 0) {
 			editor.config.scayt_maxSuggestions = 5;
+		}
+
+		if(editor.config.scayt_minWordLength === undefined || typeof editor.config.scayt_minWordLength != 'number' || editor.config.scayt_minWordLength < 1) {
+			editor.config.scayt_minWordLength = 4;
 		}
 
 		if(editor.config.scayt_customDictionaryIds === undefined || typeof editor.config.scayt_customDictionaryIds !== 'string') {
@@ -932,18 +924,19 @@ CKEDITOR.plugins.scayt = {
 
 		this.loadScaytLibrary(editor, function(_editor) {
 			var _scaytInstanceOptions = {
-				lang        : _editor.config.scayt_sLang,
-				container       : _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
-				customDictionary  : _editor.config.scayt_customDictionaryIds,
-				userDictionaryName  : _editor.config.scayt_userDictionaryName,
-				localization    : _editor.langCode,
-				customer_id     : _editor.config.scayt_customerId,
-				debug     : _editor.config.scayt_debug,
+				lang 				: _editor.config.scayt_sLang,
+				container 			: _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
+				customDictionary 	: _editor.config.scayt_customDictionaryIds,
+				userDictionaryName 	: _editor.config.scayt_userDictionaryName,
+				localization 		: _editor.langCode,
+				customer_id 		: _editor.config.scayt_customerId,
+				debug 				: _editor.config.scayt_debug,
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
 				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
-				focused: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
-				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore
+				focused 			: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
+				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
+				minWordLength 		: _editor.config.scayt_minWordLength
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
@@ -984,6 +977,15 @@ CKEDITOR.plugins.scayt = {
 				}
 
 				CKEDITOR.plugins.scayt.suggestions = _suggestionList;
+			});
+
+			// if selection has changed programmatically by SCAYT we need to react appropriately
+			_scaytInstance.subscribe('selectionIsChanged', function(data) {
+				var selection = _editor.getSelection();
+
+				if(selection.isLocked) {
+					_editor.lockSelection();
+				}
 			});
 
 			_editor.scayt = _scaytInstance;
@@ -1034,6 +1036,18 @@ CKEDITOR.plugins.scayt = {
 		}
 	}
 };
+
+CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
+
+	if (dialogDefinitionEvent.data.name === 'scaytDialog') {
+
+		var dialogDefinition = dialogDefinitionEvent.data.definition;
+
+		dialogDefinition.dialog.on('cancel', function(cancelEvent) {
+			return false;
+		}, this, null, -1);
+	}
+});
 
 CKEDITOR.on('scaytReady', function() {
 
@@ -1139,6 +1153,19 @@ CKEDITOR.on('scaytReady', function() {
  *		config.scayt_maxSuggestions = 0;
  *
  * @cfg {Number} [scayt_maxSuggestions=5]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter defines minimum length of the words that will be collected from editor's text for spell checking.
+ * Possible value is any positive number.
+ *
+ * Examples:
+ *
+ *		// Set minimum length of the words that will be collected from text.
+ *		config.scayt_minWordLength = 5;
+ *
+ * @cfg {Number} [scayt_minWordLength=4]
  * @member CKEDITOR.config
  */
 
