@@ -261,6 +261,10 @@ CKEDITOR.plugins.add('scayt', {
 			var editable = editor.editable();
 
 			editable.attachListener( editable, 'focus', function( evt ) {
+				if( CKEDITOR.plugins.scayt && !editor.scayt ) {
+					contentDomReady();
+				}
+
 				var pluginStatus = CKEDITOR.plugins.scayt && CKEDITOR.plugins.scayt.state[editor.name] && editor.scayt,
 					selectedElement, ranges, textLength, range;
 
@@ -430,19 +434,11 @@ CKEDITOR.plugins.add('scayt', {
 			dialog.selectPage(scaytInstance.tabToOpen);
 		});
 
-		/*
-		After each 'paste' CKEditor call insertHtml and we have subscribed for 'insertHtml' event before
-		editor.on('paste', function(ev)
-			{
-				var scaytInstance = plugin.getScayt(editor);
-				if(!scaytInstance || scaytInstance.enabled === false)
-					return;
-
-				setTimeout(function() {
-					scaytInstance.removeMarkupInSelectionNode();
-					scaytInstance.fire("startSpellCheck");
-				}, 0);
-			});*/
+		
+		// After each 'paste' CKEditor call insertHtml and we have subscribed for 'insertHtml' event before
+		editor.on('paste', function(ev) {
+			reloadMarkupScayt();
+		});
 	},
 	parseConfig: function(editor) {
 		var plugin = CKEDITOR.plugins.scayt;
