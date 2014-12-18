@@ -434,11 +434,13 @@ CKEDITOR.plugins.add('scayt', {
 			dialog.selectPage(scaytInstance.tabToOpen);
 		});
 
-		
-		// After each 'paste' CKEditor call insertHtml and we have subscribed for 'insertHtml' event before
 		editor.on('paste', function(ev) {
-			reloadMarkupScayt();
-		});
+			var scaytInstance = editor.scayt;
+
+			if(scaytInstance) {
+				scaytInstance.removeMarkupInSelectionNode();
+			}
+		}, null, null, 0);
 	},
 	parseConfig: function(editor) {
 		var plugin = CKEDITOR.plugins.scayt;
