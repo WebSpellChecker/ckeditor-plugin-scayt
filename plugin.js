@@ -142,70 +142,90 @@ CKEDITOR.plugins.add('scayt', {
 				editor.addMenuGroup('scayt_' + items_order[pos], pos - 10);
 			}
 		}
+		
+		editor.addCommand( 'scaytToggle', {
+			exec: function(editor) {
+				var scaytInstance = editor.scayt;
+
+				plugin.state[editor.name] = !plugin.state[editor.name];
+
+				if(plugin.state[editor.name] === true) {
+					if(!scaytInstance) {
+						plugin.createScayt(editor);
+					}
+				} else {
+					if(scaytInstance) {
+						plugin.destroy(editor);
+					}
+				}
+			}
+		} );
+
+		editor.addCommand( 'scaytAbout', {
+			exec: function(editor) {
+				var scaytInstance = editor.scayt;
+
+				scaytInstance.tabToOpen = 'about';
+				editor.lockSelection();
+				editor.openDialog(self.dialogName);
+			}
+		} );
+		
+		editor.addCommand( 'scaytOptions', {
+			exec: function(editor) {
+				var scaytInstance = editor.scayt;
+
+				scaytInstance.tabToOpen = 'options';
+				editor.lockSelection();
+				editor.openDialog(self.dialogName);
+			}
+		} );
+
+		editor.addCommand( 'scaytLangs', {
+			exec: function(editor) {
+				var scaytInstance = editor.scayt;
+
+				scaytInstance.tabToOpen = 'langs';
+				editor.lockSelection();
+				editor.openDialog(self.dialogName);
+			}
+		} );
+
+		editor.addCommand( 'scaytDict', {
+			exec: function(editor) {
+				var scaytInstance = editor.scayt;
+
+				scaytInstance.tabToOpen = 'dictionaries';
+				editor.lockSelection();
+				editor.openDialog(self.dialogName);
+			}
+		} );
 
 		var uiMenuItems = {
 			scaytToggle: {
 				label : editor.lang.scayt.btn_enable,
 				group : menuGroup,
-				onClick : function() {
-					var scaytInstance = editor.scayt;
-
-					plugin.state[editor.name] = !plugin.state[editor.name];
-
-					if(plugin.state[editor.name] === true) {
-						if(!scaytInstance) {
-							plugin.createScayt(editor);
-						}
-					} else {
-						if(scaytInstance) {
-							plugin.destroy(editor);
-						}
-					}
-				}
+				command: 'scaytToggle'
 			},
 			scaytAbout: {
 				label : editor.lang.scayt.btn_about,
 				group : menuGroup,
-				onClick : function() {
-					var scaytInstance = editor.scayt;
-
-					scaytInstance.tabToOpen = 'about';
-					editor.lockSelection();
-					editor.openDialog(self.dialogName);
-				}
+				command: 'scaytAbout'
 			},
 			scaytOptions: {
 				label : editor.lang.scayt.btn_options,
 				group : menuGroup,
-				onClick : function() {
-					var scaytInstance = editor.scayt;
-
-					scaytInstance.tabToOpen = 'options';
-					editor.lockSelection();
-					editor.openDialog(self.dialogName);
-				}
+				command: 'scaytOptions'
 			},
 			scaytLangs: {
 				label : editor.lang.scayt.btn_langs,
 				group : menuGroup,
-				onClick : function() {
-					var scaytInstance = editor.scayt;
-
-					scaytInstance.tabToOpen = 'langs';
-					editor.lockSelection();
-					editor.openDialog(self.dialogName);
-				}
+				command: 'scaytLangs'
 			},
 			scaytDict: {
 				label : editor.lang.scayt.btn_dictionaries,
 				group : menuGroup,
-				onClick : function() {
-					var scaytInstance = editor.scayt;
-
-					scaytInstance.tabToOpen = 'dictionaries';
-					editor.lockSelection();
-					editor.openDialog(self.dialogName);
-				}
+				command: 'scaytDict'
 			}
 		};
 
