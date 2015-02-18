@@ -294,9 +294,12 @@ CKEDITOR.plugins.add('scayt', {
 
 					for(var i = 0; i < ranges.length; i++) {
 						range = ranges[i];
-						textLength = range.startContainer.getText().length;
-						if(textLength < range.startOffset || textLength < range.endOffset) {
-							editor.unlockSelection(false);
+						// we need to check type of node value in order to avoid error in IE when accessing 'nodeValue' property
+						if(typeof range.startContainer.$.nodeValue === 'string') {
+							textLength = range.startContainer.getText().length;
+							if(textLength < range.startOffset || textLength < range.endOffset) {
+								editor.unlockSelection(false);
+							}
 						}
 					}
 				}
