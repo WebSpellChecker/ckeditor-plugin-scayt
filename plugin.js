@@ -260,20 +260,23 @@ CKEDITOR.plugins.add('scayt', {
 	bindEvents: function(editor) {
 		var self = this,
 			plugin = CKEDITOR.plugins.scayt,
-			inline_mode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE);
+			inline_mode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE),
+			scaytCreated = false;
 
 		var scaytDestroy = function() {
 
 			if (editor.scayt) {
 				plugin.destroy(editor);
+				scaytCreated = false;
 			}
 		};
 
 		var contentDomReady = function() {
 
 			// The event is fired when editable iframe node was reinited so we should restart our service
-			if (plugin.state[editor.name] && !editor.readOnly) {
+			if (plugin.state[editor.name] && !editor.readOnly && !scaytCreated) {
 				plugin.createScayt(editor);
+				scaytCreated = true;
 			}
 		};
 
@@ -1022,14 +1025,24 @@ CKEDITOR.plugins.scayt = {
 		editor.fire('scaytButtonState', CKEDITOR.TRISTATE_OFF);
 	},
 	loadScaytLibrary: function(editor, callback) {
-		var self = this;
+		var self = this,
+			date,
+			timestamp,
+			scaytUrl;
 
 		if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
 			// add onLoad callbacks for editors while SCAYT is loading
 			this.loadingHelper[editor.name] = callback;
 			this.loadingHelper.loadOrder.push(editor.name);
 
-			CKEDITOR.scriptLoader.load(editor.config.scayt_srcUrl, function(success) {
+			//creating unique timestamp for SCAYT URL
+			date = new Date();
+			timestamp = date.getTime();
+			scaytUrl = editor.config.scayt_srcUrl + "?" + timestamp;
+
+
+			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
+
 				var editorName;
 
 				CKEDITOR.fireOnce('scaytReady');
