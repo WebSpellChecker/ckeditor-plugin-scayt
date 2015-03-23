@@ -414,7 +414,7 @@ CKEDITOR.plugins.add('scayt', {
 			scaytDestroy();
 
 			// in inline mode SetData does not fire contentDom event
-			if(editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE) {
+			if(editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE || editor.plugins.divarea) {
 				contentDomtHandler();
 			}
 		}, this, null, 50);
