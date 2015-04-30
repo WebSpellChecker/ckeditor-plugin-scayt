@@ -292,12 +292,12 @@ CKEDITOR.plugins.add('scayt', {
 						range = ranges[i];
 						// we need to check type of node value in order to avoid error in IE when accessing 'nodeValue' property
 						if(typeof range.startContainer.$.nodeValue === 'string') {
-						textLength = range.startContainer.getText().length;
-						if(textLength < range.startOffset || textLength < range.endOffset) {
-							editor.unlockSelection(false);
+							textLength = range.startContainer.getText().length;
+							if(textLength < range.startOffset || textLength < range.endOffset) {
+								editor.unlockSelection(false);
+							}
 						}
 					}
-				}
 				}
 			}, this, null, -10 );	// priority "-10" is set to call SCAYT CKEDITOR.editor#unlockSelection before CKEDITOR.editor#unlockSelection call
 		};
