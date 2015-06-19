@@ -321,7 +321,8 @@ CKEDITOR.plugins.add('scayt', {
 		editor.on('contentDom', contentDomHandler);
 
 		editor.on('beforeCommandExec', function(ev) {
-			var scaytInstance = editor.scayt;
+			var scaytInstance = editor.scayt,
+				removeMarkupInsideSelection = true;
 
 			// TODO: after switching in source mode not recreate SCAYT instance, try to just rerun markuping to don't make requests to server
 			if(ev.data.name in plugin.options.disablingCommandExec && editor.mode == 'wysiwyg') {
@@ -329,9 +330,16 @@ CKEDITOR.plugins.add('scayt', {
 					plugin.destroy(editor);
 					editor.fire('scaytButtonState', CKEDITOR.TRISTATE_DISABLED);
 				}
-			} else if(ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' || ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' || ev.data.name === 'enter') {
+			} else if(	ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' ||
+						ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' ||
+						ev.data.name === 'enter' || ev.data.name === 'cut') {
 				if(scaytInstance) {
-					scaytInstance.removeMarkupInSelectionNode();
+					// we beed to focus editor in order to bookmark selection before we remove our markup
+					if(ev.data.name === 'cut') {
+						editor.focus();
+						removeMarkupInsideSelection = false;
+					}
+					scaytInstance.removeMarkupInSelectionNode({removeInside: removeMarkupInsideSelection});
 
 					setTimeout(function() {
 						scaytInstance.fire('startSpellCheck, startGrammarCheck');
@@ -515,7 +523,7 @@ CKEDITOR.plugins.add('scayt', {
 			editor.config.scayt_userDictionaryName = null;
 		}
 
-		if (typeof editor.config.scayt_uiTabs === 'string' && editor.config.scayt_uiTabs.split(',').length === 3) {
+		if(typeof editor.config.scayt_uiTabs === 'string' && editor.config.scayt_uiTabs.split(',').length === 3) {
 			var scayt_uiTabs = [], _tempUITabs = [];
 			editor.config.scayt_uiTabs = editor.config.scayt_uiTabs.split(',');
 
@@ -1184,22 +1192,27 @@ CKEDITOR.plugins.scayt = {
 			timestamp = date.getTime();
 			scaytUrl = editor.config.scayt_srcUrl + '?' + timestamp;
 
-			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
-				var editorName;
+			if (!this.loadingHelper.ckscaytLoading) {
+				CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
+					var editorName;
 
-				CKEDITOR.fireOnce('scaytReady');
+					CKEDITOR.fireOnce('scaytReady');
 
-				for(var i = 0; i < self.loadingHelper.loadOrder.length; i++) {
-					editorName = self.loadingHelper.loadOrder[i];
+					for(var i = 0; i < self.loadingHelper.loadOrder.length; i++) {
+						editorName = self.loadingHelper.loadOrder[i];
 
-					if(typeof self.loadingHelper[editorName] === 'function') {
-						self.loadingHelper[editorName](CKEDITOR.instances[editorName]);
+						if(typeof self.loadingHelper[editorName] === 'function') {
+							self.loadingHelper[editorName](CKEDITOR.instances[editorName]);
+						}
+
+						delete self.loadingHelper[editorName];
 					}
+					self.loadingHelper.loadOrder = [];
+				});
+				this.loadingHelper.ckscaytLoading = true;
+			}
 
-					delete self.loadingHelper[editorName];
-				}
-				self.loadingHelper.loadOrder = [];
-			});
+
 		} else if(window.SCAYT && typeof window.SCAYT.CKSCAYT === 'function') {
 			CKEDITOR.fireOnce('scaytReady');
 
