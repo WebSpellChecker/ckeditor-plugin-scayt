@@ -322,6 +322,7 @@ CKEDITOR.plugins.add('scayt', {
 
 		editor.on('beforeCommandExec', function(ev) {
 			var scaytInstance = editor.scayt,
+				forceBookmark = false,
 				removeMarkupInsideSelection = true;
 
 			// TODO: after switching in source mode not recreate SCAYT instance, try to just rerun markuping to don't make requests to server
@@ -334,12 +335,16 @@ CKEDITOR.plugins.add('scayt', {
 						ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' ||
 						ev.data.name === 'enter' || ev.data.name === 'cut') {
 				if(scaytInstance) {
-					// we beed to focus editor in order to bookmark selection before we remove our markup
 					if(ev.data.name === 'cut') {
-						editor.focus();
 						removeMarkupInsideSelection = false;
+						// We need to force bookmark before we remove our markup.
+						// Otherwise we will get issues with cutting text via context menu.
+						forceBookmark = true;
 					}
-					scaytInstance.removeMarkupInSelectionNode({removeInside: removeMarkupInsideSelection});
+					scaytInstance.removeMarkupInSelectionNode({
+						removeInside: removeMarkupInsideSelection,
+						forceBookmark: forceBookmark
+					});
 
 					setTimeout(function() {
 						scaytInstance.fire('startSpellCheck, startGrammarCheck');
