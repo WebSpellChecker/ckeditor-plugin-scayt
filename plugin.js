@@ -1199,7 +1199,10 @@ CKEDITOR.plugins.scayt = {
 			//creating unique timestamp for SCAYT URL
 			date = new Date();
 			timestamp = date.getTime();
-			scaytUrl = editor.config.scayt_srcUrl + '?' + timestamp;
+			scaytUrl = editor.config.scayt_srcUrl;
+
+			//if there already implemented timstamp for scayr_srcURL use it, if not use our timestamp
+			scaytUrl = scaytUrl + (scaytUrl.indexOf('?') >= 0 ? '' : '?' + timestamp);
 
 			if (!this.loadingHelper.ckscaytLoading) {
 				CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
