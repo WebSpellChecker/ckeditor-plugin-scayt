@@ -1183,10 +1183,14 @@ CKEDITOR.plugins.scayt = {
 			timestamp,
 			scaytUrl;
 
+		// no need to process load requests from same editor as it can cause bugs with
+		// loading ckscayt app due to subsequent calls of some events
+		// need to be before 'if' statement, because of timing issue in CKEDITOR.scriptLoader
+		// when callback executing is delayed for a few milliseconds, and scayt can be created twise
+		// on one instance
+		if(this.loadingHelper[editor.name]) return;
+
 		if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
-			// no need to process load requests from same editor as it can cause bugs with
-			// loading ckscayt app due to subsequent calls of some events
-			if(this.loadingHelper[editor.name]) return;
 
 			// add onLoad callbacks for editors while SCAYT is loading
 			this.loadingHelper[editor.name] = callback;
