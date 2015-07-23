@@ -302,12 +302,18 @@ CKEDITOR.plugins.add('scayt', {
 
 		var contentDomHandler = function() {
 			if(inline_mode) {
-				editor.on('blur', scaytDestroy);
-				editor.on('focus', contentDomReady);
 
-				// We need to check if editor has focus(created) right now.
-				// If editor is active - make attempt to create scayt
-				if(editor.focusManager.hasFocus) {
+				if (!editor.config.scayt_inlineModeImmediateMarkup) {
+					editor.on('blur', scaytDestroy);
+					editor.on('focus', contentDomReady);
+
+					// We need to check if editor has focus(created) right now.
+					// If editor is active - make attempt to create scayt
+					if(editor.focusManager.hasFocus) {
+						contentDomReady();
+					}
+
+				} else {
 					contentDomReady();
 				}
 
@@ -498,6 +504,9 @@ CKEDITOR.plugins.add('scayt', {
 
 		if(typeof editor.config.grayt_autoStartup !== 'boolean' || inlineMode || editor.plugins.divarea) {
 			editor.config.grayt_autoStartup = false;
+		}
+		if(typeof editor.config.scayt_inlineModeImmediateMarkup !== 'boolean') {
+			editor.config.scayt_inlineModeImmediateMarkup = false;
 		}
 		plugin.state.grayt[editor.name] = editor.config.grayt_autoStartup;
 
