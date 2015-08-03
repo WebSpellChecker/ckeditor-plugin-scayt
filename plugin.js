@@ -1041,8 +1041,11 @@ CKEDITOR.plugins.add('scayt', {
 
 				eventObject[replaceKeyName] = suggestion;
 				scaytInstance.replaceSelectionNode(eventObject);
-				// we need to remove markup from selection node here in case that there are still our markup - grayt or scayt
-				scaytInstance.removeMarkupInSelectionNode();
+
+				// we need to remove grammar markup from selection node if we just performed replace action for misspelling
+				if(updateEventName === 'startGrammarCheck') {
+					scaytInstance.removeMarkupInSelectionNode({grammarOnly: true});
+				}
 				// for grayt problem replacement we need to fire 'startSpellCheck'
 				// for scayt misspelling replacement we need to fire 'startGrammarCheck'
 				scaytInstance.fire(updateEventName);
