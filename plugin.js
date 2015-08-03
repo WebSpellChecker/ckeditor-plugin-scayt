@@ -354,6 +354,9 @@ CKEDITOR.plugins.add('scayt', {
 					if(ev.data.name === 'language') {
 						selectedLangElement = editor.plugins.language.getCurrentLangElement(editor);
 						selectedLangElement = selectedLangElement && selectedLangElement.$;
+						// We need to force bookmark before we remove our markup.
+						// Otherwise we will get issues with cutting text via language plugin menu.
+						forceBookmark = true;
 					}
 
 					scaytInstance.removeMarkupInSelectionNode({
