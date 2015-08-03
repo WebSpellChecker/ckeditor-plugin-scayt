@@ -328,6 +328,7 @@ CKEDITOR.plugins.add('scayt', {
 
 		editor.on('beforeCommandExec', function(ev) {
 			var scaytInstance = editor.scayt,
+				selectedLangElement = null,
 				forceBookmark = false,
 				removeMarkupInsideSelection = true;
 
@@ -339,7 +340,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 			} else if(	ev.data.name === 'bold' || ev.data.name === 'italic' || ev.data.name === 'underline' ||
 						ev.data.name === 'strike' || ev.data.name === 'subscript' || ev.data.name === 'superscript' ||
-						ev.data.name === 'enter' || ev.data.name === 'cut') {
+						ev.data.name === 'enter' || ev.data.name === 'cut' || ev.data.name === 'language') {
 				if(scaytInstance) {
 					if(ev.data.name === 'cut') {
 						removeMarkupInsideSelection = false;
@@ -347,24 +348,19 @@ CKEDITOR.plugins.add('scayt', {
 						// Otherwise we will get issues with cutting text via context menu.
 						forceBookmark = true;
 					}
+
+					// We need to remove all SCAYT markup from 'lang' node before it will be deleted.
+					// We need to remove SCAYT markup from selected text before creating 'lang' node as well.
+					if(ev.data.name === 'language') {
+						selectedLangElement = editor.plugins.language.getCurrentLangElement(editor);
+						selectedLangElement = selectedLangElement && selectedLangElement.$;
+					}
+
 					scaytInstance.removeMarkupInSelectionNode({
 						removeInside: removeMarkupInsideSelection,
-						forceBookmark: forceBookmark
+						forceBookmark: forceBookmark,
+						selectionNode: selectedLangElement
 					});
-
-					setTimeout(function() {
-						scaytInstance.fire('startSpellCheck, startGrammarCheck');
-					}, 0);
-				}
-			}
-
-			// We need to remove all SCAYT markup from 'lang' node before it will be deleted.
-			// We need to remove SCAYT markup from selected text before creating 'lang' node as well.
-			if(ev.data.name === 'language') {
-				var selectedLangElement = editor.plugins.language.getCurrentLangElement(editor);
-
-				if(scaytInstance) {
-					scaytInstance.removeMarkupInSelectionNode({selectionNode: selectedLangElement && selectedLangElement.$});
 
 					setTimeout(function() {
 						scaytInstance.fire('startSpellCheck, startGrammarCheck');
