@@ -1355,9 +1355,8 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
- * The parameter turns on/off SCAYT initiation on blured inline CKEditor. If 'true', SCAYT initiates on CKEditor
- *    inline editor (on page load if scayt_autoStartup also 'true'), and markup doesn't removed (SCAYT instanse doesn't destroyed)
- *    from focused inline edtior on blure;
+ * The parameter turns on/off SCAYT initiation when Inline CKEditor is not focused. SCAYT markup is taken place (SCAYT instance is not destroyed)
+ * in both Inline CKEditor's states, focused and unfocused.
  *
  *		 config.scayt_inlineModeImmediateMarkup = true;
  *
