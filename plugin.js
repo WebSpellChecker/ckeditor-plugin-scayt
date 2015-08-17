@@ -489,8 +489,7 @@ CKEDITOR.plugins.add('scayt', {
 		}, null, null, 0);
 	},
 	parseConfig: function(editor) {
-		var plugin = CKEDITOR.plugins.scayt,
-			inlineMode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE);
+		var plugin = CKEDITOR.plugins.scayt;
 
 		// preprocess config for backward compatibility
 		plugin.replaceOldOptionsNames(editor.config);
@@ -501,7 +500,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 		plugin.state.scayt[editor.name] = editor.config.scayt_autoStartup;
 
-		if(typeof editor.config.grayt_autoStartup !== 'boolean' || inlineMode || editor.plugins.divarea) {
+		if(typeof editor.config.grayt_autoStartup !== 'boolean') {
 			editor.config.grayt_autoStartup = false;
 		}
 		if(typeof editor.config.scayt_inlineModeImmediateMarkup !== 'boolean') {
