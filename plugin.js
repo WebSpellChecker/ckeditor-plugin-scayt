@@ -1141,7 +1141,7 @@ CKEDITOR.plugins.scayt = {
 
 			// Fix bug with getting wrong uid after re-creating SCAYT instance.
 			// And as result - restoring options for wrong instance
-			if(!container.id) {
+			if(!container.id && _editor.element.getAttribute('id')) {
 				container.id = _editor.element.getAttribute('id');
 			}
 
