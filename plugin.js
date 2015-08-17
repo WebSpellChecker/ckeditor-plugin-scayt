@@ -359,15 +359,14 @@ CKEDITOR.plugins.add('scayt', {
 						forceBookmark = true;
 					}
 
-					scaytInstance.removeMarkupInSelectionNode({
-						removeInside: removeMarkupInsideSelection,
-						forceBookmark: forceBookmark,
-						selectionNode: selectedLangElement
+					editor.fire('reloadMarkupScayt', {
+						removeOptions: {
+							removeInside: removeMarkupInsideSelection,
+							forceBookmark: forceBookmark,
+							selectionNode: selectedLangElement
+						},
+						timeout: 0
 					});
-
-					setTimeout(function() {
-						scaytInstance.fire('startSpellCheck, startGrammarCheck');
-					}, 0);
 				}
 			}
 		});
@@ -440,14 +439,22 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		}, this, null, 50);
 
-		function reloadMarkupScayt() {
-			var scaytInstance = editor.scayt;
+		editor.on('reloadMarkupScayt', function(ev) {
+			var scaytInstance = editor.scayt,
+				removeOptions = ev.data && ev.data.removeOptions,
+				timeout = ev.data && ev.data.timeout;
 
 			if (scaytInstance) {
-				scaytInstance.removeMarkupInSelectionNode();
-				scaytInstance.fire('startSpellCheck, startGrammarCheck');
+				scaytInstance.removeMarkupInSelectionNode(removeOptions);
+				if(typeof timeout === 'number') {
+					setTimeout(function() {
+						scaytInstance.fire('startSpellCheck, startGrammarCheck');
+					}, timeout);
+				} else {
+					scaytInstance.fire('startSpellCheck, startGrammarCheck');
+				}
 			}
-		}
+		});
 
 		// Reload spell-checking for current word after insertion completed.
 		editor.on('insertElement', function() {
@@ -455,21 +462,21 @@ CKEDITOR.plugins.add('scayt', {
 			// IE bug: we need wait here to make sure that focus is returned to editor, and we can store the selection before we proceed with markup
 			if ( CKEDITOR.env.ie ) {
 				setTimeout(function() {
-					reloadMarkupScayt();
+					editor.fire('reloadMarkupScayt');
 				}, 50);
 			} else {
-				reloadMarkupScayt();
+				editor.fire('reloadMarkupScayt');
 			}
 
 
 		}, this, null, 50);
 
 		editor.on('insertHtml', function() {
-			reloadMarkupScayt();
+			editor.fire('reloadMarkupScayt');
 		}, this, null, 50);
 
 		editor.on('insertText', function() {
-			reloadMarkupScayt();
+			editor.fire('reloadMarkupScayt');
 		}, this, null, 50);
 
 		// The event is listening to open necessary dialog tab
@@ -1249,14 +1256,32 @@ CKEDITOR.plugins.scayt = {
 };
 
 CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
+	var dialogName = dialogDefinitionEvent.data.name,
+		dialogDefinition = dialogDefinitionEvent.data.definition,
+		dialog = dialogDefinition.dialog;
 
-	if (dialogDefinitionEvent.data.name === 'scaytDialog') {
-
-		var dialogDefinition = dialogDefinitionEvent.data.definition;
-
-		dialogDefinition.dialog.on('cancel', function(cancelEvent) {
+	if (dialogName === 'scaytDialog') {
+		dialog.on('cancel', function(cancelEvent) {
 			return false;
 		}, this, null, -1);
+	}
+
+	if (dialogName === 'link') {
+		dialog.on('ok', function(okEvent) {
+			var editor = okEvent.sender && okEvent.sender.getParentEditor();
+
+			if(editor) {
+				setTimeout(function() {
+					editor.fire('reloadMarkupScayt', {
+						removeOptions: {
+							removeInside: true,
+							forceBookmark: true
+						},
+						timeout: 0
+					});
+				}, 0);
+			}
+		});
 	}
 });
 
@@ -1304,7 +1329,7 @@ CKEDITOR.on('scaytReady', function() {
 		});
 	}
 
-	if(CKEDITOR.config.scayt_handleUndoRedo === true) {
+	if (CKEDITOR.config.scayt_handleUndoRedo === true) {
 		var undoImagePrototype = CKEDITOR.plugins.undo.Image.prototype;
 
 		// add backword compatibility for CKEDITOR 4.2. method equals was repleced on other method
