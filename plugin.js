@@ -458,17 +458,8 @@ CKEDITOR.plugins.add('scayt', {
 
 		// Reload spell-checking for current word after insertion completed.
 		editor.on('insertElement', function() {
-
 			// IE bug: we need wait here to make sure that focus is returned to editor, and we can store the selection before we proceed with markup
-			if ( CKEDITOR.env.ie ) {
-				setTimeout(function() {
-					editor.fire('reloadMarkupScayt');
-				}, 50);
-			} else {
-				editor.fire('reloadMarkupScayt');
-			}
-
-
+			editor.fire('reloadMarkupScayt', {removeOptions: {forceBookmark: true}});
 		}, this, null, 50);
 
 		editor.on('insertHtml', function() {
