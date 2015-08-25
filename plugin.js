@@ -680,22 +680,12 @@ CKEDITOR.plugins.add('scayt', {
 			var dataFilterRules = {
 				elements: {
 					span: function(element) {
-						var scaytState = plugin.state.scayt[editor.name],
-							graytState = plugin.state.grayt[editor.name];
 
-						if( plugin && element.classes && (
-							  (scaytState && CKEDITOR.tools.search(element.classes, plugin.options.misspelled_word_class)) ||
-							  (graytState && CKEDITOR.tools.search(element.classes, plugin.options.problem_grammar_class))
-						  ) ) {
+						var scaytState = element.hasClass(plugin.options.misspelled_word_class) && element.attributes[plugin.options.data_attribute_name],
+							graytState = element.hasClass(plugin.options.problem_grammar_class) && element.attributes[plugin.options.problem_grammar_data_attribute];
 
-							if (element.classes && element.parent.type === CKEDITOR.NODE_DOCUMENT_FRAGMENT) {
-								delete element.attributes['style'];
-								delete element.name;
-							} else {
-								delete element.classes[CKEDITOR.tools.indexOf(element.classes, plugin.options.misspelled_word_class)];
-								delete element.classes[CKEDITOR.tools.indexOf(element.classes, plugin.options.problem_grammar_class)];
-							}
-
+						if(plugin && (scaytState || graytState)) {
+							delete element.name;
 						}
 
 						return element;
@@ -710,15 +700,11 @@ CKEDITOR.plugins.add('scayt', {
 			var htmlFilterRules = {
 				elements: {
 					span: function(element) {
-						var scaytState = plugin.state.scayt[editor.name] && element.hasClass(plugin.options.misspelled_word_class) && element.attributes[plugin.options.data_attribute_name],
-							graytState = plugin.state.grayt[editor.name] && element.hasClass(plugin.options.problem_grammar_class) && element.attributes[plugin.options.problem_grammar_data_attribute];
+
+						var scaytState = element.hasClass(plugin.options.misspelled_word_class) && element.attributes[plugin.options.data_attribute_name],
+							graytState = element.hasClass(plugin.options.problem_grammar_class) && element.attributes[plugin.options.problem_grammar_data_attribute];
 
 						if(plugin && (scaytState || graytState)) {
-
-							element.removeClass(plugin.options.misspelled_word_class);
-							element.removeClass(plugin.options.problem_grammar_class);
-							delete element.attributes[plugin.options.data_attribute_name];
-							delete element.attributes[plugin.options.problem_grammar_data_attribute];
 							delete element.name;
 						}
 
@@ -1378,6 +1364,7 @@ CKEDITOR.on('scaytReady', function() {
  * @cfg {Boolean} [scayt_inlineModeImmediateMarkup=false]
  * @member CKEDITOR.config
  */
+
 
 /**
  * The parameter defines the number of SCAYT suggestions to show in the main context menu.
