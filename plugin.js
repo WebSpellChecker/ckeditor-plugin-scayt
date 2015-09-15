@@ -604,6 +604,22 @@ CKEDITOR.plugins.add('scayt', {
 			editor.config.scayt_multiLanguageStyles = {};
 		}
 
+		if(editor.config.scayt_ignoreAllCapsWords && typeof editor.config.scayt_ignoreAllCapsWords !== 'boolean') {
+			editor.config.scayt_ignoreAllCapsWords = false;
+		}
+
+		if(editor.config.scayt_ignoreDomainNames && typeof editor.config.scayt_ignoreDomainNames !== 'boolean') {
+			editor.config.scayt_ignoreDomainNames = false;
+		}
+
+		if(editor.config.scayt_ignoreWordsWithMixedCases && typeof editor.config.scayt_ignoreWordsWithMixedCases !== 'boolean') {
+			editor.config.scayt_ignoreWordsWithMixedCases = false;
+		}
+
+		if(editor.config.scayt_ignoreWordsWithNumbers && typeof editor.config.scayt_ignoreWordsWithNumbers !== 'boolean') {
+			editor.config.scayt_ignoreWordsWithNumbers = false;
+		}
+
 		if( editor.config.scayt_disableOptionsStorage ) {
 			var userOptions = CKEDITOR.tools.isArray( editor.config.scayt_disableOptionsStorage ) ? editor.config.scayt_disableOptionsStorage : ( typeof editor.config.scayt_disableOptionsStorage === 'string' ) ? [ editor.config.scayt_disableOptionsStorage ] : undefined,
 				availableValue = [ 'all', 'options', 'lang', 'ignore-all-caps-words', 'ignore-domain-names', 'ignore-words-with-mixed-cases', 'ignore-words-with-numbers'],
@@ -1114,6 +1130,23 @@ CKEDITOR.plugins.scayt = {
 
 			if(_editor.config.scayt_servicePath) {
 				scaytInstanceOptions['service_path'] = _editor.config.scayt_servicePath;
+			}
+
+			//predefined options
+			if(typeof _editor.config.scayt_ignoreAllCapsWords === 'boolean') {
+				scaytInstanceOptions['ignore-all-caps-words'] = _editor.config.scayt_ignoreAllCapsWords;
+			}
+
+			if(typeof _editor.config.scayt_ignoreDomainNames === 'boolean') {
+				scaytInstanceOptions['ignore-domain-names'] = _editor.config.scayt_ignoreDomainNames;
+			}
+
+			if(typeof _editor.config.scayt_ignoreWordsWithMixedCases === 'boolean') {
+				scaytInstanceOptions['ignore-words-with-mixed-cases'] = _editor.config.scayt_ignoreWordsWithMixedCases;
+			}
+
+			if(typeof _editor.config.scayt_ignoreWordsWithNumbers === 'boolean') {
+				scaytInstanceOptions['ignore-words-with-numbers'] = _editor.config.scayt_ignoreWordsWithNumbers;
 			}
 
 			// Fix bug with getting wrong uid after re-creating SCAYT instance.
