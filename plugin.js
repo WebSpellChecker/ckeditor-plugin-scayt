@@ -1624,6 +1624,46 @@ CKEDITOR.on('scaytReady', function() {
  */
 
 /**
+ * The parameter that turns off\on 'ignore-all-caps-words' option by default
+ * It may be needed to disableOptionStorage for this parameter, because optionStorage has higher priority.
+ *
+ *		config.scayt_ignoreAllCapsWords = false;
+ *
+ * @cfg {Boolean} [scayt_ignoreAllCapsWords=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter that turns off\on 'ignore-domain-names' option by default
+ * It may be needed to disableOptionStorage for this parameter, because optionStorage has higher priority.
+ *
+ *		config.scayt_ignoreDomainNames = false;
+ *
+ * @cfg {Boolean} [scayt_ignoreDomainNames=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter that turns off\on 'ignore-words-with-mixed-cases' option by default
+ * It may be needed to disableOptionStorage for this parameter, because optionStorage has higher priority.
+ *
+ *		config.scayt_ignoreWordsWithMixedCases = false;
+ *
+ * @cfg {Boolean} [scayt_ignoreWordsWithMixedCases=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter that turns off\on 'ignore-words-with-numbers' option by default
+ * It may be needed to disableOptionStorage for this parameter, because optionStorage has higher priority.
+ *
+ *		config.scayt_ignoreWordsWithNumbers = false;
+ *
+ * @cfg {Boolean} [scayt_ignoreWordsWithNumbers=false]
+ * @member CKEDITOR.config
+ */
+
+/**
  * Disabling of SCAYT Options storing during several sessions. Options storing will be turned off after page refresh.
  *
  * * `'options'` - disables all SCAYT Ignore options
