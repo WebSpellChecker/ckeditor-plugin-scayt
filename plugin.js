@@ -264,6 +264,17 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
+		/* Dirty fix for placeholder drag&drop */
+		editor.on('drop', function(evt) {
+			var dropRange = evt.data.dropRange;
+			var b = dropRange.createBookmark(true);
+			editor.scayt.removeMarkupInSelectionNode({ selectionNode: evt.data.dropRange.getCommonAncestor().$/*evt.data.target.$*/, forceBookmark: false });
+			dropRange.moveToBookmark(b);
+
+			evt.data.dropRange = dropRange;
+			return evt;
+		}, this, null, 0); // We should be sure that we modify dropRange before CKEDITOR.plugins.clipboard calls
+
 		var contentDomReady = function() {
 			// The event is fired when editable iframe node was reinited so we should restart our service
 			if (plugin.state.scayt[editor.name] && !editor.readOnly && !editor.scayt) {
