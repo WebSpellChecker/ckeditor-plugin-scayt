@@ -1104,10 +1104,9 @@ CKEDITOR.plugins.scayt = {
 			plugin = CKEDITOR.plugins.scayt;
 
 		this.loadScaytLibrary(editor, function(_editor) {
-			var container = _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
-				scaytInstanceOptions = {
+			var scaytInstanceOptions = {
 					lang 				: _editor.config.scayt_sLang,
-					container 			: _editor.editable().$.nodeName == 'BODY' ? _editor.document.getWindow().$.frameElement : _editor.editable().$,
+					container 			: ( _editor.window.getFrame() || _editor.editable() ).$,
 					customDictionary 	: _editor.config.scayt_customDictionaryIds,
 					userDictionaryName 	: _editor.config.scayt_userDictionaryName,
 					localization 		: _editor.langCode,
@@ -1124,8 +1123,7 @@ CKEDITOR.plugins.scayt = {
 					multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 					multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
 					graytAutoStartup	: plugin.state.grayt[_editor.name]
-				},
-				contcontainerID;
+				};
 
 			if(_editor.config.scayt_serviceProtocol) {
 				scaytInstanceOptions['service_protocol'] = _editor.config.scayt_serviceProtocol;
@@ -1158,12 +1156,6 @@ CKEDITOR.plugins.scayt = {
 
 			if(typeof _editor.config.scayt_ignoreWordsWithNumbers === 'boolean') {
 				scaytInstanceOptions['ignore-words-with-numbers'] = _editor.config.scayt_ignoreWordsWithNumbers;
-			}
-
-			// Fix bug with getting wrong uid after re-creating SCAYT instance.
-			// And as result - restoring options for wrong instance
-			if(!container.id && _editor.element.getAttribute('id')) {
-				container.id = _editor.element.getAttribute('id');
 			}
 
 			var scaytInstance = new SCAYT.CKSCAYT(scaytInstanceOptions, function() {
@@ -1247,18 +1239,20 @@ CKEDITOR.plugins.scayt = {
 				CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
 					var editorName;
 
-					CKEDITOR.fireOnce('scaytReady');
+					if ( success ) {
+						CKEDITOR.fireOnce('scaytReady');
 
-					for(var i = 0; i < self.loadingHelper.loadOrder.length; i++) {
-						editorName = self.loadingHelper.loadOrder[i];
+						for(var i = 0; i < self.loadingHelper.loadOrder.length; i++) {
+							editorName = self.loadingHelper.loadOrder[i];
 
-						if(typeof self.loadingHelper[editorName] === 'function') {
-							self.loadingHelper[editorName](CKEDITOR.instances[editorName]);
+							if(typeof self.loadingHelper[editorName] === 'function') {
+								self.loadingHelper[editorName](CKEDITOR.instances[editorName]);
+							}
+
+							delete self.loadingHelper[editorName];
 						}
-
-						delete self.loadingHelper[editorName];
+						self.loadingHelper.loadOrder = [];
 					}
-					self.loadingHelper.loadOrder = [];
 				});
 				this.loadingHelper.ckscaytLoading = true;
 			}
