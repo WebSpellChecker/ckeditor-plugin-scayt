@@ -496,12 +496,10 @@ CKEDITOR.plugins.add('scayt', {
 					/**
 					 * CKEditor can keep \u200B character in document (with selection#selectRanges)
 					 * we need to take care about that. For this case we fire
-					 * 'selectionChange' for current selection which can call 'removeFillingChar
+					 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
 					 * to cleanup the document
 					 */
-					editor.forceNextSelectionCheck();
-					editor.selectionChange( 1 );
-					editor.fire('selectionChange', { selection: editor.getSelection(), path: editor.elementPath(editor.getSelection().root) });
+					editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
 					/* trigger remove markup with 'startSpellCheck' */
 					scaytInstance.removeMarkupInSelectionNode(removeOptions);
