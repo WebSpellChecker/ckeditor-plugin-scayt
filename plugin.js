@@ -264,16 +264,21 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
-		/* Dirty fix for placeholder drag&drop */
+		/**
+		 * Dirty fix for placeholder drag&drop
+		 * Should be fixed with next release
+		 */
+		/*
 		editor.on('drop', function(evt) {
 			var dropRange = evt.data.dropRange;
 			var b = dropRange.createBookmark(true);
-			editor.scayt.removeMarkupInSelectionNode({ selectionNode: evt.data.dropRange.getCommonAncestor().$/*evt.data.target.$*/, forceBookmark: false });
+			editor.scayt.removeMarkupInSelectionNode({ selectionNode: evt.data.target.$, forceBookmark: false });
 			dropRange.moveToBookmark(b);
 
 			evt.data.dropRange = dropRange;
 			return evt;
 		}, this, null, 0); // We should be sure that we modify dropRange before CKEDITOR.plugins.clipboard calls
+		*/
 
 		var contentDomReady = function() {
 			// The event is fired when editable iframe node was reinited so we should restart our service
@@ -333,6 +338,22 @@ CKEDITOR.plugins.add('scayt', {
 			}
 
 			addMarkupStateHandlers();
+
+			/**
+			 * 'mousedown' handler handle widget selection (click on widget). To
+			 * fix the issue when widget#wrapper referenced to element which can
+			 * be broken after markup.
+			 */
+			var editable = editor.editable();
+			editable.attachListener(editable, 'mousedown', function( evt ) {
+				var target = evt.data.getTarget();
+				var widget = editor.widgets.getByElement( target );
+				if ( widget ) {
+					widget.wrapper = target.getAscendant( function( el ) {
+						return el.hasAttribute( 'data-cke-widget-wrapper' )
+					}, true );
+				}
+			}, this, null, -10); // '-10': we need to be shure that widget#wrapper updated before any other calls
 		};
 
 		editor.on('contentDom', contentDomHandler);
@@ -450,20 +471,42 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		}, this, null, 50);
 
+		/**
+		 * Main entry point to react on changes in document
+		 */
 		editor.on('reloadMarkupScayt', function(ev) {
 			var scaytInstance = editor.scayt,
 				removeOptions = ev.data && ev.data.removeOptions,
 				timeout = ev.data && ev.data.timeout;
 
 			if (scaytInstance) {
-				scaytInstance.removeMarkupInSelectionNode(removeOptions);
-				if(typeof timeout === 'number') {
-					setTimeout(function() {
-						scaytInstance.fire('startSpellCheck, startGrammarCheck');
-					}, timeout);
-				} else {
+				/**
+				 * Checks SCAYT initialization of LangList. To prevent immediate
+				 * markup which is triggered by 'startSpellCheck' event.
+				 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
+				 */
+				var scaytLangList = scaytInstance.getScaytLangList();
+				if (!scaytLangList.ltr && !scaytLangList.rtl) return;
+
+				/**
+				 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
+				 * asynchroniosly and keep CKEDITOR flow as expected
+				 */
+				setTimeout(function() {
+					/**
+					 * CKEditor can keep \u200B character in document (with selection#selectRanges)
+					 * we need to take care about that. For this case we fire
+					 * 'selectionChange' for current selection which can call 'removeFillingChar
+					 * to cleanup the document
+					 */
+					editor.forceNextSelectionCheck();
+					editor.selectionChange( 1 );
+					editor.fire('selectionChange', { selection: editor.getSelection(), path: editor.elementPath(editor.getSelection().root) });
+
+					/* trigger remove markup with 'startSpellCheck' */
+					scaytInstance.removeMarkupInSelectionNode(removeOptions);
 					scaytInstance.fire('startSpellCheck, startGrammarCheck');
-				}
+				}, timeout || 0 );
 			}
 		});
 
@@ -488,14 +531,6 @@ CKEDITOR.plugins.add('scayt', {
 
 			dialog.selectPage(scaytInstance.tabToOpen);
 		});
-
-		editor.on('paste', function(ev) {
-			var scaytInstance = editor.scayt;
-
-			if(scaytInstance) {
-				scaytInstance.removeMarkupInSelectionNode();
-			}
-		}, null, null, 0);
 	},
 	parseConfig: function(editor) {
 		var plugin = CKEDITOR.plugins.scayt;
