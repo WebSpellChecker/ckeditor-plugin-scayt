@@ -1317,6 +1317,20 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 		}, this, null, -1);
 	}
 
+	if ( dialogName === 'checkspell' ) {
+		dialog.on( 'cancel', function( cancelEvent ) {
+			var editor = cancelEvent.sender && cancelEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
+
+			if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+				scaytInstance.setMarkupPaused( false );
+			}
+
+			editor.unlockSelection();
+		}, this, null, -2 ); // we need to call cancel callback before WSC plugin
+	}
+
 	if (dialogName === 'link') {
 		dialog.on('ok', function(okEvent) {
 			var editor = okEvent.sender && okEvent.sender.getParentEditor();
