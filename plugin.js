@@ -347,7 +347,7 @@ CKEDITOR.plugins.add('scayt', {
 			var editable = editor.editable();
 			editable.attachListener(editable, 'mousedown', function( evt ) {
 				var target = evt.data.getTarget();
-				var widget = editor.widgets.getByElement( target );
+				var widget = editor.widgets && editor.widgets.getByElement( target );
 				if ( widget ) {
 					widget.wrapper = target.getAscendant( function( el ) {
 						return el.hasAttribute( 'data-cke-widget-wrapper' )
