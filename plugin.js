@@ -639,8 +639,11 @@ CKEDITOR.plugins.add('scayt', {
 		}
 
 		if(typeof CKEDITOR.config.scayt_handleUndoRedo !== 'boolean') {
+			/* set default as 'true' */
 			CKEDITOR.config.scayt_handleUndoRedo = true;
 		}
+		/* checking 'undo' plugin, if no disable SCAYT handler */
+		CKEDITOR.config.scayt_handleUndoRedo = CKEDITOR.plugins.undo ? CKEDITOR.config.scayt_handleUndoRedo : false;
 
 		if(typeof editor.config.scayt_multiLanguageMode !== 'boolean') {
 			editor.config.scayt_multiLanguageMode = false;
