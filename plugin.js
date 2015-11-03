@@ -320,7 +320,11 @@ CKEDITOR.plugins.add('scayt', {
 			if(inline_mode) {
 
 				if (!editor.config.scayt_inlineModeImmediateMarkup) {
-					editor.on('blur', scaytDestroy);
+					/**
+					 * Give an opportunity to CKEditor to perform all needed updates 
+					 * and only after that call 'scaytDestroy' method (#72725)
+					 */
+					editor.on('blur', function () { setTimeout( scaytDestroy, 0 ); } );
 					editor.on('focus', contentDomReady);
 
 					// We need to check if editor has focus(created) right now.
