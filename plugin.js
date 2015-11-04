@@ -321,7 +321,7 @@ CKEDITOR.plugins.add('scayt', {
 
 				if (!editor.config.scayt_inlineModeImmediateMarkup) {
 					/**
-					 * Give an opportunity to CKEditor to perform all needed updates 
+					 * Give an opportunity to CKEditor to perform all needed updates
 					 * and only after that call 'scaytDestroy' method (#72725)
 					 */
 					editor.on('blur', function () { setTimeout( scaytDestroy, 0 ); } );
@@ -428,14 +428,20 @@ CKEDITOR.plugins.add('scayt', {
 		});
 
 		editor.on('afterCommandExec', function(ev) {
-			var scaytInstance = editor.scayt;
-
 			if(editor.mode == 'wysiwyg' && (ev.data.name == 'undo' || ev.data.name == 'redo')) {
-				if(scaytInstance) {
-					setTimeout(function() {
-						scaytInstance.fire('startSpellCheck, startGrammarCheck');
-					}, 250);
-				}
+				setTimeout(function() {
+					var scaytInstance = editor.scayt,
+						scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
+
+					/**
+					 * Checks SCAYT initialization of LangList. To prevent immediate
+					 * markup which is triggered by 'startSpellCheck' event.
+					 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
+					 */
+					if (!scaytLangList || !(scaytLangList.ltr && scaytLangList.rtl)) return;
+
+					scaytInstance.fire('startSpellCheck, startGrammarCheck');
+				}, 250);
 			}
 		});
 
@@ -479,37 +485,36 @@ CKEDITOR.plugins.add('scayt', {
 		 * Main entry point to react on changes in document
 		 */
 		editor.on('reloadMarkupScayt', function(ev) {
-			var scaytInstance = editor.scayt,
-				removeOptions = ev.data && ev.data.removeOptions,
+			var removeOptions = ev.data && ev.data.removeOptions,
 				timeout = ev.data && ev.data.timeout;
 
-			if (scaytInstance) {
+			/**
+			 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
+			 * asynchroniosly and keep CKEDITOR flow as expected
+			 */
+			setTimeout(function() {
+				var scaytInstance = editor.scayt,
+					scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
+
 				/**
 				 * Checks SCAYT initialization of LangList. To prevent immediate
 				 * markup which is triggered by 'startSpellCheck' event.
 				 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
 				 */
-				var scaytLangList = scaytInstance.getScaytLangList();
-				if (!scaytLangList.ltr && !scaytLangList.rtl) return;
+				if (!scaytLangList || !(scaytLangList.ltr && scaytLangList.rtl)) return;
 
 				/**
-				 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
-				 * asynchroniosly and keep CKEDITOR flow as expected
+				 * CKEditor can keep \u200B character in document (with selection#selectRanges)
+				 * we need to take care about that. For this case we fire
+				 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
+				 * to cleanup the document
 				 */
-				setTimeout(function() {
-					/**
-					 * CKEditor can keep \u200B character in document (with selection#selectRanges)
-					 * we need to take care about that. For this case we fire
-					 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
-					 * to cleanup the document
-					 */
-					editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+				editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
-					/* trigger remove markup with 'startSpellCheck' */
-					scaytInstance.removeMarkupInSelectionNode(removeOptions);
-					scaytInstance.fire('startSpellCheck, startGrammarCheck');
-				}, timeout || 0 );
-			}
+				/* trigger remove markup with 'startSpellCheck' */
+				scaytInstance.removeMarkupInSelectionNode(removeOptions);
+				scaytInstance.fire('startSpellCheck, startGrammarCheck');
+			}, timeout || 0 );
 		});
 
 		// Reload spell-checking for current word after insertion completed.
