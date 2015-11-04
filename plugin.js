@@ -1149,26 +1149,34 @@ CKEDITOR.plugins.scayt = {
 			plugin = CKEDITOR.plugins.scayt;
 
 		this.loadScaytLibrary(editor, function(_editor) {
+			var textContainer = _editor.window && _editor.window.getFrame() || _editor.editable();
+
+			// Do not create SCAYT if there is no text container for usage
+			if(!textContainer) {
+				plugin.state.scayt[_editor.name] = false;
+				return;
+			}
+
 			var scaytInstanceOptions = {
-					lang 				: _editor.config.scayt_sLang,
-					container 			: ( _editor.window.getFrame() || _editor.editable() ).$,
-					customDictionary 	: _editor.config.scayt_customDictionaryIds,
-					userDictionaryName 	: _editor.config.scayt_userDictionaryName,
-					localization 		: _editor.langCode,
-					customer_id 		: _editor.config.scayt_customerId,
-					debug 				: _editor.config.scayt_debug,
-					data_attribute_name : self.options.data_attribute_name,
-					misspelled_word_class: self.options.misspelled_word_class,
-					problem_grammar_data_attribute: self.options.problem_grammar_data_attribute,
-					problem_grammar_class: self.options.problem_grammar_class,
-					'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
-					focused 			: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
-					ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
-					minWordLength 		: _editor.config.scayt_minWordLength,
-					multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
-					multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
-					graytAutoStartup	: plugin.state.grayt[_editor.name]
-				};
+				lang 				: _editor.config.scayt_sLang,
+				container 			: textContainer.$,
+				customDictionary 	: _editor.config.scayt_customDictionaryIds,
+				userDictionaryName 	: _editor.config.scayt_userDictionaryName,
+				localization 		: _editor.langCode,
+				customer_id 		: _editor.config.scayt_customerId,
+				debug 				: _editor.config.scayt_debug,
+				data_attribute_name : self.options.data_attribute_name,
+				misspelled_word_class: self.options.misspelled_word_class,
+				problem_grammar_data_attribute: self.options.problem_grammar_data_attribute,
+				problem_grammar_class: self.options.problem_grammar_class,
+				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
+				focused 			: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
+				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
+				minWordLength 		: _editor.config.scayt_minWordLength,
+				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
+				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
+				graytAutoStartup	: plugin.state.grayt[_editor.name]
+			};
 
 			if(_editor.config.scayt_serviceProtocol) {
 				scaytInstanceOptions['service_protocol'] = _editor.config.scayt_serviceProtocol;
