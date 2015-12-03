@@ -29,7 +29,7 @@ CKEDITOR.plugins.add('scayt', {
 			label : lang.text_title,
 			title : ( editor.plugins.wsc ? editor.lang.wsc.title : lang.text_title ),
 			// SCAYT doesn't work in IE Compatibility Mode and IE (8 & 9) Quirks Mode
-			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks || env.ie6Compat || env.ie7Compat || env.ie8Compat || env.ie9Compat ) ) },
+			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks || env.ie6Compat || env.ie7Compat || env.ie8Compat) ) },
 			toolbar: 'spellchecker,20',
 			refresh: function() {
 				var buttonState = editor.ui.instances.Scayt.getState();
