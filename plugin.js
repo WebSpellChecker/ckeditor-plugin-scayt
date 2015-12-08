@@ -1456,6 +1456,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.grayt_autoStartup = true;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [grayt_autoStartup=false]
  * @member CKEDITOR.config
  */
@@ -1466,6 +1467,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		 config.scayt_inlineModeImmediateMarkup = true;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [scayt_inlineModeImmediateMarkup=false]
  * @member CKEDITOR.config
  */
@@ -1701,6 +1703,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreAllCapsWords = false;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreAllCapsWords=false]
  * @member CKEDITOR.config
  */
@@ -1711,6 +1714,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreDomainNames = false;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreDomainNames=false]
  * @member CKEDITOR.config
  */
@@ -1721,6 +1725,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreWordsWithMixedCases = false;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreWordsWithMixedCases=false]
  * @member CKEDITOR.config
  */
@@ -1731,6 +1736,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreWordsWithNumbers = false;
  *
+ * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreWordsWithNumbers=false]
  * @member CKEDITOR.config
  */
