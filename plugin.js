@@ -264,7 +264,7 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
-		/**
+		/*
 		 * Dirty fix for placeholder drag&drop
 		 * Should be fixed with next release
 		 */
@@ -320,7 +320,7 @@ CKEDITOR.plugins.add('scayt', {
 			if(inline_mode) {
 
 				if (!editor.config.scayt_inlineModeImmediateMarkup) {
-					/**
+					/*
 					 * Give an opportunity to CKEditor to perform all needed updates
 					 * and only after that call 'scaytDestroy' method (#72725)
 					 */
@@ -343,7 +343,7 @@ CKEDITOR.plugins.add('scayt', {
 
 			addMarkupStateHandlers();
 
-			/**
+			/*
 			 * 'mousedown' handler handle widget selection (click on widget). To
 			 * fix the issue when widget#wrapper referenced to element which can
 			 * be broken after markup.
@@ -433,7 +433,7 @@ CKEDITOR.plugins.add('scayt', {
 					var scaytInstance = editor.scayt,
 						scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
 
-					/**
+					/*
 					 * Checks SCAYT initialization of LangList. To prevent immediate
 					 * markup which is triggered by 'startSpellCheck' event.
 					 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
@@ -481,14 +481,14 @@ CKEDITOR.plugins.add('scayt', {
 			}
 		}, this, null, 50);
 
-		/**
+		/*
 		 * Main entry point to react on changes in document
 		 */
 		editor.on('reloadMarkupScayt', function(ev) {
 			var removeOptions = ev.data && ev.data.removeOptions,
 				timeout = ev.data && ev.data.timeout;
 
-			/**
+			/*
 			 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
 			 * asynchroniosly and keep CKEDITOR flow as expected
 			 */
@@ -496,14 +496,14 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt,
 					scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
 
-				/**
+				/*
 				 * Checks SCAYT initialization of LangList. To prevent immediate
 				 * markup which is triggered by 'startSpellCheck' event.
 				 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
 				 */
 				if (!scaytLangList || !(scaytLangList.ltr && scaytLangList.rtl)) return;
 
-				/**
+				/*
 				 * CKEditor can keep \u200B character in document (with selection#selectRanges)
 				 * we need to take care about that. For this case we fire
 				 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
