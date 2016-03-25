@@ -10,7 +10,7 @@ CKEDITOR.plugins.add('scayt', {
 	dialogName: 'scaytDialog',
 	onLoad: function(editor){
 		/*
-			Create timestamp for unicum
+			Create timestamp for unique url. Timestamp was created once when plugin loaded
 		*/
 		CKEDITOR.plugins.scayt.onLoadTimestamp = new Date().getTime();
 	},
