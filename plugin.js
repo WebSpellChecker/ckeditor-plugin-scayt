@@ -8,6 +8,12 @@ CKEDITOR.plugins.add('scayt', {
 	hidpi: true, // %REMOVE_LINE_CORE%
 	tabToOpen : null,
 	dialogName: 'scaytDialog',
+	onLoad: function(editor){
+		/*
+			Create timestamp for unicum
+		*/
+		CKEDITOR.plugins.scayt.onLoadTimestamp = new Date().getTime();
+	},
 	init: function(editor) {
 		var self = this,
 			plugin = CKEDITOR.plugins.scayt;
@@ -1109,15 +1115,12 @@ CKEDITOR.plugins.add('scayt', {
 });
 
 CKEDITOR.plugins.scayt = {
+	onLoadTimestamp : '',
 	state: {
 		scayt: {},
 		grayt: {}
 	},
 	suggestions: [],
-	loadingHelper: {
-		loadOrder: []
-	},
-	isLoading: false,
 	options: {
 		disablingCommandExec: {
 			source: true,
@@ -1263,8 +1266,6 @@ CKEDITOR.plugins.scayt = {
 	},
 	loadScaytLibrary: function(editor, callback) {
 		var self = this,
-			date,
-			timestamp,
 			scaytUrl;
 
 		// no need to process load requests from same editor as it can cause bugs with
@@ -1272,53 +1273,13 @@ CKEDITOR.plugins.scayt = {
 		// need to be before 'if' statement, because of timing issue in CKEDITOR.scriptLoader
 		// when callback executing is delayed for a few milliseconds, and scayt can be created twise
 		// on one instance
-		if(this.loadingHelper[editor.name]) return;
-
 		if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
-
-			// add onLoad callbacks for editors while SCAYT is loading
-			this.loadingHelper[editor.name] = callback;
-			this.loadingHelper.loadOrder.push(editor.name);
-
-			//creating unique timestamp for SCAYT URL
-			date = new Date();
-			timestamp = date.getTime();
-			scaytUrl = editor.config.scayt_srcUrl;
-
-			//if there already implemented timstamp for scayr_srcURL use it, if not use our timestamp
-			scaytUrl = scaytUrl + (scaytUrl.indexOf('?') >= 0 ? '' : '?' + timestamp);
-
-			if (!this.loadingHelper.ckscaytLoading) {
-				CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
-					var editorName;
-
-					if ( success ) {
-						CKEDITOR.fireOnce('scaytReady');
-
-						for(var i = 0; i < self.loadingHelper.loadOrder.length; i++) {
-							editorName = self.loadingHelper.loadOrder[i];
-
-							if(typeof self.loadingHelper[editorName] === 'function') {
-								self.loadingHelper[editorName](CKEDITOR.instances[editorName]);
-							}
-
-							delete self.loadingHelper[editorName];
-						}
-						self.loadingHelper.loadOrder = [];
-					}
-				});
-				this.loadingHelper.ckscaytLoading = true;
-			}
-
-
-		} else if(window.SCAYT && typeof window.SCAYT.CKSCAYT === 'function') {
-			CKEDITOR.fireOnce('scaytReady');
-
-			if(!editor.scayt) {
-				if(typeof callback === 'function') {
-					callback(editor);
-				}
-			}
+			scaytUrl = editor.config.scayt_srcUrl + '?' + this.onLoadTimestamp;
+			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
+				callback(CKEDITOR.instances[editor.name]);
+			});
+		}else{
+			callback(CKEDITOR.instances[editor.name]);
 		}
 	}
 };
