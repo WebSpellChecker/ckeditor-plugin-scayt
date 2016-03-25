@@ -436,17 +436,9 @@ CKEDITOR.plugins.add('scayt', {
 		editor.on('afterCommandExec', function(ev) {
 			if(editor.mode == 'wysiwyg' && (ev.data.name == 'undo' || ev.data.name == 'redo')) {
 				setTimeout(function() {
-					var scaytInstance = editor.scayt,
-						scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
+					var scaytInstance = editor.scayt;
 
-					/*
-					 * Checks SCAYT initialization of LangList. To prevent immediate
-					 * markup which is triggered by 'startSpellCheck' event.
-					 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
-					 */
-					if (!scaytLangList || !(scaytLangList.ltr && scaytLangList.rtl)) return;
-
-					scaytInstance.fire('startSpellCheck, startGrammarCheck');
+					scaytInstance.reloadMarkup();
 				}, 250);
 			}
 		});
@@ -464,7 +456,7 @@ CKEDITOR.plugins.add('scayt', {
 					}
 				} else {
 					if(scaytInstance) {
-						scaytInstance.fire('startSpellCheck, startGrammarCheck');
+						scaytInstance.reloadMarkup();
 					} else if(ev.editor.mode == 'wysiwyg' && plugin.state.scayt[ev.editor.name] === true) {
 						plugin.createScayt(editor);
 						ev.editor.fire('scaytButtonState', CKEDITOR.TRISTATE_ON);
@@ -499,17 +491,9 @@ CKEDITOR.plugins.add('scayt', {
 			 * asynchroniosly and keep CKEDITOR flow as expected
 			 */
 			setTimeout(function() {
-				var scaytInstance = editor.scayt,
-					scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
+				var scaytInstance = editor.scayt;
 
-				/*
-				 * Checks SCAYT initialization of LangList. To prevent immediate
-				 * markup which is triggered by 'startSpellCheck' event.
-				 * E.g.: Drop into inline CKEDITOR with scayt_autoStartup = true;
-				 */
-				if (!scaytLangList || !(scaytLangList.ltr && scaytLangList.rtl)) return;
-
-				/*
+				/**
 				 * CKEditor can keep \u200B character in document (with selection#selectRanges)
 				 * we need to take care about that. For this case we fire
 				 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
@@ -517,9 +501,9 @@ CKEDITOR.plugins.add('scayt', {
 				 */
 				editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
-				/* trigger remove markup with 'startSpellCheck' */
+				/* trigger remove and reload markup */
 				scaytInstance.removeMarkupInSelectionNode(removeOptions);
-				scaytInstance.fire('startSpellCheck, startGrammarCheck');
+				scaytInstance.reloadMarkup();
 			}, timeout || 0 );
 		});
 
@@ -1273,13 +1257,22 @@ CKEDITOR.plugins.scayt = {
 		// need to be before 'if' statement, because of timing issue in CKEDITOR.scriptLoader
 		// when callback executing is delayed for a few milliseconds, and scayt can be created twise
 		// on one instance
-		if(typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
+		if (typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
 			scaytUrl = editor.config.scayt_srcUrl + '?' + this.onLoadTimestamp;
 			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
-				callback(CKEDITOR.instances[editor.name]);
+				if (success) {
+					CKEDITOR.fireOnce('scaytReady');
+					callback(editor);
+				}
 			});
-		}else{
-			callback(CKEDITOR.instances[editor.name]);
+		} else if(window.SCAYT && typeof window.SCAYT.CKSCAYT === 'function') {
+			CKEDITOR.fireOnce('scaytReady');
+
+			if(!editor.scayt) {
+				if(typeof callback === 'function') {
+					callback(editor);
+				}
+			}
 		}
 	}
 };
@@ -1430,7 +1423,7 @@ CKEDITOR.on('scaytReady', function() {
 
 /**
  * Enables SCAYT initialization when inline CKEditor is not focused. When set to `true`, SCAYT markup is
- * displayed in both inline editor states, focused and unfocused, so the SCAYT instance is not destroyed. 
+ * displayed in both inline editor states, focused and unfocused, so the SCAYT instance is not destroyed.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
@@ -1650,7 +1643,7 @@ CKEDITOR.on('scaytReady', function() {
  * dictionary name must be used. Available only for the licensed version.
  *
  * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:userdictionaries)
- * for more details. 
+ * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
@@ -1814,7 +1807,7 @@ CKEDITOR.on('scaytReady', function() {
 
 /**
  * Defines additional styles for misspellings for specified languages. Styles will be applied only if
- * the {@link CKEDITOR.config#scayt_multiLanguageMode} option is set to `true` and the [Language](http://ckeditor.com/addon/language) 
+ * the {@link CKEDITOR.config#scayt_multiLanguageMode} option is set to `true` and the [Language](http://ckeditor.com/addon/language)
  * plugin is included and loaded in the editor. By default, all misspellings will still be underlined with the red waveline.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
