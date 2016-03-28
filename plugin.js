@@ -283,7 +283,7 @@ CKEDITOR.plugins.add('scayt', {
 				dropEditorIsNotInline = evt.data.dropRange.root.editor.editable().isInline() ? false : true;
 
 			if (dropEditorIsNotInline && dragEditorIsInline) {
-				evt.data.dragRange.root.editor.document.getDocumentElement().fire( 'mouseup', new CKEDITOR.dom.event( { while: 1 } ) );
+				evt.data.dragRange.root.editor.document.getDocumentElement().fire( 'mouseup', new CKEDITOR.dom.event() );
 			}
 		});
 
