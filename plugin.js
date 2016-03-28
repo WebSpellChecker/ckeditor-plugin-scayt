@@ -1276,7 +1276,12 @@ CKEDITOR.plugins.scayt = {
 			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
 				if (success) {
 					CKEDITOR.fireOnce('scaytReady');
-					callback(editor);
+
+					if(!editor.scayt) {
+						if(typeof callback === 'function') {
+							callback(editor);
+						}
+					}
 				}
 			});
 		} else if(window.SCAYT && typeof window.SCAYT.CKSCAYT === 'function') {
