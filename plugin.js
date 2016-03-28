@@ -438,7 +438,7 @@ CKEDITOR.plugins.add('scayt', {
 				setTimeout(function() {
 					var scaytInstance = editor.scayt;
 
-					scaytInstance.reloadMarkup();
+					plugin.reloadMarkup(scaytInstance);
 				}, 250);
 			}
 		});
@@ -456,7 +456,7 @@ CKEDITOR.plugins.add('scayt', {
 					}
 				} else {
 					if(scaytInstance) {
-						scaytInstance.reloadMarkup();
+						plugin.reloadMarkup(scaytInstance);
 					} else if(ev.editor.mode == 'wysiwyg' && plugin.state.scayt[ev.editor.name] === true) {
 						plugin.createScayt(editor);
 						ev.editor.fire('scaytButtonState', CKEDITOR.TRISTATE_ON);
@@ -503,7 +503,7 @@ CKEDITOR.plugins.add('scayt', {
 
 				/* trigger remove and reload markup */
 				scaytInstance.removeMarkupInSelectionNode(removeOptions);
-				scaytInstance.reloadMarkup();
+				plugin.reloadMarkup(scaytInstance);
 			}, timeout || 0 );
 		});
 
@@ -1122,6 +1122,20 @@ CKEDITOR.plugins.scayt = {
 		'scayt_service_port'  : 'scayt_servicePort',
 		'scayt_service_path'  : 'scayt_servicePath',
 		'scayt_customerid'    : 'scayt_customerId'
+	},
+	// backward compatibility if version of scayt app < 4.8.3
+	reloadMarkup: function(scaytInstance) {
+		var scaytLangList = scaytInstance && scaytInstance.getScaytLangList();
+
+		if (scaytInstance.reloadMarkup) {
+			scaytInstance.reloadMarkup();
+		} else {
+			console.warn('Note: you are using new version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net to version 4.8.3 Contact us: '+
+					'https://www.webspellchecker.net/contact-us.html');
+			if(scaytLangList && scaytLangList.ltr && scaytLangList.rtl){
+				scaytInstance.fire('startSpellCheck, startGrammarCheck');
+			}
+		}
 	},
 	replaceOldOptionsNames: function(config) {
 		for(var key in config) {
