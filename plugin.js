@@ -270,7 +270,24 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
-		/*
+		/**
+		 * CKEditor take care about drag&drop in inline editor.
+		 * Dragging (mousedown) has to be initialized in editable,
+		 * but for mouseup we listen on document element.
+		 * We need to take care about that. For this case we fire
+		 * 'mouseup' in standart (iframe) editor when drag&drop from
+		 * inline editor, what will trigger 'checkSelectionChange' functionality
+		 */
+		editor.on('drop', function(evt) {
+			var dragEditorIsInline = evt.data.dragRange ? evt.data.dragRange.root.editor.editable().isInline() : false,
+				dropEditorIsNotInline = evt.data.dropRange.root.editor.editable().isInline() ? false : true;
+
+			if (dropEditorIsNotInline && dragEditorIsInline) {
+				evt.data.dragRange.root.editor.document.getDocumentElement().fire( 'mouseup', new CKEDITOR.dom.event( { while: 1 } ) );
+			}
+		});
+
+		/**
 		 * Dirty fix for placeholder drag&drop
 		 * Should be fixed with next release
 		 */
