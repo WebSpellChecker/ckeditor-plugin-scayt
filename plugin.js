@@ -1267,7 +1267,16 @@ CKEDITOR.plugins.scayt = {
 	},
 	loadScaytLibrary: function(editor, callback) {
 		var self = this,
-			scaytUrl;
+			scaytUrl,
+			runCallback = function() {
+				CKEDITOR.fireOnce('scaytReady');
+
+				if(!editor.scayt) {
+					if(typeof callback === 'function') {
+						callback(editor);
+					}
+				}
+			};
 
 		// no need to process load requests from same editor as it can cause bugs with
 		// loading ckscayt app due to subsequent calls of some events
@@ -1278,23 +1287,11 @@ CKEDITOR.plugins.scayt = {
 			scaytUrl = editor.config.scayt_srcUrl + '?' + this.onLoadTimestamp;
 			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
 				if (success) {
-					CKEDITOR.fireOnce('scaytReady');
-
-					if(!editor.scayt) {
-						if(typeof callback === 'function') {
-							callback(editor);
-						}
-					}
+					runCallback();
 				}
 			});
 		} else if(window.SCAYT && typeof window.SCAYT.CKSCAYT === 'function') {
-			CKEDITOR.fireOnce('scaytReady');
-
-			if(!editor.scayt) {
-				if(typeof callback === 'function') {
-					callback(editor);
-				}
-			}
+			runCallback();
 		}
 	}
 };
