@@ -484,27 +484,28 @@ CKEDITOR.plugins.add('scayt', {
 		 */
 		editor.on('reloadMarkupScayt', function(ev) {
 			var removeOptions = ev.data && ev.data.removeOptions,
-				timeout = ev.data && ev.data.timeout;
+				timeout = ev.data && ev.data.timeout,
+				scaytInstance = editor.scayt;
 
-			/*
-			 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
-			 * asynchroniosly and keep CKEDITOR flow as expected
-			 */
-			setTimeout(function() {
-				var scaytInstance = editor.scayt;
-
+			if (scaytInstance) {
 				/**
-				 * CKEditor can keep \u200B character in document (with selection#selectRanges)
-				 * we need to take care about that. For this case we fire
-				 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
-				 * to cleanup the document
+				 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
+				 * asynchroniosly and keep CKEDITOR flow as expected
 				 */
-				editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+				setTimeout(function() {
+					/**
+					 * CKEditor can keep \u200B character in document (with selection#selectRanges)
+					 * we need to take care about that. For this case we fire
+					 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
+					 * to cleanup the document
+					 */
+					editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
-				/* trigger remove and reload markup */
-				scaytInstance.removeMarkupInSelectionNode(removeOptions);
-				plugin.reloadMarkup(scaytInstance);
-			}, timeout || 0 );
+					/* trigger remove and reload markup */
+					scaytInstance.removeMarkupInSelectionNode(removeOptions);
+					plugin.reloadMarkup(scaytInstance);
+				}, timeout || 0 );
+			}
 		});
 
 		// Reload spell-checking for current word after insertion completed.
