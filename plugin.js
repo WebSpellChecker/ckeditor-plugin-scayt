@@ -510,13 +510,6 @@ CKEDITOR.plugins.add('scayt', {
 				 * asynchroniosly and keep CKEDITOR flow as expected
 				 */
 				setTimeout(function() {
-					/**
-					 * CKEditor can keep \u200B character in document (with selection#selectRanges)
-					 * we need to take care about that. For this case we fire
-					 * 'keydown' [left arrow], what will trigger 'removeFillingChar' on Webkit
-					 * to cleanup the document
-					 */
-					editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
 
 					/* trigger remove and reload markup */
 					scaytInstance.removeMarkupInSelectionNode(removeOptions);
@@ -1117,6 +1110,38 @@ CKEDITOR.plugins.add('scayt', {
 });
 
 CKEDITOR.plugins.scayt = {
+	/*
+		Determine special character current version of editor
+	*/
+	charsToObserve: [
+		{
+			charName : 'cke-fillingChar',
+	 		charCode : (function(){
+				var versArr = CKEDITOR.version.match(/^\d(\.\d*)*/),
+					version = versArr && versArr[0],
+					newest;
+
+				function compare(current, marked){
+					var itterRes,
+						lengthDiff;
+					current = current.replace(/\./g,'');
+					marked = marked.replace(/\./g,'');
+					lengthDiff = current.length - marked.length;
+					lengthDiff = (lengthDiff >= 0)? lengthDiff : 0;
+					return parseInt(current) >= (parseInt(marked) * Math.pow(10, lengthDiff));
+				}
+
+				if(version){
+					newest = compare(version, '4.5.7');
+				}
+				if(newest){
+					return new Array(7).join(String.fromCharCode(8203));
+				}else{
+					return String.fromCharCode(8203);
+				}
+			})()
+		}
+	],
 	onLoadTimestamp : '',
 	state: {
 		scayt: {},
@@ -1200,7 +1225,8 @@ CKEDITOR.plugins.scayt = {
 				minWordLength 		: _editor.config.scayt_minWordLength,
 				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
-				graytAutoStartup	: plugin.state.grayt[_editor.name]
+				graytAutoStartup	: plugin.state.grayt[_editor.name],
+				charsToObserve		: plugin.charsToObserve
 			};
 
 			if(_editor.config.scayt_serviceProtocol) {
@@ -1272,6 +1298,24 @@ CKEDITOR.plugins.scayt = {
 			scaytInstance.subscribe('graytStateChanged', function(data) {
 				plugin.state.grayt[_editor.name] = data.state;
 			});
+
+			// backward compatibility if version of scayt app < 4.8.3
+			if(scaytInstance.addMarkupHandler) {
+				scaytInstance.addMarkupHandler(function(data){
+					/*
+					 	CKEDITOR use cke-fillingChar with code "8203" for system processes
+					 	If SCAYT have changed DOM content we will use the method "setCustomData"
+					 	for providing a link to the new node with special character cke-fillingChar
+					 	for this case
+					*/
+					var editable = _editor.editable(),
+						customData = editable.getCustomData(data.charName);
+					if(customData){
+						customData.$ = data.node;
+						editable.setCustomData(data.charName, customData);
+					}
+				});
+			}
 
 			_editor.scayt = scaytInstance;
 
