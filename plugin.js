@@ -1167,6 +1167,13 @@ CKEDITOR.plugins.scayt = {
 		'scayt_service_path'  : 'scayt_servicePath',
 		'scayt_customerid'    : 'scayt_customerId'
 	},
+	alarmCompatibilityMessage: function(){
+		if(this.warningCounter < 5){
+			console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
+					'Contact us by e-mail at support@webspellchecker.net.');
+			this.warningCounter += 1;
+		}
+	},
 	// backward compatibility if version of scayt app < 4.8.3
 	reloadMarkup: function(scaytInstance) {
 		var scaytLangList;
@@ -1175,11 +1182,7 @@ CKEDITOR.plugins.scayt = {
 			if (scaytInstance.reloadMarkup) {
 				scaytInstance.reloadMarkup();
 			} else {
-				if(this.warningCounter < 5){
-					console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
-							'Contact us by e-mail at support@webspellchecker.net.');
-					this.warningCounter += 1;
-				}
+				this.alarmCompatibilityMessage();
 				if(scaytLangList && scaytLangList.ltr && scaytLangList.rtl){
 					scaytInstance.fire('startSpellCheck, startGrammarCheck');
 				}
@@ -1262,12 +1265,27 @@ CKEDITOR.plugins.scayt = {
 				scaytInstanceOptions['ignore-words-with-numbers'] = _editor.config.scayt_ignoreWordsWithNumbers;
 			}
 
-			var scaytInstance = new SCAYT.CKSCAYT(scaytInstanceOptions, function() {
+			function createInstance(options) {
+				return new SCAYT.CKSCAYT(options, function() {
 					// success callback
 				}, function() {
 					// error callback
-				}),
+				});
+			}
+
+			var scaytInstance,
 				wordsPrefix = 'word_';
+
+			// backward compatibility if version of scayt app < 4.8.3
+			try {
+				scaytInstance = createInstance(scaytInstanceOptions);
+			} catch(e) {
+				if (e.message === "Cannot set property 'value' of undefined") {
+					self.alarmCompatibilityMessage();
+					delete scaytInstanceOptions.charsToObserve;
+					scaytInstance = createInstance(scaytInstanceOptions);
+				}
+			}
 
 			scaytInstance.subscribe('suggestionListSend', function(data) {
 				// TODO: 1. Maybe store suggestions for specific editor
