@@ -1280,11 +1280,9 @@ CKEDITOR.plugins.scayt = {
 			try {
 				scaytInstance = createInstance(scaytInstanceOptions);
 			} catch(e) {
-				if (e.message === "Cannot set property 'value' of undefined") {
-					self.alarmCompatibilityMessage();
-					delete scaytInstanceOptions.charsToObserve;
-					scaytInstance = createInstance(scaytInstanceOptions);
-				}
+				self.alarmCompatibilityMessage();
+				delete scaytInstanceOptions.charsToObserve;
+				scaytInstance = createInstance(scaytInstanceOptions);
 			}
 
 			scaytInstance.subscribe('suggestionListSend', function(data) {
