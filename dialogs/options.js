@@ -105,7 +105,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						type: 'html',
 						id: 'langBox',
 						style: 'overflow: hidden; white-space: normal;margin-bottom:15px;',
-						html: '<div><div style="float:left;width:45%;margin-left:5px;" id="left-col-' + editor.name + '"></div><div style="float:left;width:45%;margin-left:15px;" id="right-col-' + editor.name + '"></div></div>',
+						html: '<div><div style="float:left;width:45%;margin-left:5px;" id="left-col-' + editor.name + '" class="scayt-lang-list"></div><div style="float:left;width:45%;margin-left:15px;" id="right-col-' + editor.name + '" class="scayt-lang-list"></div></div>',
 						onShow: function() {
 							var scayt_instance =  editor.scayt;
 							var lang = scayt_instance.getLang(),
@@ -380,7 +380,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	var dialogDefinition = {
 		title:          scayt_instance.getLocal('text_title'),
 		resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
-		minWidth: 		340,
+		minWidth: 		( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 340,
 		minHeight: 		260,
 		onLoad: function() {
 			if(editor.config.scayt_uiTabs[1] == 0) {
