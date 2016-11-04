@@ -283,6 +283,7 @@ CKEDITOR.plugins.add('scayt', {
 		 * 'mouseup' in standart (iframe) editor when drag&drop from
 		 * inline editor, what will trigger 'checkSelectionChange' functionality
 		 */
+		/*
 		editor.on('drop', function(evt) {
 			var dragEditorIsInline = evt.data.dragRange ? evt.data.dragRange.root.editor.editable().isInline() : false,
 				dropEditorIsNotInline = evt.data.dropRange.root.editor.editable().isInline() ? false : true;
@@ -291,6 +292,7 @@ CKEDITOR.plugins.add('scayt', {
 				evt.data.dragRange.root.editor.document.getDocumentElement().fire( 'mouseup', new CKEDITOR.dom.event() );
 			}
 		});
+		*/
 
 		/**
 		 * Dirty fix for placeholder drag&drop
