@@ -166,10 +166,10 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					},
 					{
 						type: 'hbox',
-						id: 'notExistDic',
+						id: 'udButtonsHolder',
 						align: 'left',
+						widths: ['auto'],
 						style: 'width:auto;',
-						widths: [ '50%', '50%' ],
 						children: [
 							{
 								type: 'button',
@@ -184,7 +184,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 									scayt_instance.createUserDictionary(name, function(response) {
 										if(!response.error) {
-											self.toggleDictionaryButtons.call(dialog, true);
+											self.toggleDictionaryState.call(dialog, 'dictionaryState');
 										}
 										response.dialog = dialog;
 										response.command = "create";
@@ -212,7 +212,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 									scayt_instance.restoreUserDictionary(name, function(response) {
 										response.dialog = dialog;
 										if(!response.error) {
-											self.toggleDictionaryButtons.call(dialog, true);
+											self.toggleDictionaryState.call(dialog, 'dictionaryState');
 										}
 										response.command = "restore";
 										response.name = name;
@@ -224,16 +224,36 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										editor.fire("scaytUserDictionaryActionError", error);
 									});
 								}
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						id: 'existDic',
-						align: 'left',
-						style: 'width:auto;',
-						widths: [ '50%', '50%' ],
-						children: [
+							},
+							{
+								type: 'button',
+								id: 'disconnectDic',
+								label: 'Disconnect',
+								title: 'Disconnect',
+								onClick: function() {
+									var dialog = this.getDialog(),
+										scayt_instance = editor.scayt,
+										self = dialogDefinition,
+										dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
+										name = dictionaryNameField.getValue();
+
+									scayt_instance.removeUserDictionary(name, function(response) {
+										dictionaryNameField.setValue("");
+										if(!response.error) {
+											self.toggleDictionaryState.call(dialog, 'initialState');
+										}
+										response.dialog = dialog;
+										response.command = "remove";
+										response.name = name;
+										editor.fire("scaytUserDictionaryAction", response);
+									}, function(error) {
+										error.dialog = dialog;
+										error.command = "remove";
+										error.name = name;
+										editor.fire("scaytUserDictionaryActionError", error);
+									});
+								}
+							},
 							{
 								type: 'button',
 								id: 'removeDic',
@@ -249,7 +269,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 									scayt_instance.removeUserDictionary(name, function(response) {
 										dictionaryNameField.setValue("");
 										if(!response.error) {
-											self.toggleDictionaryButtons.call(dialog, false);
+											self.toggleDictionaryState.call(dialog, 'initialState');
 										}
 										response.dialog = dialog;
 										response.command = "remove";
@@ -289,9 +309,17 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						]
 					},
 					{
-						type: 'html',
+						type: 'hbox',
 						id: 'dicInfo',
-						html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + scayt_instance.getLocal('text_descriptionDic')  + '</div>'
+						align: 'left',
+						style: 'width:auto;',
+						children: [
+							{
+								type: 'html',
+								id: 'dicInfoHtml',
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + scayt_instance.getLocal('text_descriptionDic')  + '</div>'
+							}
+						]
 					}
 				]
 			}
@@ -417,19 +445,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			var scayt_instance = editor.scayt,
 				self = dialogDefinition,
 				dialog = this,
-				dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
-				existance = dialog.getContentElement("dictionaries", "existDic").getElement().getParent(),
-				notExistance = dialog.getContentElement("dictionaries", "notExistDic").getElement().getParent();
-
-			existance.hide();
-			notExistance.hide();
-
+				dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName");
+			
 			if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
 				dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
-				existance.show();
+				self.toggleDictionaryState.call(this, 'dictionaryState');
 			} else {
 				dictionaryNameField.setValue("");
-				notExistance.show();
+				self.toggleDictionaryState.call(this, 'initialState');
 			}
 		},
 		onOk: function() {
@@ -565,6 +588,53 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				langboxes = dialog.getContentElement("langs", "langBox").getElement();
 
 			return langboxes;
+		},
+		toggleDictionaryState: function(state) {
+			var dictionaryNameField = this.getContentElement('dictionaries', 'dictionaryName').getElement(),
+				// dictionarySettingsState = this.getContentElement('dictionaries', 'dictionarySettingsState').getElement(),
+				udButtonsHolder = this.getContentElement('dictionaries', 'udButtonsHolder').getElement(),
+				btnCreate = this.getContentElement('dictionaries', 'createDic').getElement().getParent(),
+				btnRestore = this.getContentElement('dictionaries', 'restoreDic').getElement().getParent(),
+				btnDisconnect = this.getContentElement('dictionaries', 'disconnectDic').getElement().getParent(),
+				btnRemove = this.getContentElement('dictionaries', 'removeDic').getElement().getParent(),
+				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
+				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement();
+				// workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement();
+
+			
+			switch (state) {
+				case 'initialState':
+					dictionaryNameField.show();
+					// dictionarySettingsState.hide();
+					udButtonsHolder.show();
+					btnCreate.show();
+					btnRestore.show();
+					btnDisconnect.hide();
+					btnRemove.hide();
+					btnRename.hide();
+					dicInfo.show();
+					// workWithWords.hide();
+					break;
+				case 'wordsState':
+					dictionaryNameField.hide();
+					// dictionarySettingsState.show();
+					udButtonsHolder.hide();
+					dicInfo.hide();
+					// workWithWords.show();
+					break;
+				case 'dictionaryState':
+					dictionaryNameField.show();
+					// dictionarySettingsState.hide();
+					udButtonsHolder.show();
+					btnCreate.hide();
+					btnRestore.hide();
+					btnDisconnect.show();
+					btnRemove.show();
+					btnRename.show();
+					dicInfo.hide();
+					// workWithWords.hide();
+					break;
+			}	
 		},
 		contents: generateDialogTabs(dialogTabs, editor)
 	};
