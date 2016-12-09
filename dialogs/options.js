@@ -305,6 +305,18 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										editor.fire("scaytUserDictionaryActionError", error);
 									});
 								}
+							},
+							{
+								type: 'button',
+								id: 'editDic',
+								label: 'Edit',
+								title: 'Edit',
+								onClick: function() {
+									var dialog = this.getDialog(),
+										scayt_instance = editor.scayt;
+
+									dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
+								}
 							}
 						]
 					},
@@ -318,6 +330,63 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								type: 'html',
 								id: 'dicInfoHtml',
 								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + scayt_instance.getLocal('text_descriptionDic')  + '</div>'
+							}
+						]
+					},
+					{
+						id: 'workWithWords',
+						type: 'hbox',
+						widths: [ '48%', '48%' ],
+						style: 'width: 100%; height: 210px; margin-bottom: 0',
+						children: [
+							{
+								type: 'scaytItemList',
+								id: 'itemList',
+								align: 'left',
+								style: 'width:auto; height: 210px;'
+							},
+							{
+								id: 'wordActions',
+								type: 'vbox',
+								children: [
+									{
+										type: 'text',
+										id: 'addWordField',
+										label: 'Add word',
+										onShow: function(data) {
+											var dialog = data.sender,
+												scayt_instance = editor.scayt;
+
+											// IE7 specific fix
+											setTimeout(function() {
+												// clear dictionaryNote field
+												dialog.getContentElement("dictionaries", "dictionaryNote").getElement().setText('');
+											}, 0);
+										}
+									},
+									{
+										type: 'hbox',
+										id: 'addWordButton',
+										align: 'left',
+										widths: ['auto'],
+										style: 'width:auto;',
+										children: [
+											{
+												type: 'button',
+												id: 'addWord',
+												label: 'Add word',
+												title: 'Add word',
+												onClick: function() {
+													var dialog = this.getDialog(),
+														scayt_instance = editor.scayt,
+														itemList = dialog.getContentElement("dictionaries", "itemList");
+
+														itemList.addChild();
+												}
+											}
+										]
+									}
+								]
 							}
 						]
 					}
@@ -590,16 +659,16 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			return langboxes;
 		},
 		toggleDictionaryState: function(state) {
-			var dictionaryNameField = this.getContentElement('dictionaries', 'dictionaryName').getElement(),
+			var dictionaryNameField = this.getContentElement('dictionaries', 'dictionaryName').getElement().getParent(),
 				// dictionarySettingsState = this.getContentElement('dictionaries', 'dictionarySettingsState').getElement(),
-				udButtonsHolder = this.getContentElement('dictionaries', 'udButtonsHolder').getElement(),
+				udButtonsHolder = this.getContentElement('dictionaries', 'udButtonsHolder').getElement().getParent(),
 				btnCreate = this.getContentElement('dictionaries', 'createDic').getElement().getParent(),
 				btnRestore = this.getContentElement('dictionaries', 'restoreDic').getElement().getParent(),
 				btnDisconnect = this.getContentElement('dictionaries', 'disconnectDic').getElement().getParent(),
 				btnRemove = this.getContentElement('dictionaries', 'removeDic').getElement().getParent(),
 				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
-				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement();
-				// workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement();
+				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement().getParent(),
+				workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement().getParent();
 
 			
 			switch (state) {
@@ -613,14 +682,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnRemove.hide();
 					btnRename.hide();
 					dicInfo.show();
-					// workWithWords.hide();
+					workWithWords.hide();
 					break;
 				case 'wordsState':
 					dictionaryNameField.hide();
 					// dictionarySettingsState.show();
 					udButtonsHolder.hide();
 					dicInfo.hide();
-					// workWithWords.show();
+					workWithWords.show();
 					break;
 				case 'dictionaryState':
 					dictionaryNameField.show();
@@ -632,7 +701,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnRemove.show();
 					btnRename.show();
 					dicInfo.hide();
-					// workWithWords.hide();
+					workWithWords.hide();
 					break;
 			}	
 		},
@@ -641,3 +710,57 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 	return dialogDefinition;
 });
+
+CKEDITOR.tools.extend(CKEDITOR.ui.dialog, {
+	scaytItemList: function(dialog, elementDefinition, htmlList) {
+		if (!arguments.length) {
+			return;
+		}
+		
+		var me = this;
+
+		dialog.on('load', function() {
+			var element = me.getElement();
+			
+			element.on('click', function(e) {
+				
+			});
+		});
+		
+		var innerHTML = function() {
+			var html = ['<div class="cke_dialog_ui_', elementDefinition.type, '"'];
+			
+			if (elementDefinition.style) {
+				html.push( 'style="' + elementDefinition.style + '" ' );
+			}
+
+			html.push('>');
+			
+			html.push('</div>');
+			
+			return html.join('');
+		};
+		
+		CKEDITOR.ui.dialog.uiElement.call(this, dialog, elementDefinition, htmlList, '', null, null, innerHTML);
+	}
+});
+
+CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.ui.dialog.uiElement(), {
+	addChild: function(definition, start) {
+		var div = new CKEDITOR.dom.element('div');
+		
+		div.addClass('scayt-item-list-child');
+		div.setAttribute('data-scayt-ud-word', definition || 'Test');
+		div.appendText(definition || 'Test');
+	}
+});
+
+(function() {
+	commonBuilder = {
+		build: function(dialog, elementDefinition, output) {
+			return new CKEDITOR.ui.dialog[elementDefinition.type](dialog, elementDefinition, output);
+		}
+	}
+	
+	CKEDITOR.dialog.addUIElement('scaytItemList', commonBuilder);
+})();
