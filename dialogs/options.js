@@ -311,6 +311,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										scayt_instance = editor.scayt;
 
 									dialogDefinition.clearWordList.call(dialog);
+									
+									scayt_instance.getUserDictionary('', function(response) {
+										if(!response.error) {
+											dialogDefinition.renderItemList.call(dialog, response.wordlist);
+										}
+									});
+									
 									dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
 								}
 							}
@@ -755,6 +762,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			var itemList = this.getContentElement("dictionaries", "itemList");
 			
 			itemList.removeAllChild();
+		},
+		renderItemList: function(words) {
+			var itemList = this.getContentElement('dictionaries', 'itemList');
+			
+			for (var i = 0; i < words.length; i++) {
+				itemList.addChild(words[i]);
+			}
 		},
 		contents: generateDialogTabs(dialogTabs, editor)
 	};
