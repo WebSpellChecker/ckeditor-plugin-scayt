@@ -316,13 +316,15 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								},
 								onClick: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = editor.scayt;
+										scayt_instance = editor.scayt,
+										addWordField = dialog.getContentElement('dictionaries', 'addWordField');
 
 									if ( !scayt_instance.isLicensed() ) {
 										return;
 									}
 									
 									dialogDefinition.clearWordList.call(dialog);
+									addWordField.setValue('');
 									
 									scayt_instance.getUserDictionary('', function(response) {
 										if(!response.error) {
@@ -351,33 +353,50 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					{
 						id: 'workWithWords',
 						type: 'hbox',
-						widths: [ '48%', '48%' ],
 						style: 'width: 100%; height: 210px; margin-bottom: 0',
 						children: [
 							{
 								type: 'scaytItemList',
 								id: 'itemList',
 								align: 'left',
-								style: 'width:auto; height: 210px;'
+								style: 'width: 100%; height: 210px;',
+								onClick: function(data) {
+									var event = data.data.$,
+										dataAttributeName = 'data-cke-scayt-ud-word',
+										UILib = SCAYT.prototype.UILib,
+										parent = UILib.parent(event.target)[0],
+										word = UILib.attr(parent, dataAttributeName),
+										dialog = this.getDialog(),
+										itemList = dialog.getContentElement('dictionaries', 'itemList');
+									
+									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') ) {
+										scayt_instance.deleteWordFromUserDictionary(word, function(response) {
+											if (!response.error) {
+												itemList.removeChild(parent, word);
+											}
+											
+											response.dialog = dialog;
+											response.command = "deleteWord";
+											response.name = word;
+											editor.fire("scaytUserDictionaryAction", response);
+										}, function(error) {
+											error.dialog = dialog;
+											error.command = "deleteWord";
+											error.name = word;
+											editor.fire("scaytUserDictionaryActionError", error);
+										});
+									}
+								}
 							},
 							{
 								id: 'wordActions',
 								type: 'vbox',
+								style: 'width: 100%; min-width: 150px;',
 								children: [
 									{
 										type: 'text',
 										id: 'addWordField',
-										label: 'Add word',
-										onShow: function(data) {
-											var dialog = data.sender,
-												scayt_instance = editor.scayt;
-
-											// IE7 specific fix
-											setTimeout(function() {
-												// clear dictionaryNote field
-												dialog.getContentElement("dictionaries", "dictionaryNote").getElement().setText('');
-											}, 0);
-										}
+										label: 'Add word'
 									},
 									{
 										type: 'hbox',
@@ -824,7 +843,7 @@ CKEDITOR.tools.extend(CKEDITOR.ui.dialog, {
 		});
 		
 		var innerHTML = function() {
-			var html = ['<div class="cke_dialog_ui_', elementDefinition.type, '"'];
+			var html = ['<p class="cke_dialog_ui_', elementDefinition.type, '"'];
 			
 			if (elementDefinition.style) {
 				html.push( 'style="' + elementDefinition.style + '" ' );
@@ -832,7 +851,7 @@ CKEDITOR.tools.extend(CKEDITOR.ui.dialog, {
 
 			html.push('>');
 			
-			html.push('</div>');
+			html.push('</p>');
 			
 			return html.join('');
 		};
@@ -844,27 +863,27 @@ CKEDITOR.tools.extend(CKEDITOR.ui.dialog, {
 CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.ui.dialog.uiElement(), {
 	children: [],
 	addChild: function(definition, start) {
-		var div = new CKEDITOR.dom.element('div'),
+		var p = new CKEDITOR.dom.element('p'),
 			i = new CKEDITOR.dom.element('i'),
 			child = this.getElement().getChildren().getItem(0);
 		
 		this.children.push(definition);
 		
-		div.addClass('scayt-item-list-child');
-		div.setAttribute('data-scayt-ud-word', definition || 'Test');
-		div.appendText(definition || 'Test');
+		p.addClass('cke_scaytItemList-child');
+		p.setAttribute('data-cke-scayt-ud-word', definition);
+		p.appendText(definition);
 		
-		i.addClass('scayt-item-list_remove');
+		i.addClass('cke_scaytItemList_remove');
 		
-		div.append(i);
+		p.append(i);
 
-		child.append(div, start ? true : false);
+		child.append(p, start ? true : false);
 	},
 	inChildren: function(word) {
 		return SCAYT.prototype.Utils.inArray(this.children, word);
 	},
 	removeChild: function(child, word) {
-		this.children.splice( SCAYT.prototype.Utils.indexOf(children, word), 1 );
+		this.children.splice( SCAYT.prototype.Utils.indexOf(this.children, word), 1 );
 		this.getElement().getChildren().getItem(0).$.removeChild(child);
 	},
 	removeAllChild: function() {

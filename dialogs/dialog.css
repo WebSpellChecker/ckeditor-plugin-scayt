@@ -1,0 +1,35 @@
+div.cke_dialog_ui_scaytItemList {
+	border: 1px solid #c9cccf;
+}
+
+.cke_scaytItemList-child {
+	position: relative;
+	padding: 6px 20px 6px 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cke_scaytItemList_remove {
+	position: absolute;
+	top: 0;
+	right: 5px;
+	width: 26px;
+	height: 26px;
+	background-image: url(../icons/close.png);
+	background-repeat: no-repeat;
+	background-position: 50%;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+
+.cke_scaytItemList_remove:hover {
+	cursor: pointer;
+	filter: alpha(opacity=90);
+	opacity: 0.9;
+}
+
+.cke_hidpi .cke_scaytItemList_remove {
+	background-image: url(../icons/hidpi/close.png);
+	background-size: 16px;
+}
