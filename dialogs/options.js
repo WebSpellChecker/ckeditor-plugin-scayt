@@ -440,6 +440,29 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 												}
 											}
 										]
+									},
+									{
+										type: 'hbox',
+										id: 'dictionaryState',
+										children: [
+											{
+												type: 'button',
+												id: 'backToDic',
+												label: 'Back',
+												title: 'Back',
+												onClick: function() {
+													var dialog = this.getDialog(),
+														scayt_instance = editor.scayt;
+									
+									
+													if (scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
+														dialogDefinition.toggleDictionaryState.call(dialog, 'dictionaryState');
+													} else {
+														dialogDefinition.toggleDictionaryState.call(dialog, 'initialState');
+													}
+												}
+											}
+										]
 									}
 								]
 							}
@@ -725,7 +748,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 		},
 		toggleDictionaryState: function(state) {
 			var dictionaryNameField = this.getContentElement('dictionaries', 'dictionaryName').getElement().getParent(),
-				// dictionarySettingsState = this.getContentElement('dictionaries', 'dictionarySettingsState').getElement(),
 				udButtonsHolder = this.getContentElement('dictionaries', 'udButtonsHolder').getElement().getParent(),
 				btnCreate = this.getContentElement('dictionaries', 'createDic').getElement().getParent(),
 				btnRestore = this.getContentElement('dictionaries', 'restoreDic').getElement().getParent(),
@@ -739,7 +761,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			switch (state) {
 				case 'initialState':
 					dictionaryNameField.show();
-					// dictionarySettingsState.hide();
 					udButtonsHolder.show();
 					btnCreate.show();
 					btnRestore.show();
@@ -751,14 +772,12 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					break;
 				case 'wordsState':
 					dictionaryNameField.hide();
-					// dictionarySettingsState.show();
 					udButtonsHolder.hide();
 					dicInfo.hide();
 					workWithWords.show();
 					break;
 				case 'dictionaryState':
 					dictionaryNameField.show();
-					// dictionarySettingsState.hide();
 					udButtonsHolder.show();
 					btnCreate.hide();
 					btnRestore.hide();
