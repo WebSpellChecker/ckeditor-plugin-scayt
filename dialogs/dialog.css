@@ -10,6 +10,10 @@ div.cke_dialog_ui_scaytItemList {
 	white-space: nowrap;
 }
 
+.cke_scaytItemList-child:hover {
+	background: #ebebeb;
+}
+
 .cke_scaytItemList_remove {
 	position: absolute;
 	top: 0;
