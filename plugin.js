@@ -1232,6 +1232,7 @@ CKEDITOR.plugins.scayt = {
 				'options-to-restore':  _editor.config.scayt_disableOptionsStorage,
 				focused 			: _editor.editable().hasFocus, // #30260 we need to set focused=true if CKEditor is focused before SCAYT initialization
 				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
+				ignoreGraytElementsRegex: _editor.config.grayt_elementsToIgnore,
 				minWordLength 		: _editor.config.scayt_minWordLength,
 				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
