@@ -394,7 +394,7 @@ CKEDITOR.plugins.add('scayt', {
 
 		editor.on('beforeCommandExec', function(ev) {
 			var scaytInstance = editor.scayt,
-				selectedLangElement = null,
+				language = false,
 				forceBookmark = false,
 				removeMarkupInsideSelection = true;
 
@@ -415,11 +415,10 @@ CKEDITOR.plugins.add('scayt', {
 						forceBookmark = true;
 					}
 
-					// We need to remove all SCAYT markup from 'lang' node before it will be deleted.
-					// We need to remove SCAYT markup from selected text before creating 'lang' node as well.
 					if(ev.data.name === 'language') {
-						selectedLangElement = editor.plugins.language.getCurrentLangElement(editor);
-						selectedLangElement = selectedLangElement && selectedLangElement.$;
+						// We need pass 'language' as true into 'reloadMarkupScayt' listener
+						// for correct work SCAYT with CKEditor language plugin
+						language = true;
 						// We need to force bookmark before we remove our markup.
 						// Otherwise we will get issues with cutting text via language plugin menu.
 						forceBookmark = true;
@@ -429,7 +428,7 @@ CKEDITOR.plugins.add('scayt', {
 						removeOptions: {
 							removeInside: removeMarkupInsideSelection,
 							forceBookmark: forceBookmark,
-							selectionNode: selectedLangElement
+							language: language
 						},
 						timeout: 0
 					});
@@ -509,6 +508,7 @@ CKEDITOR.plugins.add('scayt', {
 		editor.on('reloadMarkupScayt', function(ev) {
 			var removeOptions = ev.data && ev.data.removeOptions,
 				timeout = ev.data && ev.data.timeout,
+				language = ev.data && ev.data.language,
 				scaytInstance = editor.scayt;
 
 			if (scaytInstance) {
@@ -517,6 +517,13 @@ CKEDITOR.plugins.add('scayt', {
 				 * asynchroniosly and keep CKEDITOR flow as expected
 				 */
 				setTimeout(function() {
+					// If we reload markup for 'language' command
+					// we need current lang element in selection
+					// for passing it into 'removeMarkupInSelectionNode' API method
+					if (language) {
+						removeOptions.selectionNode = editor.plugins.language.getCurrentLangElement(editor);
+						removeOptions.selectionNode = (removeOptions.selectionNode && removeOptions.selectionNode.$) || null;
+					}
 
 					/* trigger remove and reload markup */
 					scaytInstance.removeMarkupInSelectionNode(removeOptions);
