@@ -304,8 +304,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'button',
 								id: 'editDic',
-								label: 'Edit',
-								title: 'Edit',
+								label: 'Go to Dictionary',
+								title: 'Go to Dictionary',
 								onLoad: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt;
@@ -459,8 +459,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 											{
 												type: 'button',
 												id: 'backToDic',
-												label: 'Back',
-												title: 'Back',
+												label: 'Dictionary Preferences',
+												title: 'Dictionary Preferences',
 												onClick: function() {
 													var dialog = this.getDialog(),
 														scayt_instance = editor.scayt;
