@@ -176,11 +176,23 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								id: 'createDic',
 								label: scayt_instance.getLocal('btn_createDic'),
 								title: scayt_instance.getLocal('btn_createDic'),
+								onLoad: function() {
+									var dialog = this.getDialog(),
+										scayt_instance = editor.scayt;
+										
+										if ( !scayt_instance.isLicensed() ) {
+											this.getElement().getParent().hide();
+										}
+								},
 								onClick: function() {
 									var dialog = this.getDialog(),
 										self = dialogDefinition,
 										scayt_instance = editor.scayt,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
+
+									if ( !scayt_instance.isLicensed() ) {
+										return;
+									}
 
 									scayt_instance.createUserDictionary(name, function(response) {
 										if(!response.error) {
@@ -203,11 +215,23 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								id: 'restoreDic',
 								label: scayt_instance.getLocal('btn_restoreDic'),
 								title: scayt_instance.getLocal('btn_restoreDic'),
+								onLoad: function() {
+									var dialog = this.getDialog(),
+										scayt_instance = editor.scayt;
+										
+										if ( !scayt_instance.isLicensed() ) {
+											this.getElement().getParent().hide();
+										}
+								},
 								onClick: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt,
 										self = dialogDefinition,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
+
+									if ( !scayt_instance.isLicensed() ) {
+										return;
+									}
 
 									scayt_instance.restoreUserDictionary(name, function(response) {
 										response.dialog = dialog;
@@ -237,6 +261,10 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
 										name = dictionaryNameField.getValue();
 
+									if ( !scayt_instance.isLicensed() ) {
+										return;
+									}
+
 									scayt_instance.disconnectFromUserDictionary({});
 									
 									dictionaryNameField.setValue('');
@@ -260,6 +288,10 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										self = dialogDefinition,
 										dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName"),
 										name = dictionaryNameField.getValue();
+
+									if ( !scayt_instance.isLicensed() ) {
+										return;
+									}
 
 									scayt_instance.removeUserDictionary(name, function(response) {
 										dictionaryNameField.setValue("");
@@ -287,6 +319,10 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt,
 										name = dialog.getContentElement("dictionaries", "dictionaryName").getValue();
+
+									if ( !scayt_instance.isLicensed() ) {
+										return;
+									}
 
 									scayt_instance.renameUserDictionary(name, function(response) {
 										response.dialog = dialog;
@@ -753,15 +789,16 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				btnRemove = this.getContentElement('dictionaries', 'removeDic').getElement().getParent(),
 				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
 				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement().getParent(),
-				workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement().getParent();
+				workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement().getParent(),
+				isLicensed = editor.scayt.isLicensed();
 
 			
 			switch (state) {
 				case 'initialState':
 					dictionaryNameField.show();
 					udButtonsHolder.show();
-					btnCreate.show();
-					btnRestore.show();
+					isLicensed ? btnCreate.show() : null;
+					isLicensed ? btnRestore.show() : null;
 					btnDisconnect.hide();
 					btnRemove.hide();
 					btnRename.hide();
