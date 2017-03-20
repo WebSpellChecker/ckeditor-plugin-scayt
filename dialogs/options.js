@@ -317,13 +317,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 									dialogDefinition.clearWordList.call(dialog);
 									addWordField.setValue('');
-									
-									scayt_instance.getUserDictionary('', function(response) {
-										if(!response.error) {
-											dialogDefinition.renderItemList.call(dialog, response.wordlist);
-										}
-									});
-									
+									dialogDefinition.getUserDictionary.call(dialog);
 									dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
 								}
 							}
@@ -345,13 +339,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					{
 						id: 'workWithWords',
 						type: 'hbox',
-						style: 'width: 100%; height: 210px; margin-bottom: 0',
+						style: 'width: 100%; height: 210px; margin-bottom: 0;',
 						children: [
 							{
 								type: 'scaytItemList',
 								id: 'itemList',
 								align: 'left',
-								style: 'width: 100%; height: 210px;',
+								style: 'width: 100%; height: 210px; overflow: auto',
 								onClick: function(data) {
 									var event = data.data.$,
 										dataAttributeName = 'data-cke-scayt-ud-word',
@@ -575,7 +569,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 			var dialog = this,
 				self = dialogDefinition,
-				langBoxes = self.getLangBoxes.call(dialog);
+				langBoxes = self.getLangBoxes.call(dialog),
+				addWordField = dialog.getContentElement('dictionaries', 'addWordField');
 
 			langBoxes.getParent().setStyle("white-space", "normal");
 
@@ -588,13 +583,10 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			this.resize(this.definition.minWidth, this.definition.minHeight);
 			
 			this.on('selectPage', function (data) {
-				if (data.data.page === 'dictionaries') {
-					if (scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
-						dialogDefinition.toggleDictionaryState.call(dialog, 'dictionaryState');
-					} else {
-						dialogDefinition.toggleDictionaryState.call(dialog, 'initialState');
-					}
-				}
+				dialogDefinition.clearWordList.call(dialog);
+				addWordField.setValue('');
+				dialogDefinition.getUserDictionary.call(dialog);
+				dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
 			});
 		},
 		onCancel: function() {
@@ -610,18 +602,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				return;
 			}
 
-			var scayt_instance = editor.scayt,
-				self = dialogDefinition,
-				dialog = this,
-				dictionaryNameField = dialog.getContentElement("dictionaries", "dictionaryName");
-			
-			if(scayt_instance.getUserDictionaryName() != null && scayt_instance.getUserDictionaryName() != '') {
-				dialog.getContentElement("dictionaries", "dictionaryName").setValue(scayt_instance.getUserDictionaryName());
-				self.toggleDictionaryState.call(this, 'dictionaryState');
-			} else {
-				dictionaryNameField.setValue("");
-				self.toggleDictionaryState.call(this, 'initialState');
-			}
+			var dialog = this,
+				addWordField = dialog.getContentElement('dictionaries', 'addWordField');
+
+			dialogDefinition.clearWordList.call(dialog);
+			addWordField.setValue('');
+			dialogDefinition.getUserDictionary.call(dialog);
+			dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
 		},
 		onOk: function() {
 			var dialog = this,
@@ -804,6 +791,15 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			var itemList = this.getContentElement("dictionaries", "itemList");
 			
 			itemList.removeAllChild();
+		},
+		getUserDictionary: function() {
+			var dialog = this;
+
+			scayt_instance.getUserDictionary('', function(response) {
+				if(!response.error) {
+					dialogDefinition.renderItemList.call(dialog, response.wordlist);
+				}
+			});
 		},
 		renderItemList: function(words) {
 			var itemList = this.getContentElement('dictionaries', 'itemList');
