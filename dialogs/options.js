@@ -309,20 +309,12 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								onLoad: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt;
-										
-										if ( !scayt_instance.isLicensed() ) {
-											this.getElement().getParent().hide();
-										}
 								},
 								onClick: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt,
 										addWordField = dialog.getContentElement('dictionaries', 'addWordField');
 
-									if ( !scayt_instance.isLicensed() ) {
-										return;
-									}
-									
 									dialogDefinition.clearWordList.call(dialog);
 									addWordField.setValue('');
 									
