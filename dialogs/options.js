@@ -150,7 +150,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						label: scayt_instance.getLocal('label_fieldNameDic') || 'Dictionary name',
 						onShow: function(data) {
 							var dialog = data.sender,
-								scayt_instance = editor.scayt;
+								scayt_instance = editor.scayt,
+								UILib = SCAYT.prototype.UILib,
+								element = dialog.getContentElement("dictionaries", "dictionaryName").getInputElement().$;
+
+							if ( !scayt_instance.isLicensed() ) {
+								element.disabled = true;
+								UILib.css(element, {cursor: 'not-allowed'});
+							}
 
 							// IE7 specific fix
 							setTimeout(function() {
@@ -178,10 +185,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								title: scayt_instance.getLocal('btn_createDic'),
 								onLoad: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = editor.scayt;
+										scayt_instance = editor.scayt,
+										UILib = SCAYT.prototype.UILib,
+										element = this.getElement().$,
+										child = this.getElement().getChild(0).$;
 										
 										if ( !scayt_instance.isLicensed() ) {
-											this.getElement().getParent().hide();
+											UILib.css(element, {cursor: 'not-allowed'});
+											UILib.css(child, {cursor: 'not-allowed'});
 										}
 								},
 								onClick: function() {
@@ -217,10 +228,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								title: scayt_instance.getLocal('btn_restoreDic'),
 								onLoad: function() {
 									var dialog = this.getDialog(),
-										scayt_instance = editor.scayt;
+										scayt_instance = editor.scayt,
+										UILib = SCAYT.prototype.UILib,
+										element = this.getElement().$,
+										child = this.getElement().getChild(0).$;
 										
 										if ( !scayt_instance.isLicensed() ) {
-											this.getElement().getParent().hide();
+											UILib.css(element, {cursor: 'not-allowed'});
+											UILib.css(child, {cursor: 'not-allowed'});
 										}
 								},
 								onClick: function() {
@@ -373,59 +388,32 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						]
 					},
 					{
-						id: 'workWithWords',
+						id: 'addWordAction',
 						type: 'hbox',
-						style: 'width: 100%; height: 210px; margin-bottom: 0;',
+						style: 'width: 100%; margin-bottom: 0;',
+						widths: ['40%', '60%'],
 						children: [
 							{
-								type: 'scaytItemList',
-								id: 'itemList',
-								align: 'left',
-								style: 'width: 100%; height: 210px; overflow: auto',
-								onClick: function(data) {
-									var event = data.data.$,
-										dataAttributeName = 'data-cke-scayt-ud-word',
-										UILib = SCAYT.prototype.UILib,
-										parent = UILib.parent(event.target)[0],
-										word = UILib.attr(parent, dataAttributeName),
-										dialog = this.getDialog(),
-										itemList = dialog.getContentElement('dictionaries', 'itemList');
-									
-									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') ) {
-										scayt_instance.deleteWordFromUserDictionary(word, function(response) {
-											if (!response.error) {
-												itemList.removeChild(parent, word);
-											}
-											
-											response.dialog = dialog;
-											response.command = "deleteWord";
-											response.name = word;
-											editor.fire("scaytUserDictionaryAction", response);
-										}, function(error) {
-											error.dialog = dialog;
-											error.command = "deleteWord";
-											error.name = word;
-											editor.fire("scaytUserDictionaryActionError", error);
-										});
-									}
-								}
-							},
-							{
-								id: 'wordActions',
+								id: 'addWord',
 								type: 'vbox',
-								style: 'width: 100%; min-width: 150px;',
+								style: 'min-width: 150px;',
 								children: [
 									{
 										type: 'text',
 										id: 'addWordField',
 										label: 'Add word'
-									},
+									}
+								]
+							},
+							{
+								id: 'addWordButtons',
+								type: 'vbox',
+								style: 'margin-top: 20px;',
+								children: [
 									{
 										type: 'hbox',
 										id: 'addWordButton',
 										align: 'left',
-										widths: ['auto'],
-										style: 'width:auto;',
 										children: [
 											{
 												type: 'button',
@@ -479,18 +467,13 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 														editor.fire("scaytUserDictionaryActionError", error);
 													});
 												}
-											}
-										]
-									},
-									{
-										type: 'hbox',
-										id: 'dictionaryState',
-										children: [
+											},
 											{
 												type: 'button',
 												id: 'backToDic',
 												label: 'Dictionary Preferences',
 												title: 'Dictionary Preferences',
+												align: 'right',
 												onClick: function() {
 													var dialog = this.getDialog(),
 														scayt_instance = editor.scayt;
@@ -506,6 +489,46 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										]
 									}
 								]
+							}
+						]
+					},
+					{
+						id: 'wordsHolder',
+						type: 'hbox',
+						style: 'width: 100%; height: 170px; margin-bottom: 0;',
+						children: [
+							{
+								type: 'scaytItemList',
+								id: 'itemList',
+								align: 'left',
+								style: 'width: 100%; height: 170px; overflow: auto',
+								onClick: function(data) {
+									var event = data.data.$,
+										dataAttributeName = 'data-cke-scayt-ud-word',
+										UILib = SCAYT.prototype.UILib,
+										parent = UILib.parent(event.target)[0],
+										word = UILib.attr(parent, dataAttributeName),
+										dialog = this.getDialog(),
+										itemList = dialog.getContentElement('dictionaries', 'itemList');
+									
+									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') ) {
+										scayt_instance.deleteWordFromUserDictionary(word, function(response) {
+											if (!response.error) {
+												itemList.removeChild(parent, word);
+											}
+											
+											response.dialog = dialog;
+											response.command = "deleteWord";
+											response.name = word;
+											editor.fire("scaytUserDictionaryAction", response);
+										}, function(error) {
+											error.dialog = dialog;
+											error.command = "deleteWord";
+											error.name = word;
+											editor.fire("scaytUserDictionaryActionError", error);
+										});
+									}
+								}
 							}
 						]
 					}
@@ -597,7 +620,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 		title:          scayt_instance.getLocal('text_title'),
 		resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 		( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 340,
-		minHeight: 		260,
+		minHeight: 		300,
 		onLoad: function() {
 			if(editor.config.scayt_uiTabs[1] == 0) {
 				return;
@@ -789,27 +812,29 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				btnRemove = this.getContentElement('dictionaries', 'removeDic').getElement().getParent(),
 				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
 				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement().getParent(),
-				workWithWords = this.getContentElement('dictionaries', 'workWithWords').getElement().getParent(),
-				isLicensed = editor.scayt.isLicensed();
+				addWordAction = this.getContentElement('dictionaries', 'addWordAction').getElement().getParent(),
+				wordsHolder = this.getContentElement('dictionaries', 'wordsHolder').getElement().getParent();
 
 			
 			switch (state) {
 				case 'initialState':
 					dictionaryNameField.show();
 					udButtonsHolder.show();
-					isLicensed ? btnCreate.show() : null;
-					isLicensed ? btnRestore.show() : null;
+					btnCreate.show();
+					btnRestore.show();
 					btnDisconnect.hide();
 					btnRemove.hide();
 					btnRename.hide();
 					dicInfo.show();
-					workWithWords.hide();
+					addWordAction.hide();
+					wordsHolder.hide();
 					break;
 				case 'wordsState':
 					dictionaryNameField.hide();
 					udButtonsHolder.hide();
 					dicInfo.hide();
-					workWithWords.show();
+					addWordAction.show();
+					wordsHolder.show();
 					break;
 				case 'dictionaryState':
 					dictionaryNameField.show();
@@ -820,7 +845,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnRemove.show();
 					btnRename.show();
 					dicInfo.hide();
-					workWithWords.hide();
+					addWordAction.hide();
+					wordsHolder.hide();
 					break;
 			}	
 		},
