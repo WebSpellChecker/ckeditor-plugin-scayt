@@ -642,10 +642,12 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			this.resize(this.definition.minWidth, this.definition.minHeight);
 			
 			this.on('selectPage', function (data) {
-				dialogDefinition.clearWordList.call(dialog);
-				addWordField.setValue('');
-				dialogDefinition.getUserDictionary.call(dialog);
-				dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
+				if (data.data.page === 'dictionaries') {
+					dialogDefinition.clearWordList.call(dialog);
+					addWordField.setValue('');
+					dialogDefinition.getUserDictionary.call(dialog);
+					dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
+				}
 			});
 		},
 		onCancel: function() {
@@ -856,7 +858,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 			itemList.removeAllChild();
 		},
 		getUserDictionary: function() {
-			var dialog = this;
+			var dialog = this,
+				scayt_instance = editor.scayt;
 
 			scayt_instance.getUserDictionary('', function(response) {
 				if(!response.error) {
