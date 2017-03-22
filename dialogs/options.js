@@ -224,8 +224,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'button',
 								id: 'restoreDic',
-								label: scayt_instance.getLocal('btn_restoreDic'),
-								title: scayt_instance.getLocal('btn_restoreDic'),
+								label: scayt_instance.getLocal('btn_connectDic'),
+								title: scayt_instance.getLocal('btn_connectDic'),
 								onLoad: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt,
@@ -267,8 +267,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'button',
 								id: 'disconnectDic',
-								label: 'Disconnect',
-								title: 'Disconnect',
+								label: scayt_instance.getLocal('btn_disconnectDic'),
+								title: scayt_instance.getLocal('btn_disconnectDic'),
 								onClick: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt,
@@ -355,8 +355,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'button',
 								id: 'editDic',
-								label: 'Go to Dictionary',
-								title: 'Go to Dictionary',
+								label: scayt_instance.getLocal('btn_goToDic'),
+								title: scayt_instance.getLocal('btn_goToDic'),
 								onLoad: function() {
 									var dialog = this.getDialog(),
 										scayt_instance = editor.scayt;
@@ -378,7 +378,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 						type: 'hbox',
 						id: 'dicInfo',
 						align: 'left',
-						style: 'width:auto;',
 						children: [
 							{
 								type: 'html',
@@ -418,8 +417,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 											{
 												type: 'button',
 												id: 'addWord',
-												label: 'Add word',
-												title: 'Add word',
+												label: scayt_instance.getLocal('btn_addWord'),
+												title: scayt_instance.getLocal('btn_addWord'),
 												onClick: function() {
 													var dialog = this.getDialog(),
 														scayt_instance = editor.scayt,
@@ -471,8 +470,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 											{
 												type: 'button',
 												id: 'backToDic',
-												label: 'Dictionary Preferences',
-												title: 'Dictionary Preferences',
+												label: scayt_instance.getLocal('btn_dictionaryPreferences'),
+												title: scayt_instance.getLocal('btn_dictionaryPreferences'),
 												align: 'right',
 												onClick: function() {
 													var dialog = this.getDialog(),
