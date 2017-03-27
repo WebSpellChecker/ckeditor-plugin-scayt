@@ -4,7 +4,7 @@ div.cke_dialog_ui_scaytItemList {
 
 .cke_scaytItemList-child {
 	position: relative;
-	padding: 6px 20px 6px 5px;
+	padding: 6px 30px 6px 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
