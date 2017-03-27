@@ -426,9 +426,21 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 														itemList = dialog.getContentElement("dictionaries", "itemList"),
 														addWordField = dialog.getContentElement('dictionaries', 'addWordField'),
 														word = addWordField.getValue(),
+														wordBoundaryRegex = scayt_instance.getOption('wordBoundaryRegex'),
 														self = this;
 
 													if (!word) {
+														return;
+													}
+
+													if (word.search(wordBoundaryRegex) !== -1) {
+														editor.fire('scaytUserDictionaryAction', {
+															dialog: dialog,
+															command: 'wordWithBannedSymbols',
+															name: word,
+															error: true
+														});
+
 														return;
 													}
 													
