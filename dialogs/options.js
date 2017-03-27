@@ -400,7 +400,8 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 									{
 										type: 'text',
 										id: 'addWordField',
-										label: 'Add word'
+										label: 'Add word',
+										maxLength: '64'
 									}
 								]
 							},
