@@ -275,7 +275,7 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
-		/**
+		/*
 		 * CKEditor take care about drag&drop in inline editor.
 		 * Dragging (mousedown) has to be initialized in editable,
 		 * but for mouseup we listen on document element.
@@ -294,7 +294,7 @@ CKEDITOR.plugins.add('scayt', {
 		});
 		*/
 
-		/**
+		/*
 		 * Dirty fix for placeholder drag&drop
 		 * Should be fixed with next release
 		 */
@@ -512,7 +512,7 @@ CKEDITOR.plugins.add('scayt', {
 				scaytInstance = editor.scayt;
 
 			if (scaytInstance) {
-				/**
+				/*
 				 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
 				 * asynchroniosly and keep CKEDITOR flow as expected
 				 */
