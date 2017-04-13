@@ -1600,9 +1600,9 @@ CKEDITOR.on('scaytReady', function() {
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
  *		// additional separator.
- *		config.scayt_customPunctuation  = 'string-with-separators';
+ *		config.scayt_customPunctuation  = '-';
  *
- * @cfg {String} [scayt_customPunctuation='-']
+ * @cfg {String} [scayt_customPunctuation='']
  * @member CKEDITOR.config
  */
 
