@@ -649,6 +649,10 @@ CKEDITOR.plugins.add('scayt', {
 			editor.config.scayt_customerId = '1:WvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2';
 		}
 
+		if(typeof editor.config.scayt_customPunctuation !== 'string') {
+			editor.config.scayt_customPunctuation = '-';
+		}
+
 		if(typeof editor.config.scayt_srcUrl !== 'string') {
 			var protocol = document.location.protocol;
 			protocol = protocol.search(/https?:/) != -1 ? protocol : 'http:';
@@ -1231,6 +1235,7 @@ CKEDITOR.plugins.scayt = {
 				userDictionaryName 	: _editor.config.scayt_userDictionaryName,
 				localization 		: _editor.langCode,
 				customer_id 		: _editor.config.scayt_customerId,
+				customPunctuation 	: _editor.config.scayt_customPunctuation,
 				debug 				: _editor.config.scayt_debug,
 				data_attribute_name : self.options.data_attribute_name,
 				misspelled_word_class: self.options.misspelled_word_class,
@@ -1586,6 +1591,18 @@ CKEDITOR.on('scaytReady', function() {
  *		config.scayt_minWordLength = 5;
  *
  * @cfg {Number} [scayt_minWordLength=4]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The parameter that receives a string with characters that will considered as separators.
+ *
+ * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
+ *
+ *		// additional separator.
+ *		config.scayt_customPunctuation  = 'string-with-separators';
+ *
+ * @cfg {String} [scayt_customPunctuation='-']
  * @member CKEDITOR.config
  */
 
