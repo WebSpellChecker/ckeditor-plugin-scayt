@@ -96,6 +96,13 @@ CKEDITOR.plugins.add('scayt', {
 					delete menuDefinition.scaytDict;
 				}
 
+				// Backword compatibility for WebSpellChecker.net application before version v4.8.9
+				if(!CKEDITOR.plugins.scayt.isNewUdSupported(scaytInstance)) {
+					delete menuDefinition.scaytDict;
+					editor.config.scayt_uiTabs[2] = 0;
+					CKEDITOR.plugins.scayt.alarmCompatibilityMessage();
+				}
+
 				return menuDefinition;
 			}
 		});
@@ -1188,12 +1195,17 @@ CKEDITOR.plugins.scayt = {
 		'scayt_service_path'  : 'scayt_servicePath',
 		'scayt_customerid'    : 'scayt_customerId'
 	},
-	alarmCompatibilityMessage: function(){
-		if(this.warningCounter < 5){
-			console.warn('Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to version v4.8.3.' +
-					'Contact us by e-mail at support@webspellchecker.net.');
+	alarmCompatibilityMessage: function() {
+		var message = 'Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to latest version. Contact us by e-mail at support@webspellchecker.net.';
+
+		if (this.warningCounter < 5) {
+			console.warn(message);
 			this.warningCounter += 1;
 		}
+	},
+	// Backward compatibility if version of WebSpellChecker.net application < 4.8.9
+	isNewUdSupported: function(scaytInstance) {
+		return scaytInstance.getUserDictionary ? true : false;
 	},
 	// backward compatibility if version of scayt app < 4.8.3
 	reloadMarkup: function(scaytInstance) {
