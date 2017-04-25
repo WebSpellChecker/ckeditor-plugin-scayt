@@ -930,7 +930,7 @@ CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.
 	children: [],
 	addChild: function(definition, start) {
 		var p = new CKEDITOR.dom.element('p'),
-			i = new CKEDITOR.dom.element('i'),
+			a = new CKEDITOR.dom.element('a'),
 			child = this.getElement().getChildren().getItem(0);
 		
 		this.children.push(definition);
@@ -939,9 +939,11 @@ CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.
 		p.setAttribute('data-cke-scayt-ud-word', definition);
 		p.appendText(definition);
 		
-		i.addClass('cke_scaytItemList_remove');
+		a.addClass('cke_scaytItemList_remove');
+		a.addClass('cke_dialog_close_button');
+		a.setAttribute('href', 'javascript:void(0)');
 		
-		p.append(i);
+		p.append(a);
 
 		child.append(p, start ? true : false);
 	},
