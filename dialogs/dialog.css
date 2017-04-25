@@ -20,7 +20,7 @@ div.cke_dialog_ui_scaytItemList {
 	right: 5px;
 	width: 26px;
 	height: 26px;
-	background-image: url(../icons/close.png);
+	background-image: url(../icons/remove.png);
 	background-repeat: no-repeat;
 	background-position: 50%;
 	filter: alpha(opacity=70);
@@ -34,6 +34,6 @@ div.cke_dialog_ui_scaytItemList {
 }
 
 .cke_hidpi .cke_scaytItemList_remove {
-	background-image: url(../icons/hidpi/close.png);
+	background-image: url(../icons/hidpi/remove.png);
 	background-size: 16px;
 }
