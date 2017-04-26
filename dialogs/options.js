@@ -827,9 +827,9 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
 				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement().getParent(),
 				addWordAction = this.getContentElement('dictionaries', 'addWordAction').getElement().getParent(),
-				wordsHolder = this.getContentElement('dictionaries', 'wordsHolder').getElement().getParent();
+				wordsHolder = this.getContentElement('dictionaries', 'wordsHolder').getElement().getParent(),
+				isLicensed = editor.scayt.isLicensed();
 
-			
 			switch (state) {
 				case 'initialState':
 					dictionaryNameField.show();
@@ -839,7 +839,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnDisconnect.hide();
 					btnRemove.hide();
 					btnRename.hide();
-					dicInfo.show();
+					isLicensed ? dicInfo.hide() : dicInfo.show();
 					addWordAction.hide();
 					wordsHolder.hide();
 					break;
