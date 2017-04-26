@@ -516,6 +516,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								style: 'width: 100%; height: 170px; overflow: auto',
 								onClick: function(data) {
 									var event = data.data.$,
+										scayt_instance = editor.scayt,
 										dataAttributeName = 'data-cke-scayt-ud-word',
 										UILib = SCAYT.prototype.UILib,
 										parent = UILib.parent(event.target)[0],
