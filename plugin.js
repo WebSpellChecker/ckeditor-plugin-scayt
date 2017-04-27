@@ -97,7 +97,7 @@ CKEDITOR.plugins.add('scayt', {
 				}
 
 				// Backword compatibility for WebSpellChecker.net application before version v4.8.9
-				if(!CKEDITOR.plugins.scayt.isNewUdSupported(scaytInstance)) {
+				if(scaytInstance && !CKEDITOR.plugins.scayt.isNewUdSupported(scaytInstance)) {
 					delete menuDefinition.scaytDict;
 					editor.config.scayt_uiTabs[2] = 0;
 					CKEDITOR.plugins.scayt.alarmCompatibilityMessage();
@@ -549,10 +549,16 @@ CKEDITOR.plugins.add('scayt', {
 		}, this, null, 50);
 
 		editor.on('insertHtml', function() {
+			if(editor.scayt.setFocused) {
+				editor.scayt.setFocused(true);
+			}
 			editor.fire('reloadMarkupScayt');
 		}, this, null, 50);
 
 		editor.on('insertText', function() {
+			if(editor.scayt.setFocused) {
+				editor.scayt.setFocused(true);
+			}
 			editor.fire('reloadMarkupScayt');
 		}, this, null, 50);
 
