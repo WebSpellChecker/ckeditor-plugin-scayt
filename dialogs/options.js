@@ -382,7 +382,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'html',
 								id: 'dicInfoHtml',
-								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + scayt_instance.getLocal('text_descriptionDic')  + '</div>'
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed() ? scayt_instance.getLocal('text_descriptionDicForPaid') : scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
 							}
 						]
 					},
@@ -828,8 +828,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 				btnRename = this.getContentElement('dictionaries', 'renameDic').getElement().getParent(),
 				dicInfo = this.getContentElement('dictionaries', 'dicInfo').getElement().getParent(),
 				addWordAction = this.getContentElement('dictionaries', 'addWordAction').getElement().getParent(),
-				wordsHolder = this.getContentElement('dictionaries', 'wordsHolder').getElement().getParent(),
-				isLicensed = editor.scayt.isLicensed();
+				wordsHolder = this.getContentElement('dictionaries', 'wordsHolder').getElement().getParent();
 
 			switch (state) {
 				case 'initialState':
@@ -840,7 +839,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnDisconnect.hide();
 					btnRemove.hide();
 					btnRename.hide();
-					isLicensed ? dicInfo.hide() : dicInfo.show();
+					dicInfo.show();
 					addWordAction.hide();
 					wordsHolder.hide();
 					break;

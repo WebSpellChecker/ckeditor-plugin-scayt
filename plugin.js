@@ -1202,7 +1202,7 @@ CKEDITOR.plugins.scayt = {
 		'scayt_customerid'    : 'scayt_customerId'
 	},
 	alarmCompatibilityMessage: function() {
-		var message = 'Note: You are using latest version of SCAYT plug-in. It is recommended to upgrade WebSpellChecker.net application to latest version. Contact us by e-mail at support@webspellchecker.net.';
+		var message = 'You are using the latest version of SCAYT plugin for CKEditor with the old application version. In order to have access to the newest features, it is recommended to upgrade the application version to latest one as well. Contact us for more details at support@webspellchecker.net.';
 
 		if (this.warningCounter < 5) {
 			console.warn(message);
