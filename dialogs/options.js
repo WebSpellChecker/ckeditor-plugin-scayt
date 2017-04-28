@@ -382,7 +382,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'html',
 								id: 'dicInfoHtml',
-								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed() ? scayt_instance.getLocal('text_descriptionDicForPaid') : scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? scayt_instance.getLocal('text_descriptionDicForPaid') : scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
 							}
 						]
 					},
