@@ -858,7 +858,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 					btnDisconnect.show();
 					btnRemove.show();
 					btnRename.show();
-					dicInfo.hide();
+					dicInfo.show();
 					addWordAction.hide();
 					wordsHolder.hide();
 					break;
