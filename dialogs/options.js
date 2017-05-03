@@ -653,15 +653,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 			this.definition.minWidth = this.getSize().width;
 			this.resize(this.definition.minWidth, this.definition.minHeight);
-			
-			this.on('selectPage', function (data) {
-				if (data.data.page === 'dictionaries') {
-					dialogDefinition.clearWordList.call(dialog);
-					addWordField.setValue('');
-					dialogDefinition.getUserDictionary.call(dialog);
-					dialogDefinition.toggleDictionaryState.call(dialog, 'wordsState');
-				}
-			});
 		},
 		onCancel: function() {
 			languageModelState.reset();
