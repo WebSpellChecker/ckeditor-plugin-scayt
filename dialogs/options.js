@@ -522,19 +522,24 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										parent = UILib.parent(event.target)[0],
 										word = UILib.attr(parent, dataAttributeName),
 										dialog = this.getDialog(),
-										itemList = dialog.getContentElement('dictionaries', 'itemList');
-									
-									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') ) {
+										itemList = dialog.getContentElement('dictionaries', 'itemList'),
+										self = this;
+
+									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') && !this.isBlocked() ) {
+										this.block();
+
 										scayt_instance.deleteWordFromUserDictionary(word, function(response) {
 											if (!response.error) {
 												itemList.removeChild(parent, word);
 											}
 											
+											self.unblock();
 											response.dialog = dialog;
 											response.command = "deleteWord";
 											response.name = word;
 											editor.fire("scaytUserDictionaryAction", response);
 										}, function(error) {
+											self.unblock();
 											error.dialog = dialog;
 											error.command = "deleteWord";
 											error.name = word;
@@ -919,6 +924,7 @@ CKEDITOR.tools.extend(CKEDITOR.ui.dialog, {
 
 CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.ui.dialog.uiElement(), {
 	children: [],
+	blocked: false,
 	addChild: function(definition, start) {
 		var p = new CKEDITOR.dom.element('p'),
 			a = new CKEDITOR.dom.element('a'),
@@ -948,6 +954,15 @@ CKEDITOR.ui.dialog.scaytItemList.prototype = CKEDITOR.tools.extend(new CKEDITOR.
 	removeAllChild: function() {
 		this.children = [];
 		this.getElement().getChildren().getItem(0).setHtml('');
+	},
+	block: function() {
+		this.blocked = true;
+	},
+	unblock: function() {
+		this.blocked = false;
+	},
+	isBlocked: function() {
+		return this.blocked;
 	}
 });
 
