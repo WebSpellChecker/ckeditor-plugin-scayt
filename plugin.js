@@ -1269,7 +1269,7 @@ CKEDITOR.plugins.scayt = {
 				minWordLength 		: _editor.config.scayt_minWordLength,
 				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
-				graytAutoStartup	: plugin.state.grayt[_editor.name],
+				graytAutoStartup	: _editor.config.grayt_autoStartup,
 				charsToObserve		: plugin.charsToObserve
 			};
 
