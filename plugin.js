@@ -1106,7 +1106,7 @@ CKEDITOR.plugins.add('scayt', {
 				continue;
 			}
 
-			if(isGrammarNode && CKEDITOR.tools.indexOf(allowedOption, key.replace('grayt_', '')) == -1 && editor.config.scayt_contextCommands != 'all') {
+			if(isGrammarNode && key !== 'grayt_problemdescription' && CKEDITOR.tools.indexOf(allowedOption, key.replace('grayt_', '')) == -1 && editor.config.scayt_contextCommands != 'all') {
 				continue;
 			}
 
