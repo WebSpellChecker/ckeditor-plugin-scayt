@@ -591,7 +591,7 @@ CKEDITOR.plugins.add('scayt', {
 		plugin.state.grayt[editor.name] = editor.config.grayt_autoStartup;
 
 		if(!editor.config.scayt_contextCommands) {
-			editor.config.scayt_contextCommands = 'ignore|ignoreall|add';
+			editor.config.scayt_contextCommands = 'ignoreall|add';
 		}
 
 		if(!editor.config.scayt_contextMenuItemsOrder) {
@@ -941,6 +941,16 @@ CKEDITOR.plugins.add('scayt', {
 
 						scaytInstance.ignorePhrase();
 					}
+				},
+				grayt_ignoreall: {
+					label : scayt_instance.getLocal('btn_ignoreAll'),
+					group : 'grayt_control',
+					order : 3,
+					exec: function(editor) {
+						var scaytInstance = editor.scayt;
+
+						scaytInstance.ignoreAllPhrases();
+					}
 				}
 			}
 		};
@@ -1093,6 +1103,10 @@ CKEDITOR.plugins.add('scayt', {
 
 		for(var key in menuItems) {
 			if(isScaytNode && CKEDITOR.tools.indexOf(allowedOption, key.replace('scayt_', '')) == -1 && editor.config.scayt_contextCommands != 'all') {
+				continue;
+			}
+
+			if(isGrammarNode && key !== 'grayt_problemdescription' && CKEDITOR.tools.indexOf(allowedOption, key.replace('grayt_', '')) == -1 && editor.config.scayt_contextCommands != 'all') {
 				continue;
 			}
 
@@ -1676,10 +1690,10 @@ CKEDITOR.on('scaytReady', function() {
  *
  * Example:
  *
- *		// Show only "Add Word" and "Ignore All" in the context menu.
- *		config.scayt_contextCommands = 'add|ignoreall';
+ *		// Show "Add Word", "Ignore" and "Ignore All" in the context menu.
+ *		config.scayt_contextCommands = 'add|ignore|ignoreall';
  *
- * @cfg {String} [scayt_contextCommands='ignore|ignoreall|add']
+ * @cfg {String} [scayt_contextCommands='ignoreall|add']
  * @member CKEDITOR.config
  */
 
