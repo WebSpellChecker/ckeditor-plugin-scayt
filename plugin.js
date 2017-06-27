@@ -285,7 +285,7 @@ CKEDITOR.plugins.add('scayt', {
 			plugin.destroy(editor);
 		};
 
-		/**
+		/*
 		 * CKEditor take care about drag&drop in inline editor.
 		 * Dragging (mousedown) has to be initialized in editable,
 		 * but for mouseup we listen on document element.
@@ -304,7 +304,7 @@ CKEDITOR.plugins.add('scayt', {
 		});
 		*/
 
-		/**
+		/*
 		 * Dirty fix for placeholder drag&drop
 		 * Should be fixed with next release
 		 */
@@ -522,7 +522,7 @@ CKEDITOR.plugins.add('scayt', {
 				scaytInstance = editor.scayt;
 
 			if (scaytInstance) {
-				/**
+				/*
 				 * Perform removeMarkupInSelectionNode and 'startSpellCheck' fire
 				 * asynchroniosly and keep CKEDITOR flow as expected
 				 */
@@ -1699,10 +1699,12 @@ CKEDITOR.on('scaytReady', function() {
 
 /**
  * Sets the default spell checking language for SCAYT. Possible values are:
- * `'en_US'`, `'en_GB'`, `'pt_BR'`, `'da_DK'`,
- * `'nl_NL'`, `'en_CA'`, `'fi_FI'`, `'fr_FR'`,
- * `'fr_CA'`, `'de_DE'`, `'el_GR'`, `'it_IT'`,
- * `'nb_NO'`, `'pt_PT'`, `'es_ES'`, `'sv_SE'`.
+ * `'da_DK'`, `'de_DE'`, `'el_GR'`, `'en_CA'`,
+ * `'en_GB'`, `'en_US'`, `'es_ES'`, `'fi_FI'`,
+ * `'fr_CA'`, `'fr_FR'`, `'it_IT'`, `'nb_NO'`
+ * `'nl_NL'`, `'sv_SE'`.
+ *
+ * Customers with dedicated SCAYT license may also set `'pt_BR'` and `'pt_PT'`.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
