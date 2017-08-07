@@ -1474,6 +1474,23 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 			}
 		});
 	}
+
+	if (dialogName === 'replace') {
+		dialog.on('hide', function(hideEvent) {
+			var editor = hideEvent.sender && hideEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
+
+			if(editor) {
+				setTimeout(function() {
+					if(scaytInstance) {
+						scaytInstance.fire('removeMarkupInDocument', {});
+						plugin.reloadMarkup(scaytInstance);
+					}
+				}, 0);
+			}
+		});
+	}
 });
 
 CKEDITOR.on('scaytReady', function() {
