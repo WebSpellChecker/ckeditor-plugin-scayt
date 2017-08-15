@@ -1437,6 +1437,28 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 		dialogDefinition = dialogDefinitionEvent.data.definition,
 		dialog = dialogDefinition.dialog;
 
+	// We need to set markup on pause when dialog 'show' event is fired
+	dialog.on('show', function(showEvent) {
+		var editor = showEvent.sender && showEvent.sender.getParentEditor(),
+			plugin = CKEDITOR.plugins.scayt,
+			scaytInstance = editor.scayt;
+
+		if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+			scaytInstance.setMarkupPaused( true );
+		}
+	});
+
+	// We need to unpause markup when dialog 'hide' event is fired
+	dialog.on('hide', function(hideEvent) {
+		var editor = hideEvent.sender && hideEvent.sender.getParentEditor(),
+			plugin = CKEDITOR.plugins.scayt,
+			scaytInstance = editor.scayt;
+
+		if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+			scaytInstance.setMarkupPaused( false );
+		}
+	});
+	
 	if (dialogName === 'scaytDialog') {
 		dialog.on('cancel', function(cancelEvent) {
 			return false;
