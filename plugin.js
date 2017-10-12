@@ -18,7 +18,7 @@ CKEDITOR.plugins.add('scayt', {
 		if ( ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ) {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/scayt.css' );
 		}
-		
+
 		// Append specific stylesheet for some dialog elements.
 		CKEDITOR.document.appendStyleSheet(this.path + 'dialogs/dialog.css');
 	},
@@ -607,7 +607,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 
 		if(editor.config.scayt_minWordLength === undefined || typeof editor.config.scayt_minWordLength != 'number' || editor.config.scayt_minWordLength < 1) {
-			editor.config.scayt_minWordLength = 4;
+			editor.config.scayt_minWordLength = 3;
 		}
 
 		if(editor.config.scayt_customDictionaryIds === undefined || typeof editor.config.scayt_customDictionaryIds !== 'string') {
