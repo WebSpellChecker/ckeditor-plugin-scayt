@@ -8,6 +8,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 	var aboutTabDefinition = '<p><img src="' + scayt_instance.getLogo() + '" /></p>' +
 				'<p>' + scayt_instance.getLocal('version') + scayt_instance.getVersion() + '</p>' +
+				'<p><a href="http://scayt.com/user_manual/scayt_plugin_for_ckeditor4_user_manual.pdf" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
 				'<p>' + scayt_instance.getLocal('text_copyrights') + '</p>';
 
 	var doc = CKEDITOR.document;
