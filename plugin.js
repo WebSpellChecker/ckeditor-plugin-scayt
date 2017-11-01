@@ -1361,8 +1361,15 @@ CKEDITOR.plugins.scayt = {
 			scaytInstance.subscribe('selectionIsChanged', function(data) {
 				var selection = _editor.getSelection();
 
-				if(selection.isLocked) {
+				if(selection.isLocked && data.action !== 'restoreSelection') {
 					_editor.lockSelection();
+				}
+
+				// CKEditor store selection in some cases.
+				// So we need to call 'selectionChange' method after all 'restoreSelection' actions for re-store
+				// selection in CKEditor.
+				if (data.action === 'restoreSelection') {
+					_editor.selectionChange(true);
 				}
 			});
 
@@ -1437,27 +1444,30 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 		dialogDefinition = dialogDefinitionEvent.data.definition,
 		dialog = dialogDefinition.dialog;
 
-	// We need to set markup on pause when dialog 'show' event is fired
-	dialog.on('show', function(showEvent) {
-		var editor = showEvent.sender && showEvent.sender.getParentEditor(),
-			plugin = CKEDITOR.plugins.scayt,
-			scaytInstance = editor.scayt;
+	
+	if (dialogName !== 'scaytDialog' && dialogName !== 'checkspell') {
+		// We need to set markup on pause when dialog 'show' event is fired
+		dialog.on('show', function(showEvent) {
+			var editor = showEvent.sender && showEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
 
-		if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
-			scaytInstance.setMarkupPaused( true );
-		}
-	});
+			if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+				scaytInstance.setMarkupPaused( true );
+			}
+		});
 
-	// We need to unpause markup when dialog 'hide' event is fired
-	dialog.on('hide', function(hideEvent) {
-		var editor = hideEvent.sender && hideEvent.sender.getParentEditor(),
-			plugin = CKEDITOR.plugins.scayt,
-			scaytInstance = editor.scayt;
+		// We need to unpause markup when dialog 'hide' event is fired
+		dialog.on('hide', function(hideEvent) {
+			var editor = hideEvent.sender && hideEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
 
-		if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
-			scaytInstance.setMarkupPaused( false );
-		}
-	});
+			if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+				scaytInstance.setMarkupPaused( false );
+			}
+		});
+	}
 	
 	if (dialogName === 'scaytDialog') {
 		dialog.on('cancel', function(cancelEvent) {
