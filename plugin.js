@@ -603,7 +603,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 
 		if(editor.config.scayt_maxSuggestions === undefined || typeof editor.config.scayt_maxSuggestions != 'number' || editor.config.scayt_maxSuggestions < 0) {
-			editor.config.scayt_maxSuggestions = 5;
+			editor.config.scayt_maxSuggestions = 3;
 		}
 
 		if(editor.config.scayt_minWordLength === undefined || typeof editor.config.scayt_minWordLength != 'number' || editor.config.scayt_minWordLength < 1) {
@@ -1444,7 +1444,7 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 		dialogDefinition = dialogDefinitionEvent.data.definition,
 		dialog = dialogDefinition.dialog;
 
-	
+
 	if (dialogName !== 'scaytDialog' && dialogName !== 'checkspell') {
 		// We need to set markup on pause when dialog 'show' event is fired
 		dialog.on('show', function(showEvent) {
@@ -1468,7 +1468,7 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 			}
 		});
 	}
-	
+
 	if (dialogName === 'scaytDialog') {
 		dialog.on('cancel', function(cancelEvent) {
 			return false;
@@ -1659,7 +1659,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Do not show the suggestions directly.
  *		config.scayt_maxSuggestions = 0;
  *
- * @cfg {Number} [scayt_maxSuggestions=5]
+ * @cfg {Number} [scayt_maxSuggestions=3]
  * @member CKEDITOR.config
  */
 
