@@ -1674,7 +1674,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Set the minimum length of words that will be collected from editor text.
  *		config.scayt_minWordLength = 5;
  *
- * @cfg {Number} [scayt_minWordLength=4]
+ * @cfg {Number} [scayt_minWordLength=3]
  * @member CKEDITOR.config
  */
 
