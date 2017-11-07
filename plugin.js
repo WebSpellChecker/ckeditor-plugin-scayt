@@ -603,7 +603,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 
 		if(editor.config.scayt_maxSuggestions === undefined || typeof editor.config.scayt_maxSuggestions != 'number' || editor.config.scayt_maxSuggestions < 0) {
-			editor.config.scayt_maxSuggestions = 5;
+			editor.config.scayt_maxSuggestions = 3;
 		}
 
 		if(editor.config.scayt_minWordLength === undefined || typeof editor.config.scayt_minWordLength != 'number' || editor.config.scayt_minWordLength < 1) {
@@ -1361,8 +1361,15 @@ CKEDITOR.plugins.scayt = {
 			scaytInstance.subscribe('selectionIsChanged', function(data) {
 				var selection = _editor.getSelection();
 
-				if(selection.isLocked) {
+				if(selection.isLocked && data.action !== 'restoreSelection') {
 					_editor.lockSelection();
+				}
+
+				// CKEditor store selection in some cases.
+				// So we need to call 'selectionChange' method after all 'restoreSelection' actions for re-store
+				// selection in CKEditor.
+				if (data.action === 'restoreSelection') {
+					_editor.selectionChange(true);
 				}
 			});
 
@@ -1436,6 +1443,31 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 	var dialogName = dialogDefinitionEvent.data.name,
 		dialogDefinition = dialogDefinitionEvent.data.definition,
 		dialog = dialogDefinition.dialog;
+
+
+	if (dialogName !== 'scaytDialog' && dialogName !== 'checkspell') {
+		// We need to set markup on pause when dialog 'show' event is fired
+		dialog.on('show', function(showEvent) {
+			var editor = showEvent.sender && showEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
+
+			if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+				scaytInstance.setMarkupPaused( true );
+			}
+		});
+
+		// We need to unpause markup when dialog 'hide' event is fired
+		dialog.on('hide', function(hideEvent) {
+			var editor = hideEvent.sender && hideEvent.sender.getParentEditor(),
+				plugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
+
+			if ( scaytInstance && plugin.state.scayt[ editor.name ] && scaytInstance.setMarkupPaused ) {
+				scaytInstance.setMarkupPaused( false );
+			}
+		});
+	}
 
 	if (dialogName === 'scaytDialog') {
 		dialog.on('cancel', function(cancelEvent) {
@@ -1627,7 +1659,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Do not show the suggestions directly.
  *		config.scayt_maxSuggestions = 0;
  *
- * @cfg {Number} [scayt_maxSuggestions=5]
+ * @cfg {Number} [scayt_maxSuggestions=3]
  * @member CKEDITOR.config
  */
 
@@ -1642,7 +1674,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Set the minimum length of words that will be collected from editor text.
  *		config.scayt_minWordLength = 5;
  *
- * @cfg {Number} [scayt_minWordLength=4]
+ * @cfg {Number} [scayt_minWordLength=3]
  * @member CKEDITOR.config
  */
 
