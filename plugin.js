@@ -1058,7 +1058,7 @@ CKEDITOR.plugins.add('scayt', {
 			itemList = {},
 			allowedOption = editor.config.scayt_contextCommands.split('|'),
 			lang = selectionNode.getAttribute(scaytInstance.getLangAttribute()) || scaytInstance.getLang(),
-			word, grammarPhrase, isScaytNode, isGrammarNode, problemDescriptionText;
+			word, phrase, rule, isScaytNode, isGrammarNode, problemDescriptionText;
 
 
 		isScaytNode = scaytInstance.isScaytNode(selectionNode);
@@ -1081,17 +1081,19 @@ CKEDITOR.plugins.add('scayt', {
 			// we clicked grammar problem
 			// get suggestions
 			menuItems = menuItems.grayt;
-			grammarPhrase = selectionNode.getAttribute(scaytInstance.getGraytNodeAttributeName());
+			phrase = selectionNode.getAttribute(scaytInstance.getGraytNodeAttributeName());
+			rule = selectionNode.getAttribute(scaytInstance.getGraytNodeRuleAttributeName());
 
 			// setup grammar problem description
-			problemDescriptionText = scaytInstance.getProblemDescriptionText(grammarPhrase, lang);
+			problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang);
 			if(menuItems.grayt_problemdescription && problemDescriptionText) {
 				menuItems.grayt_problemdescription.label = problemDescriptionText;
 			}
 
 			scaytInstance.fire('getGrammarSuggestionsList', {
 				lang: lang,
-				phrase: grammarPhrase
+				phrase: phrase,
+				rule: rule
 			});
 
 			itemList = this.buildSuggestionMenuItems(editor, CKEDITOR.plugins.scayt.suggestions, isScaytNode);
