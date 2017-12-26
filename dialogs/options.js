@@ -382,7 +382,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'html',
 								id: 'dicInfoHtml',
-								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? scayt_instance.getLocal('text_descriptionDicForPaid') : scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? '<a href="http://scayt.com/user_manual/scayt_plugin_for_ckeditor4_user_manual.pdf" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('text_descriptionDicForPaid') + '</a>': '<a href="https://www.webspellchecker.net/signup/hosted-signup.html#scayt-paid" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('text_descriptionDicForFree') + '</a>' ) + '</div>'
 							}
 						]
 					},
