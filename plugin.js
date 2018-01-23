@@ -1832,7 +1832,7 @@ CKEDITOR.on('scaytReady', function() {
 /**
  * Sets the URL to SCAYT core. Required to switch to the licensed version of SCAYT.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=migration:hosredfreetolicensedck)
+ * Refer to [SCAYT documentation](@@BRANDING_MIGRATION_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
@@ -1847,7 +1847,7 @@ CKEDITOR.on('scaytReady', function() {
  * Links SCAYT to custom dictionaries. This is a string containing the dictionary IDs
  * separated by commas (`','`). Available only for the licensed version.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed)
+ * Refer to [SCAYT documentation](@@BRANDING_CUSTOM_DICT_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
@@ -1862,7 +1862,7 @@ CKEDITOR.on('scaytReady', function() {
  * Activates a User Dictionary in SCAYT. The user
  * dictionary name must be used. Available only for the licensed version.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:userdictionaries)
+ * Refer to [SCAYT documentation](@@BRANDING_USER_DICT_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
