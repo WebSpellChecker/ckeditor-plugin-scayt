@@ -1087,6 +1087,9 @@ CKEDITOR.plugins.add('scayt', {
 			// setup grammar problem description
 			problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang);
 			if(menuItems.grayt_problemdescription && problemDescriptionText) {
+				// For fix bug https://webspellchecker.atlassian.net/browse/WP-1615
+				// Long description for the grammar problem corrupts the context menu
+				problemDescriptionText = problemDescriptionText.replace(/([.!?])\s/g, '$1<br>');
 				menuItems.grayt_problemdescription.label = problemDescriptionText;
 			}
 
