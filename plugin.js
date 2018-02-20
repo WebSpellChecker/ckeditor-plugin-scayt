@@ -185,8 +185,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'about';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -195,8 +194,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'options';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -205,8 +203,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'langs';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -215,8 +212,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'dictionaries';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -874,8 +870,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'options';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[0] == 1) ? true : false;
@@ -889,8 +884,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'langs';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[1] == 1) ? true : false;
@@ -904,8 +898,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'dictionaries';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[2] == 1) ? true : false;
@@ -919,8 +912,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'about';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					}
 				}
 			},
@@ -1219,6 +1211,16 @@ CKEDITOR.plugins.scayt = {
 		'scayt_service_port'  : 'scayt_servicePort',
 		'scayt_service_path'  : 'scayt_servicePath',
 		'scayt_customerid'    : 'scayt_customerId'
+	},
+	openDialog: function(dialogName, editor) {
+		var scaytInstance = editor.scayt;
+
+		if ( scaytInstance.isAllModulesReady && scaytInstance.isAllModulesReady() === false ) {
+			return;
+		}
+
+		editor.lockSelection();
+		editor.openDialog(dialogName);
 	},
 	alarmCompatibilityMessage: function() {
 		var message = 'You are using the latest version of SCAYT plugin for CKEditor with the old application version. In order to have access to the newest features, it is recommended to upgrade the application version to latest one as well. Contact us for more details at support@webspellchecker.net.';
