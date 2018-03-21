@@ -1074,7 +1074,16 @@ CKEDITOR.plugins.add('scayt', {
 			// get suggestions
 			menuItems = menuItems.grayt;
 			phrase = selectionNode.getAttribute(scaytInstance.getGraytNodeAttributeName());
-			rule = selectionNode.getAttribute(scaytInstance.getGraytNodeRuleAttributeName());
+
+			// Backword compatibility for new CKEditor plugin and old application
+			if (scaytInstance.getGraytNodeRuleAttributeName) {
+				// New plugin + new application
+				rule = selectionNode.getAttribute( scaytInstance.getGraytNodeRuleAttributeName() );
+				problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang); // setup grammar problem description
+			} else {
+				// New plugin + old application
+				problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, lang); // setup grammar problem description
+			}
 
 			// setup grammar problem description
 			problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang);
