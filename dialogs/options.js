@@ -519,13 +519,14 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 										scayt_instance = editor.scayt,
 										dataAttributeName = 'data-cke-scayt-ud-word',
 										UILib = SCAYT.prototype.UILib,
-										parent = UILib.parent(event.target)[0],
+										target = event.target || event.srcElement,
+										parent = UILib.parent(target)[0],
 										word = UILib.attr(parent, dataAttributeName),
 										dialog = this.getDialog(),
 										itemList = dialog.getContentElement('dictionaries', 'itemList'),
 										self = this;
 
-									if ( UILib.hasClass(event.target, 'cke_scaytItemList_remove') && !this.isBlocked() ) {
+									if ( UILib.hasClass(target, 'cke_scaytItemList_remove') && !this.isBlocked() ) {
 										this.block();
 
 										scayt_instance.deleteWordFromUserDictionary(word, function(response) {
