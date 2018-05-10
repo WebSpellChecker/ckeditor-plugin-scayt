@@ -185,8 +185,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'about';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -195,8 +194,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'options';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -205,8 +203,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'langs';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -215,8 +212,7 @@ CKEDITOR.plugins.add('scayt', {
 				var scaytInstance = editor.scayt;
 
 				scaytInstance.tabToOpen = 'dictionaries';
-				editor.lockSelection();
-				editor.openDialog(self.dialogName);
+				plugin.openDialog(self.dialogName, editor);
 			}
 		} );
 
@@ -874,8 +870,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'options';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[0] == 1) ? true : false;
@@ -889,8 +884,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'langs';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[1] == 1) ? true : false;
@@ -904,8 +898,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'dictionaries';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					},
 					verification: function(editor) {
 						return (editor.config.scayt_uiTabs[2] == 1) ? true : false;
@@ -919,8 +912,7 @@ CKEDITOR.plugins.add('scayt', {
 						var scaytInstance = editor.scayt;
 
 						scaytInstance.tabToOpen = 'about';
-						editor.lockSelection();
-						editor.openDialog(self.dialogName);
+						plugin.openDialog(self.dialogName, editor);
 					}
 				}
 			},
@@ -1058,7 +1050,7 @@ CKEDITOR.plugins.add('scayt', {
 			itemList = {},
 			allowedOption = editor.config.scayt_contextCommands.split('|'),
 			lang = selectionNode.getAttribute(scaytInstance.getLangAttribute()) || scaytInstance.getLang(),
-			word, grammarPhrase, isScaytNode, isGrammarNode, problemDescriptionText;
+			word, phrase, rule, isScaytNode, isGrammarNode, problemDescriptionText;
 
 
 		isScaytNode = scaytInstance.isScaytNode(selectionNode);
@@ -1081,17 +1073,31 @@ CKEDITOR.plugins.add('scayt', {
 			// we clicked grammar problem
 			// get suggestions
 			menuItems = menuItems.grayt;
-			grammarPhrase = selectionNode.getAttribute(scaytInstance.getGraytNodeAttributeName());
+			phrase = selectionNode.getAttribute(scaytInstance.getGraytNodeAttributeName());
+
+			// Backword compatibility for new CKEditor plugin and old application
+			if (scaytInstance.getGraytNodeRuleAttributeName) {
+				// New plugin + new application
+				rule = selectionNode.getAttribute( scaytInstance.getGraytNodeRuleAttributeName() );
+				problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang); // setup grammar problem description
+			} else {
+				// New plugin + old application
+				problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, lang); // setup grammar problem description
+			}
 
 			// setup grammar problem description
-			problemDescriptionText = scaytInstance.getProblemDescriptionText(grammarPhrase, lang);
+			problemDescriptionText = scaytInstance.getProblemDescriptionText(phrase, rule, lang);
 			if(menuItems.grayt_problemdescription && problemDescriptionText) {
+				// For fix bug https://webspellchecker.atlassian.net/browse/WP-1615
+				// Long description for the grammar problem corrupts the context menu
+				problemDescriptionText = problemDescriptionText.replace(/([.!?])\s/g, '$1<br>');
 				menuItems.grayt_problemdescription.label = problemDescriptionText;
 			}
 
 			scaytInstance.fire('getGrammarSuggestionsList', {
 				lang: lang,
-				phrase: grammarPhrase
+				phrase: phrase,
+				rule: rule
 			});
 
 			itemList = this.buildSuggestionMenuItems(editor, CKEDITOR.plugins.scayt.suggestions, isScaytNode);
@@ -1214,6 +1220,16 @@ CKEDITOR.plugins.scayt = {
 		'scayt_service_port'  : 'scayt_servicePort',
 		'scayt_service_path'  : 'scayt_servicePath',
 		'scayt_customerid'    : 'scayt_customerId'
+	},
+	openDialog: function(dialogName, editor) {
+		var scaytInstance = editor.scayt;
+
+		if ( scaytInstance.isAllModulesReady && scaytInstance.isAllModulesReady() === false ) {
+			return;
+		}
+
+		editor.lockSelection();
+		editor.openDialog(dialogName);
 	},
 	alarmCompatibilityMessage: function() {
 		var message = 'You are using the latest version of SCAYT plugin for CKEditor with the old application version. In order to have access to the newest features, it is recommended to upgrade the application version to latest one as well. Contact us for more details at support@webspellchecker.net.';
@@ -1830,7 +1846,7 @@ CKEDITOR.on('scaytReady', function() {
 /**
  * Sets the URL to SCAYT core. Required to switch to the licensed version of SCAYT.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=migration:hosredfreetolicensedck)
+ * Refer to [SCAYT documentation](@@BRANDING_MIGRATION_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
@@ -1845,7 +1861,7 @@ CKEDITOR.on('scaytReady', function() {
  * Links SCAYT to custom dictionaries. This is a string containing the dictionary IDs
  * separated by commas (`','`). Available only for the licensed version.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:customdictionaries:licensed)
+ * Refer to [SCAYT documentation](@@BRANDING_CUSTOM_DICT_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
@@ -1860,7 +1876,7 @@ CKEDITOR.on('scaytReady', function() {
  * Activates a User Dictionary in SCAYT. The user
  * dictionary name must be used. Available only for the licensed version.
  *
- * Refer to [SCAYT documentation](http://wiki.webspellchecker.net/doku.php?id=installationandconfiguration:userdictionaries)
+ * Refer to [SCAYT documentation](@@BRANDING_USER_DICT_MANUAL_URL)
  * for more details.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
