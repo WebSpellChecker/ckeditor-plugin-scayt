@@ -1271,8 +1271,11 @@ CKEDITOR.plugins.scayt = {
 			plugin = CKEDITOR.plugins.scayt;
 
 		this.loadScaytLibrary(editor, function(_editor) {
-			var textContainer = _editor.window && _editor.window.getFrame() || _editor.editable();
+			var textContainer;
 
+			if(_editor.window) {
+				textContainer = ( _editor.editable().$.nodeName == 'BODY' ) ? _editor.window.getFrame() : _editor.editable();
+			}
 			// Do not create SCAYT if there is no text container for usage
 			if(!textContainer) {
 				plugin.state.scayt[_editor.name] = false;
