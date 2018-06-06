@@ -624,7 +624,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	var plugin = CKEDITOR.plugins.scayt;
 
 	var dialogDefinition = {
-		title:          scayt_instance.getLocal('text_title'),
+		title:          'SCAYT',
 		resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 		( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 340,
 		minHeight: 		300,
