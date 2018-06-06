@@ -669,7 +669,7 @@ CKEDITOR.plugins.add('scayt', {
 			var protocol = document.location.protocol;
 			protocol = protocol.search(/https?:/) != -1 ? protocol : 'http:';
 
-			editor.config.scayt_srcUrl = protocol + '//svc.webspellchecker.net/spellcheck31/lf/scayt3/ckscayt/ckscayt.js';
+			editor.config.scayt_srcUrl = protocol + '//svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js';
 		}
 
 		if(typeof CKEDITOR.config.scayt_handleCheckDirty !== 'boolean') {
