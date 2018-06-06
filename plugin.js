@@ -1856,7 +1856,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_srcUrl = "http://my-host/spellcheck/lf/scayt/scayt.js";
  *
- * @cfg {String} [scayt_srcUrl='//svc.webspellchecker.net/spellcheck31/lf/scayt3/ckscayt/ckscayt.js']
+ * @cfg {String} [scayt_srcUrl='//svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js']
  * @member CKEDITOR.config
  */
 
