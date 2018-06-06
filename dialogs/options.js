@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	var scayt_instance =  editor.scayt;
 
-	var aboutTabDefinition = '<p><img src="' + scayt_instance.getLogo() + '" /></p>' +
+	var aboutTabDefinition = '<p><img alt="logo" title="logo" src="' + scayt_instance.getLogo() + '" /></p>' +
 				'<p>' + scayt_instance.getLocal('version') + scayt_instance.getVersion() + '</p>' +
 				'<p><a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
 				'<p>' + scayt_instance.getLocal('text_copyrights') + '</p>';
