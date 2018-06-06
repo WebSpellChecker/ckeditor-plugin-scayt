@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 	var aboutTabDefinition = '<p><img alt="logo" title="logo" src="' + scayt_instance.getLogo() + '" /></p>' +
 				'<p>' + scayt_instance.getLocal('version') + scayt_instance.getVersion() + '</p>' +
-				'<p><a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
+				'<p><a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue; cursor: pointer;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
 				'<p>' + scayt_instance.getLocal('text_copyrights') + '</p>';
 
 	var doc = CKEDITOR.document;
@@ -370,7 +370,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'html',
 								id: 'dicInfoHtml',
-								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? '<a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('text_descriptionDicForPaid') + '</a>': scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? '<a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue; cursor: pointer;">' + scayt_instance.getLocal('text_descriptionDicForPaid') + '</a>': scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
 							}
 						]
 					},
