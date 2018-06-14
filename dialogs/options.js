@@ -5,9 +5,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	var scayt_instance =  editor.scayt;
 
-	var aboutTabDefinition = '<p><img src="' + scayt_instance.getLogo() + '" /></p>' +
+	var aboutTabDefinition = '<p><img alt="logo" title="logo" src="' + scayt_instance.getLogo() + '" /></p>' +
 				'<p>' + scayt_instance.getLocal('version') + scayt_instance.getVersion() + '</p>' +
-				'<p><a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
+				'<p><a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue; cursor: pointer;">' + scayt_instance.getLocal('btn_userManual') + '</a></p>' +
 				'<p>' + scayt_instance.getLocal('text_copyrights') + '</p>';
 
 	var doc = CKEDITOR.document;
@@ -113,18 +113,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 								radio = doc.getById(prefix_id + editor.name + '_' + lang);
 
 							radio.$.checked = true;
-						}
-					},
-					{
-						type: 'html',
-						id: 'graytLanguagesHint',
-						html: '<div style="margin:5px auto; width:95%;white-space:normal;" id="' + editor.name + 'graytLanguagesHint"><span style="width:10px;height:10px;display: inline-block; background:#02b620;vertical-align:top;margin-top:2px;"></span> - This languages are supported by Grammar As You Type(GRAYT).</div>',
-						onShow: function() {
-							var graytLanguagesHint = doc.getById(editor.name + 'graytLanguagesHint');
-
-							if (!editor.config.grayt_autoStartup) {
-								graytLanguagesHint.$.style.display = 'none';
-							}
 						}
 					}
 				]
@@ -382,7 +370,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 							{
 								type: 'html',
 								id: 'dicInfoHtml',
-								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? '<a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue;">' + scayt_instance.getLocal('text_descriptionDicForPaid') + '</a>': scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
+								html: '<div id="dic_info_editor1" style="margin:5px auto; width:95%;white-space:normal;">' + ( editor.scayt.isLicensed && editor.scayt.isLicensed() ? '<a href="' + scayt_instance.getOption('CKUserManual') + '" target="_blank" style="text-decoration: underline; color: blue; cursor: pointer;">' + scayt_instance.getLocal('text_descriptionDicForPaid') + '</a>': scayt_instance.getLocal('text_descriptionDicForFree') ) + '</div>'
 							}
 						]
 					},
@@ -636,7 +624,7 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 	var plugin = CKEDITOR.plugins.scayt;
 
 	var dialogDefinition = {
-		title:          scayt_instance.getLocal('text_title'),
+		title:          'SCAYT',
 		resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 		( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 340,
 		minHeight: 		300,
@@ -746,12 +734,6 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 
 			radioLabel.appendText(key);
 			radioLabel.setAttribute("for", id);
-
-			if(isSupportedByGrayt && editor.config.grayt_autoStartup) {
-				radioLabel.setStyles({
-					'color': '#02b620'
-				});
-			}
 
 			divContainer.append(radio);
 			divContainer.append(radioLabel);
