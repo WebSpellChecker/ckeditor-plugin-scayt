@@ -9,11 +9,6 @@ CKEDITOR.plugins.add('scayt', {
 	tabToOpen : null,
 	dialogName: 'scaytDialog',
 	onLoad: function(editor){
-		/*
-			Create timestamp for unique url. Timestamp was created once when plugin loaded
-		*/
-		CKEDITOR.plugins.scayt.onLoadTimestamp = new Date().getTime();
-
 		// Append skin specific stylesheet fo moono-lisa skin.
 		if ( ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ) {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/scayt.css' );
@@ -1196,7 +1191,6 @@ CKEDITOR.plugins.scayt = {
 			})()
 		}
 	],
-	onLoadTimestamp : '',
 	state: {
 		scayt: {},
 		grayt: {}
@@ -1446,7 +1440,7 @@ CKEDITOR.plugins.scayt = {
 		// when callback executing is delayed for a few milliseconds, and scayt can be created twise
 		// on one instance
 		if (typeof window.SCAYT === 'undefined' || typeof window.SCAYT.CKSCAYT !== 'function') {
-			scaytUrl = editor.config.scayt_srcUrl + '?' + this.onLoadTimestamp;
+			scaytUrl = editor.config.scayt_srcUrl;
 			CKEDITOR.scriptLoader.load(scaytUrl, function(success) {
 				if (success) {
 					runCallback();
