@@ -745,8 +745,8 @@ CKEDITOR.plugins.add('scayt', {
 			editor.config.scayt_disableOptionsStorage = makeOptionsToStorage( userOptions );
 		}
 
-		if (editor.config.scayt_enableCache && typeof editor.config.scayt_enableCache !== 'boolean') {
-			editor.config.scayt_enableCache = true;
+		if (editor.config.scayt_disableCache && typeof editor.config.scayt_disableCache !== 'boolean') {
+			editor.config.scayt_disableCache = false;
 		}
 
 		if (editor.config.scayt_cacheSize === undefined || typeof editor.config.scayt_cacheSize != 'number' || editor.config.scayt_cacheSize < 1) {
@@ -1305,7 +1305,7 @@ CKEDITOR.plugins.scayt = {
 				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
 				graytAutoStartup	: _editor.config.grayt_autoStartup,
-				enableCache			: _editor.config.scayt_enableCache,
+				disableCache		: _editor.config.scayt_disableCache,
 				cacheSize			: _editor.config.scayt_cacheSize,
 				charsToObserve		: plugin.charsToObserve
 			};
@@ -2072,15 +2072,15 @@ CKEDITOR.on('scaytReady', function() {
  */
 
  /**
- * The parameter enables cache for storing the most popular correct and misspelled words with their suggestions.
+ * The parameter disables cache for storing the most popular correct and misspelled words with their suggestions.
  * It is aimed at speeding up the proofreading process.
  *
  * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
  *		// disable cache.
- *		config.scayt_enableCache = false;
+ *		config.scayt_disableCache = true;
  *
- * @cfg {Boolean} [scayt_enableCache=true]
+ * @cfg {Boolean} [scayt_disableCache=false]
  * @member CKEDITOR.config
  */
 
