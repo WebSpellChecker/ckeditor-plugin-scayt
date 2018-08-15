@@ -744,6 +744,14 @@ CKEDITOR.plugins.add('scayt', {
 
 			editor.config.scayt_disableOptionsStorage = makeOptionsToStorage( userOptions );
 		}
+
+		if (editor.config.scayt_disableCache && typeof editor.config.scayt_disableCache !== 'boolean') {
+			editor.config.scayt_disableCache = false;
+		}
+
+		if (editor.config.scayt_cacheSize === undefined || typeof editor.config.scayt_cacheSize != 'number' || editor.config.scayt_cacheSize < 1) {
+			editor.config.scayt_cacheSize = 4000;
+		}
 	},
 	addRule: function(editor) {
 		var plugin = CKEDITOR.plugins.scayt,
@@ -1297,6 +1305,8 @@ CKEDITOR.plugins.scayt = {
 				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
 				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
 				graytAutoStartup	: _editor.config.grayt_autoStartup,
+				disableCache		: _editor.config.scayt_disableCache,
+				cacheSize			: _editor.config.scayt_cacheSize,
 				charsToObserve		: plugin.charsToObserve
 			};
 
@@ -2058,5 +2068,32 @@ CKEDITOR.on('scaytReady', function() {
  *		};
  *
  * @cfg {Object} [scayt_multiLanguageStyles = {}]
+ * @member CKEDITOR.config
+ */
+
+ /**
+ * The parameter disables cache for storing the most popular correct and misspelled words with their suggestions.
+ * It is aimed at speeding up the proofreading process.
+ *
+ * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
+ *
+ *		// disable cache.
+ *		config.scayt_disableCache = true;
+ *
+ * @cfg {Boolean} [scayt_disableCache=false]
+ * @member CKEDITOR.config
+ */
+
+ /**
+ * The parameter sets the max cache size that will be used for storing the most popular correct and misspelled words with their suggestions.
+ * It is aimed at speeding up the proofreading process.
+ * Note: It is recommended to change this value wisely as it might lead to exceeding the browser local storage.
+ *
+ * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
+ *
+ *		// set cache size.
+ *		config.scayt_cacheSize = 2000;
+ *
+ * @cfg {Number} [scayt_cacheSize=4000]
  * @member CKEDITOR.config
  */
