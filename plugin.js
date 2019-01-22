@@ -1778,7 +1778,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  * Customers with dedicated SCAYT license may also set `'pt_BR'` and `'pt_PT'`.
  *
- * Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
+ * Note: 'pt_PT' and 'pt_BR' are not available in the Free version. Read more in the [documentation](#!/guide/dev_spellcheck) and see the [SDK sample](http://sdk.ckeditor.com/samples/spellchecker.html).
  *
  *		// Sets SCAYT to German.
  *		config.scayt_sLang = 'de_DE';
