@@ -747,8 +747,9 @@ CKEDITOR.dialog.add( 'scaytDialog', function( editor ) {
 		},
 		renderLangList: function(langBoxes) {
 			var dialog = this,
-				leftCol = langBoxes.find('#left-col-' + editor.name).getItem(0),
-				rightCol = langBoxes.find('#right-col-' + editor.name).getItem(0),
+				name = editor.name.replace(/(:|\.|\[|\]|,|=|@)/g, "\\$1"),
+				leftCol = langBoxes.find('#left-col-' + name).getItem(0),
+				rightCol = langBoxes.find('#right-col-' + name).getItem(0),
 				scaytLangList = scayt_instance.getScaytLangList(),
 				graytLangList = scayt_instance.getGraytLangList(),
 				mergedLangList = {},
