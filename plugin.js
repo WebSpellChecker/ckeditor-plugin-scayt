@@ -11,11 +11,11 @@ CKEDITOR.plugins.add('scayt', {
 	onLoad: function(editor){
 		// Append skin specific stylesheet fo moono-lisa skin.
 		if ( ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ) {
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/scayt.css' );
+			CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl(this.path + 'skins/' + CKEDITOR.skin.name + '/scayt.css') );
 		}
 
 		// Append specific stylesheet for some dialog elements.
-		CKEDITOR.document.appendStyleSheet(this.path + 'dialogs/dialog.css');
+		CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl(this.path + 'dialogs/dialog.css') );
 	},
 	init: function(editor) {
 		var self = this,
