@@ -678,14 +678,6 @@ CKEDITOR.plugins.add('scayt', {
 		/* checking 'undo' plugin, if no disable SCAYT handler */
 		CKEDITOR.config.scayt_handleUndoRedo = CKEDITOR.plugins.undo ? CKEDITOR.config.scayt_handleUndoRedo : false;
 
-		if(typeof editor.config.scayt_multiLanguageMode !== 'boolean') {
-			editor.config.scayt_multiLanguageMode = false;
-		}
-
-		if(typeof editor.config.scayt_multiLanguageStyles !== 'object') {
-			editor.config.scayt_multiLanguageStyles = {};
-		}
-
 		if(editor.config.scayt_ignoreAllCapsWords && typeof editor.config.scayt_ignoreAllCapsWords !== 'boolean') {
 			editor.config.scayt_ignoreAllCapsWords = false;
 		}
@@ -743,14 +735,6 @@ CKEDITOR.plugins.add('scayt', {
 			};
 
 			editor.config.scayt_disableOptionsStorage = makeOptionsToStorage( userOptions );
-		}
-
-		if (editor.config.scayt_disableCache && typeof editor.config.scayt_disableCache !== 'boolean') {
-			editor.config.scayt_disableCache = false;
-		}
-
-		if (editor.config.scayt_cacheSize === undefined || typeof editor.config.scayt_cacheSize != 'number' || editor.config.scayt_cacheSize < 1) {
-			editor.config.scayt_cacheSize = 4000;
 		}
 	},
 	addRule: function(editor) {
@@ -1302,11 +1286,7 @@ CKEDITOR.plugins.scayt = {
 				ignoreElementsRegex : _editor.config.scayt_elementsToIgnore,
 				ignoreGraytElementsRegex: _editor.config.grayt_elementsToIgnore,
 				minWordLength 		: _editor.config.scayt_minWordLength,
-				multiLanguageMode 	: _editor.config.scayt_multiLanguageMode,
-				multiLanguageStyles	: _editor.config.scayt_multiLanguageStyles,
 				graytAutoStartup	: _editor.config.grayt_autoStartup,
-				disableCache		: _editor.config.scayt_disableCache,
-				cacheSize			: _editor.config.scayt_cacheSize,
 				charsToObserve		: plugin.charsToObserve
 			};
 
@@ -2032,68 +2012,5 @@ CKEDITOR.on('scaytReady', function() {
  *		config.scayt_elementsToIgnore = 'del,pre';
  *
  * @cfg {String} [scayt_elementsToIgnore='style']
- * @member CKEDITOR.config
- */
-
-/**
- * Enables multi-language support in SCAYT. If set to `true`, turns on SCAYT multi-language support after loading the editor.
- *
- * Read more in the {@glink features/spellcheck documentation} and see the {@glink examples/spellchecker SDK sample}.
- *
- *		config.scayt_multiLanguageMode = true;
- *
- * @cfg {Boolean} [scayt_multiLanguageMode=false]
- * @member CKEDITOR.config
- */
-
-/**
- * Defines additional styles for misspellings for specified languages. Styles will be applied only if
- * the {@link CKEDITOR.config#scayt_multiLanguageMode} option is set to `true` and the [Language](http://ckeditor.com/addon/language)
- * plugin is included and loaded in the editor. By default, all misspellings will still be underlined with the red waveline.
- *
- * Read more in the {@glink features/spellcheck documentation} and see the {@glink examples/spellchecker SDK sample}.
- *
- * Example:
- *
- *		// Display misspellings in French language with green color and underlined with red waveline.
- *		config.scayt_multiLanguageStyles = {
- *			'fr': 'color: green'
- *		};
- *
- *		// Display misspellings in Italian language with green color and underlined with red waveline
- *		// and German misspellings with red color only.
- *		config.scayt_multiLanguageStyles = {
- *			'it': 'color: green',
- *			'de': 'background-image: none; color: red'
- *		};
- *
- * @cfg {Object} [scayt_multiLanguageStyles = {}]
- * @member CKEDITOR.config
- */
-
- /**
- * The parameter disables cache for storing the most popular correct and misspelled words with their suggestions.
- * It is aimed at speeding up the proofreading process.
- *
- * Read more in the {@glink features/spellcheck documentation} and see the {@glink examples/spellchecker SDK sample}.
- *
- *		// disable cache.
- *		config.scayt_disableCache = true;
- *
- * @cfg {Boolean} [scayt_disableCache=false]
- * @member CKEDITOR.config
- */
-
- /**
- * The parameter sets the max cache size that will be used for storing the most popular correct and misspelled words with their suggestions.
- * It is aimed at speeding up the proofreading process.
- * Note: It is recommended to change this value wisely as it might lead to exceeding the browser local storage.
- *
- * Read more in the {@glink features/spellcheck documentation} and see the {@glink examples/spellchecker SDK sample}.
- *
- *		// set cache size.
- *		config.scayt_cacheSize = 2000;
- *
- * @cfg {Number} [scayt_cacheSize=4000]
  * @member CKEDITOR.config
  */
