@@ -1156,30 +1156,34 @@ CKEDITOR.plugins.scayt = {
 	*/
 	charsToObserve: [
 		{
-			charName : 'cke-fillingChar',
-	 		charCode : (function(){
-				var versArr = CKEDITOR.version.match(/^\d(\.\d*)*/),
-					version = versArr && versArr[0],
-					newest;
+			charName: 'cke-fillingChar',
+	 		charCode: (function() {
+					var version = CKEDITOR.version,
+						baseLineVersion = [4, 5, 6],
+						char = String.fromCharCode(8203),
+						chars = new Array(8).join(char), // The string with 7 characters.
+						splittedVersion, base, current;
 
-				function compare(current, marked){
-					var itterRes,
-						lengthDiff;
-					current = current.replace(/\./g,'');
-					marked = marked.replace(/\./g,'');
-					lengthDiff = current.length - marked.length;
-					lengthDiff = (lengthDiff >= 0)? lengthDiff : 0;
-					return parseInt(current) >= (parseInt(marked) * Math.pow(10, lengthDiff));
-				}
+					if (!version) {
+						return char;
+					}
 
-				if(version){
-					newest = compare(version, '4.5.7');
-				}
-				if(newest){
-					return new Array(7).join(String.fromCharCode(8203));
-				}else{
-					return String.fromCharCode(8203);
-				}
+					splittedVersion = version.split('.');
+
+					for (var i = 0; i < baseLineVersion.length; i++) {
+						base = baseLineVersion[i];
+						current = Number(splittedVersion[i]);
+
+						if (current > base) {
+							return chars;
+						}
+
+						if (current < base) {
+							return char;
+						}
+					}
+
+					return char;
 			})()
 		}
 	],
