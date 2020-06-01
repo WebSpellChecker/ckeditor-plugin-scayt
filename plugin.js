@@ -16,6 +16,30 @@ CKEDITOR.plugins.add('scayt', {
 
 		// Append specific stylesheet for some dialog elements.
 		CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl(this.path + 'dialogs/dialog.css') );
+
+		// Workaround for detecting when autocomplete panel is shown/hidden.
+		var listenerAttached = false;
+
+		CKEDITOR.on('instanceLoaded', function(evt) {
+			if (listenerAttached || !CKEDITOR.plugins.autocomplete) {
+				return;
+			}
+
+			listenerAttached = true;
+
+			var originalFn = CKEDITOR.plugins.autocomplete.prototype.getModel;
+
+			CKEDITOR.plugins.autocomplete.prototype.getModel = function(arg1) {
+				var editor = this.editor,
+					model = originalFn(arg1);
+
+				model.on('change-isActive', function(evt) {
+					evt.data ? editor.fire('autocompletePanelShow') : editor.fire('autocompletePanelHide');
+				});
+
+				return model;
+			}
+		});
 	},
 	init: function(editor) {
 		var self = this,
@@ -559,6 +583,22 @@ CKEDITOR.plugins.add('scayt', {
 				scaytInstance = editor.scayt;
 
 			dialog.selectPage(scaytInstance.tabToOpen);
+		});
+
+		editor.on('autocompletePanelShow', function(ev) {
+			var scaytInstance = editor.scayt;
+
+			if (scaytInstance && scaytInstance.setMarkupPaused) {
+				scaytInstance.setMarkupPaused(true);
+			}
+		});
+
+		editor.on('autocompletePanelHide', function(ev) {
+			var scaytInstance = editor.scayt;
+
+			if (scaytInstance && scaytInstance.setMarkupPaused) {
+				scaytInstance.setMarkupPaused(false);
+			}
 		});
 	},
 	parseConfig: function(editor) {
