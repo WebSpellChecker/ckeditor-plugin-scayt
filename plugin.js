@@ -1201,7 +1201,7 @@ CKEDITOR.plugins.scayt = {
 					var version = CKEDITOR.version,
 						baseLineVersion = [4, 5, 6],
 						char = String.fromCharCode(8203),
-						chars = new Array(8).join(char), // The string with 7 characters.
+						chars = new Array(8).join(char),
 						splittedVersion, base, current;
 
 					if (!version) {
