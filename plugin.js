@@ -1200,12 +1200,12 @@ CKEDITOR.plugins.scayt = {
 	 		charCode: (function() {
 					var version = CKEDITOR.version,
 						baseLineVersion = [4, 5, 6],
-						char = String.fromCharCode(8203),
-						chars = new Array(8).join(char),
+						fillingChar = String.fromCharCode(8203),
+						fillingChars = new Array(8).join(fillingChar),
 						splittedVersion, base, current;
 
 					if (!version) {
-						return char;
+						return fillingChar;
 					}
 
 					splittedVersion = version.split('.');
@@ -1215,15 +1215,15 @@ CKEDITOR.plugins.scayt = {
 						current = Number(splittedVersion[i]);
 
 						if (current > base) {
-							return chars;
+							return fillingChars;
 						}
 
 						if (current < base) {
-							return char;
+							return fillingChar;
 						}
 					}
 
-					return char;
+					return fillingChar;
 			})()
 		}
 	],
