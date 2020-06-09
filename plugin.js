@@ -31,7 +31,8 @@ CKEDITOR.plugins.add('scayt', {
 
 			CKEDITOR.plugins.autocomplete.prototype.getModel = function(arg1) {
 				var editor = this.editor,
-					model = originalFn(arg1);
+					geModelFn = originalFn.bind(this),
+					model = geModelFn(arg1);
 
 				model.on('change-isActive', function(evt) {
 					evt.data ? editor.fire('autocompletePanelShow') : editor.fire('autocompletePanelHide');
