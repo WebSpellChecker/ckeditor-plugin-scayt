@@ -1656,6 +1656,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_autoStartup = true;
  *
+ * @skipsource
  * @cfg {Boolean} [scayt_autoStartup=false]
  * @member CKEDITOR.config
  */
@@ -1668,6 +1669,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.grayt_autoStartup = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [grayt_autoStartup=false]
  * @member CKEDITOR.config
@@ -1681,6 +1683,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		 config.scayt_inlineModeImmediateMarkup = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [scayt_inlineModeImmediateMarkup=false]
  * @member CKEDITOR.config
@@ -1707,6 +1710,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Do not show the suggestions directly.
  *		config.scayt_maxSuggestions = 0;
  *
+ * @skipsource
  * @cfg {Number} [scayt_maxSuggestions=3]
  * @member CKEDITOR.config
  */
@@ -1722,6 +1726,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Set the minimum length of words that will be collected from editor text.
  *		config.scayt_minWordLength = 5;
  *
+ * @skipsource
  * @cfg {Number} [scayt_minWordLength=3]
  * @member CKEDITOR.config
  */
@@ -1734,6 +1739,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// additional separator.
  *		config.scayt_customPunctuation  = '-';
  *
+ * @skipsource
  * @cfg {String} [scayt_customPunctuation='']
  * @member CKEDITOR.config
  */
@@ -1747,6 +1753,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Load SCAYT using my customer ID.
  *		config.scayt_customerId  = 'your-encrypted-customer-id';
  *
+ * @skipsource
  * @cfg {String} [scayt_customerId='1:WvF0D4-UtPqN1-43nkD4-NKvUm2-daQqk3-LmNiI-z7Ysb4-mwry24-T8YrS3-Q2tpq2']
  * @member CKEDITOR.config
  */
@@ -1760,6 +1767,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Disables the "More Suggestions" sub-menu.
  *		config.scayt_moreSuggestions = 'off';
  *
+ * @skipsource
  * @cfg {String} [scayt_moreSuggestions='on']
  * @member CKEDITOR.config
  */
@@ -1790,6 +1798,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Show "Add Word", "Ignore" and "Ignore All" in the context menu.
  *		config.scayt_contextCommands = 'add|ignore|ignoreall';
  *
+ * @skipsource
  * @cfg {String} [scayt_contextCommands='ignoreall|add']
  * @member CKEDITOR.config
  */
@@ -1808,6 +1817,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Sets SCAYT to German.
  *		config.scayt_sLang = 'de_DE';
  *
+ * @skipsource
  * @cfg {String} [scayt_sLang='en_US']
  * @member CKEDITOR.config
  */
@@ -1823,6 +1833,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Hides the "Languages" tab.
  *		config.scayt_uiTabs = '1,0,1';
  *
+ * @skipsource
  * @cfg {String} [scayt_uiTabs='1,1,1']
  * @member CKEDITOR.config
  */
@@ -1835,6 +1846,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Defines the protocol for the WebSpellChecker service (ssrv.cgi) path.
  *		config.scayt_serviceProtocol = 'https';
  *
+ * @skipsource
  * @cfg {String} [scayt_serviceProtocol='http']
  * @member CKEDITOR.config
  */
@@ -1847,6 +1859,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Defines the host for the WebSpellChecker service (ssrv.cgi) path.
  *		config.scayt_serviceHost = 'my-host';
  *
+ * @skipsource
  * @cfg {String} [scayt_serviceHost='svc.webspellchecker.net']
  * @member CKEDITOR.config
  */
@@ -1859,6 +1872,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Defines the port for the WebSpellChecker service (ssrv.cgi) path.
  *		config.scayt_servicePort = '2330';
  *
+ * @skipsource
  * @cfg {String} [scayt_servicePort='80']
  * @member CKEDITOR.config
  */
@@ -1871,6 +1885,7 @@ CKEDITOR.on('scaytReady', function() {
  *		// Defines the path to the WebSpellChecker service (ssrv.cgi).
  *		config.scayt_servicePath = 'my-path/ssrv.cgi';
  *
+ * @skipsource
  * @cfg {String} [scayt_servicePath='spellcheck31/script/ssrv.cgi']
  * @member CKEDITOR.config
  */
@@ -1885,6 +1900,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_srcUrl = "http://my-host/spellcheck/lf/scayt/scayt.js";
  *
+ * @skipsource
  * @cfg {String} [scayt_srcUrl='//svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js']
  * @member CKEDITOR.config
  */
@@ -1900,6 +1916,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_customDictionaryIds = '3021,3456,3478';
  *
+ * @skipsource
  * @cfg {String} [scayt_customDictionaryIds='']
  * @member CKEDITOR.config
  */
@@ -1915,7 +1932,9 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_userDictionaryName = 'MyDictionary';
  *
+ * @skipsource
  * @cfg {String} [scayt_userDictionaryName='']
+ * 
  * @member CKEDITOR.config
  */
 
@@ -1934,6 +1953,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_contextMenuItemsOrder = 'moresuggest|control|suggest';
  *
+ * @skipsource
  * @cfg {String} [scayt_contextMenuItemsOrder='suggest|moresuggest|control']
  * @member CKEDITOR.config
  */
@@ -1947,6 +1967,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_handleCheckDirty = 'false';
  *
+ * @skipsource
  * @cfg {String} [scayt_handleCheckDirty='true']
  * @member CKEDITOR.config
  */
@@ -1961,6 +1982,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_handleUndoRedo = 'false';
  *
+ * @skipsource
  * @cfg {String} [scayt_handleUndoRedo='true']
  * @member CKEDITOR.config
  */
@@ -1974,6 +1996,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreAllCapsWords = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreAllCapsWords=false]
  * @member CKEDITOR.config
@@ -1988,6 +2011,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreDomainNames = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreDomainNames=false]
  * @member CKEDITOR.config
@@ -2002,6 +2026,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreWordsWithMixedCases = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreWordsWithMixedCases=false]
  * @member CKEDITOR.config
@@ -2016,6 +2041,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_ignoreWordsWithNumbers = true;
  *
+ * @skipsource
  * @since 4.5.6
  * @cfg {Boolean} [scayt_ignoreWordsWithNumbers=false]
  * @member CKEDITOR.config
@@ -2044,6 +2070,7 @@ CKEDITOR.on('scaytReady', function() {
  *  	config.scayt_disableOptionsStorage = ['lang', 'ignore-domain-names', 'ignore-words-with-numbers'];
  *
  *
+ * @skipsource
  * @cfg {String|Array} [scayt_disableOptionsStorage = '']
  * @member CKEDITOR.config
  */
@@ -2056,6 +2083,7 @@ CKEDITOR.on('scaytReady', function() {
  *
  *		config.scayt_elementsToIgnore = 'del,pre';
  *
+ * @skipsource
  * @cfg {String} [scayt_elementsToIgnore='style']
  * @member CKEDITOR.config
  */
