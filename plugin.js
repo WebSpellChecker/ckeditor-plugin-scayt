@@ -702,10 +702,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 
 		if(typeof editor.config.scayt_srcUrl !== 'string') {
-			var protocol = document.location.protocol;
-			protocol = protocol.search(/https?:/) != -1 ? protocol : 'http:';
-
-			editor.config.scayt_srcUrl = protocol + '//svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js';
+			editor.config.scayt_srcUrl = 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js';
 		}
 
 		if(typeof CKEDITOR.config.scayt_handleCheckDirty !== 'boolean') {
