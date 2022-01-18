@@ -63,7 +63,7 @@ CKEDITOR.plugins.add('scayt', {
 			label : lang.text_title,
 			title : ( editor.plugins.wsc ? editor.lang.wsc.title : lang.text_title ),
 			// SCAYT doesn't work in IE Compatibility Mode and IE (8 & 9) Quirks Mode
-			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks ) ) },
+			modes : {wysiwyg: !(env.ie && ( env.version < 8 || env.quirks || env.ie6Compat || env.ie7Compat || env.ie8Compat) ) },
 			toolbar: 'spellchecker,20',
 			refresh: function() {
 				var buttonState = editor.ui.instances.Scayt.getState();
@@ -603,7 +603,8 @@ CKEDITOR.plugins.add('scayt', {
 		});
 	},
 	parseConfig: function(editor) {
-		var plugin = CKEDITOR.plugins.scayt;
+		var plugin = CKEDITOR.plugins.scayt,
+			inlineMode = (editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE);
 
 		// preprocess config for backward compatibility
 		plugin.replaceOldOptionsNames(editor.config);
@@ -614,7 +615,7 @@ CKEDITOR.plugins.add('scayt', {
 		}
 		plugin.state.scayt[editor.name] = editor.config.scayt_autoStartup;
 
-		if(typeof editor.config.grayt_autoStartup !== 'boolean') {
+		if(typeof editor.config.grayt_autoStartup !== 'boolean' || inlineMode || editor.plugins.divarea) {
 			editor.config.grayt_autoStartup = false;
 		}
 		if(typeof editor.config.scayt_inlineModeImmediateMarkup !== 'boolean') {
